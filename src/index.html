@@ -1,10 +1,52 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>My First Parcel App</title>
-</head>
-<body>
+    <style type="text/css">
+      @font-face {
+        font-family: "Space Mono";
+        font-style: italic;
+        font-weight: 400;
+        font-display: swap;
+        src: url(../static/SpaceMono-Italic.ttf)
+          format("woff2");
+      }
+      @font-face {
+        font-family: "Space Mono";
+        font-style: italic;
+        font-weight: 700;
+        font-display: swap;
+        src: url(../static/SpaceMono-BoldItalic.ttf)
+          format("woff2");
+      }
+      @font-face {
+        font-family: "Space Mono";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(../static/SpaceMono-Regular.ttf)
+          format("woff2");
+      }
+      @font-face {
+        font-family: "Space Mono";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url(../static/SpaceMono-Bold.ttf)
+          format("ttf");
+      }
+
+      :root {
+        font: 1em "Space Mono";
+      }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
     <div id="app"></div>
     <script type="module" src="app.js"></script>
   </body>
