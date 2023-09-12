@@ -66,7 +66,17 @@ export default function Canvas({ fromImage }: { fromImage: string }) {
             .filter(Boolean);
 
           return (
-            <label style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <label
+              css={css`
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                margin-bottom: 4px;
+                &:hover {
+                  background: #fafafa;
+                }
+              `}
+            >
               <span>{key}</span>
               <input
                 checked={isInStage}
@@ -92,6 +102,7 @@ export default function Canvas({ fromImage }: { fromImage: string }) {
                 css={css`
                   width: 80px;
                   height: 80px;
+                  border-radius: 2px;
                 `}
                 src={pick.img}
               />

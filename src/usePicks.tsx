@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 const UI_SPACE_X = 1353;
 const UI_SPACE_Y = 458;
-const X_SPACE = 8;
-const Y_SPACE = 5;
+const X_SPACE = 9;
+const Y_SPACE = 6;
 const PICKS = 9;
 
 const X_TARGET = 684;
