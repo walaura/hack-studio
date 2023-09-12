@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { css } from "@emotion/react";
 import usePicks, { TPick } from "../hooks/usePicks";
 import { TPreset } from "./SelectPreset";
@@ -6,6 +6,7 @@ import Flexbox from "../ui/Flexbox";
 import Box from "../ui/Box";
 import Button from "../ui/Button";
 import Title from "../ui/Title";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type TPickInStage = { key: string; rotation: number; isActive: boolean };
 

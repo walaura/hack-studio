@@ -17,7 +17,8 @@ export default function Home({
   setUploadedPhoto: (image: string) => void;
   setCurrentStatus: TSetCurrentStatus;
 }) {
-  const prevImages = useLocalStorage({ preset, uploadedPhoto });
+  const { prevImages } = useLocalStorage({ preset, uploadedPhoto });
+
   return (
     <Flexbox gap={12} direction="row">
       <Box>
