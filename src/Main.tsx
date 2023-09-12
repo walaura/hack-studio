@@ -21,18 +21,8 @@ export default function Main() {
         <input
           type="file"
           onChange={(ev) => {
-            var file = ev.target.files[0];
-            var fr = new FileReader();
-            fr.onload = () => {
-              const img = new Image();
-              img.onload = () => {
-                setUploadedPhoto(img.src);
-              };
-              if (typeof fr.result == "string") {
-                img.src = fr.result;
-              }
-            };
-            fr.readAsDataURL(file); // begin reading
+            const url = URL.createObjectURL(ev.target.files[0]);
+            setUploadedPhoto(url);
           }}
         />
         {uploadedPhoto && (
