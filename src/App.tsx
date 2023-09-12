@@ -3,6 +3,7 @@ import { useState } from "react";
 import Picking from "./route/Picking";
 import SelectPreset from "./route/SelectPreset";
 import Upload from "./route/Upload";
+import Button from "./ui/Button";
 
 export default function App() {
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
@@ -18,6 +19,25 @@ export default function App() {
         justify-content: center;
       `}
     >
+      {!(!uploadedPhoto && !preset) && (
+        <div
+          css={css`
+            position: fixed;
+            top: 12px;
+            left: 12px;
+          `}
+        >
+          <Button
+            style="secondary"
+            onClick={() => {
+              setPreset(null);
+              setUploadedPhoto(null);
+            }}
+          >
+            START OVER
+          </Button>
+        </div>
+      )}
       {!uploadedPhoto && !preset && (
         <div
           css={css`
