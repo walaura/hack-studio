@@ -14,7 +14,7 @@ export const PrevImages = ({
 }) => {
   return prevImages.length ? (
     <Box>
-      <Title>Your previous images</Title>
+      <Title>Previous images</Title>
       <div
         css={css`
           display: flex;
@@ -42,7 +42,7 @@ export const PrevImages = ({
           >
             <img
               css={css`
-                max-width: 125px;
+                width: 10em;
               `}
               key={prevImage.image}
               src={prevImage.image}

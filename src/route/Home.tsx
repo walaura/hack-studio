@@ -19,31 +19,27 @@ export default function Home({
   setUploadedPhoto: (image: string) => void;
   setCurrentStatus: TSetCurrentStatus;
 }) {
-  const { prevImages } = useLocalStorage({ preset, uploadedPhoto });
-
   return (
     <Flexbox
       gap={12}
       direction="row"
       align="end"
       css={css`
-        max-width: 60vw;
-        max-height:80vh;
+        max-height: 70vh;
+        max-width: 70vw;
       `}
     >
       <div
         css={css`
           max-width: 40em;
-          height:100%;
-          width: 100%;
-          flex-grow: 1;
-          flex-shrink: 1;
         `}
       >
         <img
           src={logo}
           css={css`
-            width: 100%;
+            width: auto;
+            max-height: 60vh;
+            max-width: 30vw;
             transform: rotate(4deg);
             height: auto;
             flex-grow: 0;
@@ -57,6 +53,8 @@ export default function Home({
         direction="column"
         css={css`
           flex-basis: 0;
+          flex-grow: 1;
+          flex-shrink: 1;
         `}
       >
         <Box>
@@ -73,7 +71,7 @@ export default function Home({
         <Upload
           setCurrentStatus={setCurrentStatus}
           uploadedPhoto={uploadedPhoto}
-          prevImages={prevImages}
+          preset={preset}
           setUploadedPhoto={setUploadedPhoto}
         />
       </Flexbox>

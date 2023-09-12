@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 const buttonStyles = {
   primary: css`
     background: var(--highlight);
+    color: var(--background);
     border: 1px solid var(--highlight);
   `,
   secondary: css`
@@ -22,15 +23,19 @@ export default function Button({
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   style?: keyof typeof buttonStyles;
 }) {
+
+  const Element = onClick?'button':'div';
+
   return (
-    <button
+    <Element
+      // @ts-ignore
       onClick={onClick}
       css={css`
         padding: 8px;
         border: none;
         cursor: pointer;
         font-weight: bold;
-        opacity: 0.75;
+        opacity: 0.85;
         ${buttonStyles[style]}
         &:hover {
           opacity: 1;
@@ -38,6 +43,6 @@ export default function Button({
       `}
     >
       {children}
-    </button>
+    </Element>
   );
 }

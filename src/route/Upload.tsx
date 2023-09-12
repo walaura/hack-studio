@@ -1,5 +1,7 @@
+import { css } from "@emotion/react";
 import { useId } from "react";
 import { PrevImages, TSetCurrentStatus } from "../components/PrevImages";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import Box from "../ui/Box";
 import Button from "../ui/Button";
 import Flexbox from "../ui/Flexbox";
@@ -22,42 +24,27 @@ export type TPrevImages = {
 export default function Upload({
   uploadedPhoto,
   setUploadedPhoto,
-  prevImages,
+  preset,
   setCurrentStatus,
 }: {
   uploadedPhoto?: string;
   setUploadedPhoto: (url: string) => void;
   setCurrentStatus: TSetCurrentStatus;
-  prevImages: TPrevImages[];
+  preset: TPreset;
 }) {
+  const { prevImages } = useLocalStorage({ preset, uploadedPhoto });
+
   return (
-    <Flexbox gap={12} direction="column">
-      <Box>
-        <Flexbox gap={12} direction="column">
-          <Title>Digipick helper</Title>
-          <p>
-            Upload a screenshot from your hacking minigame. This tool will let
-            you try to arrange all the picks as many times as you want, and then
-            you can just punch them into your game.
-          </p>
-          <p>16:9, any resolution, pc or xbox</p>
-        </Flexbox>
-      </Box>
-      <Box>
-        <Flexbox gap={12} direction="column">
-          <Title>Upload screenshot</Title>
-          <input
-            type="file"
-            onChange={async (ev) => {
-              URL.revokeObjectURL(uploadedPhoto);
-              const b64Image = await blobToBase64(ev.target.files[0]);
-              setUploadedPhoto(b64Image);
-            }}
-          />
-        </Flexbox>
-      </Box>
+    <>
       <PrevImages setCurrentStatus={setCurrentStatus} prevImages={prevImages} />
-    </Flexbox>
+      <UploadButton
+        onChange={async (ev) => {
+          URL.revokeObjectURL(uploadedPhoto);
+          const b64Image = await blobToBase64(ev.target.files[0]);
+          setUploadedPhoto(b64Image);
+        }}
+      />
+    </>
   );
 }
 
@@ -68,11 +55,20 @@ function UploadButton({
 }) {
   const id = useId();
   return (
-    <label htmlFor={id}>
-      <Button>
-        <Title style="light">Select photo</Title>
-        <input type="file" onChange={onChange} />
-      </Button>
-    </label>
+    <>
+      <label htmlFor={id}>
+        <Button>
+          <div
+            css={css`
+              padding-left: 8px;
+              padding-right: 8px;
+            `}
+          >
+            <Title style="light">Select photo</Title>
+          </div>
+        </Button>
+      </label>
+      <input hidden id={id} type="file" onChange={onChange} />
+    </>
   );
 }

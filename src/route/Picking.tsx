@@ -208,7 +208,6 @@ function Label({
   pick: TPick;
   pickInStage: TPickInStage | null;
   stages: TStage[];
-
   onSelect: (boolean) => void;
   onRotate: (number) => void;
 }) {
