@@ -86,7 +86,7 @@ export default function Canvas({
               <label
                 css={css`
                   &:hover {
-                    background: red;
+                    background: #fafafa;
                   }
                 `}
               >
