@@ -3,13 +3,12 @@ import { TPreset } from "../route/SelectPreset";
 
 const LOCAL_KEY = "digipick-prev";
 
-const handleLocalStorageSaving = ({
-  uploadedPhoto,
-  preset,
-}: {
-  uploadedPhoto: string;
-  preset: TPreset;
-}) => {
+
+export const useLocalStorage = ({uploadedPhoto, preset}) => {
+    const [prevImages, setPrevImages] = useState([]);
+
+
+const handleLocalStorageSaving = () => {
   const currentLocalStorage = localStorage.getItem(LOCAL_KEY);
   const newItem = {
     image: uploadedPhoto,
@@ -25,15 +24,6 @@ const handleLocalStorageSaving = ({
     localStorage.setItem(LOCAL_KEY, newStorage);
   }
 };
-
-export const useLocalStorage = ({uploadedPhoto, preset}) => {
-    const [prevImages, setPrevImages] = useState([]);
-
-    useEffect(() => {
-      if (uploadedPhoto && preset) {
-        handleLocalStorageSaving({ uploadedPhoto, preset });
-      }
-    }, [uploadedPhoto, preset]);
   
     useEffect(() => {
       if (!uploadedPhoto && !preset) {
@@ -42,5 +32,5 @@ export const useLocalStorage = ({uploadedPhoto, preset}) => {
       }
     }, []);
 
-    return prevImages
+    return {prevImages, handleLocalStorageSaving}
 }

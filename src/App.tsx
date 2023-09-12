@@ -1,14 +1,23 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Home from "./route/Home";
 import Picking from "./route/Picking";
 import SelectPreset from "./route/SelectPreset";
 import Box from "./ui/Box";
 import Button from "./ui/Button";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 export default function App() {
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [preset, setPreset] = useState(null);
+  const { handleLocalStorageSaving } = useLocalStorage({
+    preset,
+    uploadedPhoto,
+  });
+
+  useEffect(() => {
+    if (preset && uploadedPhoto) handleLocalStorageSaving();
+  }, [preset, uploadedPhoto]);
 
   return (
     <div
