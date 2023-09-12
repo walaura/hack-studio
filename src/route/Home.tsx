@@ -1,15 +1,23 @@
+import { TSetCurrentStatus } from "../components/PrevImages";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import Box from "../ui/Box";
 import Flexbox from "../ui/Flexbox";
 import Title from "../ui/Title";
+import { TPreset } from "./SelectPreset";
 import Upload from "./Upload";
 
 export default function Home({
   uploadedPhoto,
+  preset,
   setUploadedPhoto,
+  setCurrentStatus,
 }: {
   uploadedPhoto?: string;
-  setUploadedPhoto: (string) => void;
+  preset: TPreset;
+  setUploadedPhoto: (image: string) => void;
+  setCurrentStatus: TSetCurrentStatus;
 }) {
+  const prevImages = useLocalStorage({ preset, uploadedPhoto });
   return (
     <Flexbox gap={12} direction="row">
       <Box>
@@ -24,7 +32,12 @@ export default function Home({
         </Flexbox>
       </Box>
       <Box>
-        <Upload uploadedPhoto={uploadedPhoto} setUploadedPhoto={setUploadedPhoto} />
+        <Upload
+          setCurrentStatus={setCurrentStatus}
+          uploadedPhoto={uploadedPhoto}
+          prevImages={prevImages}
+          setUploadedPhoto={setUploadedPhoto}
+        />
       </Box>
     </Flexbox>
   );

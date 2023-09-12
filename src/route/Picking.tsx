@@ -1,6 +1,6 @@
 import { useId, useState } from "react";
 import { css } from "@emotion/react";
-import usePicks, { TPick } from "../component/usePicks";
+import usePicks, { TPick } from "../hooks/usePicks";
 import { TPreset } from "./SelectPreset";
 import Flexbox from "../ui/Flexbox";
 import Box from "../ui/Box";
@@ -64,6 +64,7 @@ export default function Picking({
               .filter((pick) => pick.isActive)
               .map((pick) => (
                 <img
+                  key={pick.key}
                   style={{
                     position: "absolute",
                     mixBlendMode: "lighten",
@@ -217,7 +218,8 @@ function Label({
   const isInOtherStages = stages
     .map((stage, stageKey) =>
       Object.values(stage.picks).find(
-        (pickInThatStage) => pick.key === pickInThatStage.key && pickInThatStage.isActive
+        (pickInThatStage) =>
+          pick.key === pickInThatStage.key && pickInThatStage.isActive
       )
         ? stageKey + 1
         : null

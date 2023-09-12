@@ -1,13 +1,32 @@
+import { PrevImages, TSetCurrentStatus } from "../components/PrevImages";
 import Box from "../ui/Box";
 import Flexbox from "../ui/Flexbox";
 import Title from "../ui/Title";
+import { TPreset } from "./SelectPreset";
+
+const blobToBase64 = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, _) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.readAsDataURL(blob);
+  });
+};
+
+export type TPrevImages = {
+  image: string;
+  preset: TPreset;
+};
 
 export default function Upload({
   uploadedPhoto,
   setUploadedPhoto,
+  prevImages,
+  setCurrentStatus,
 }: {
   uploadedPhoto?: string;
-  setUploadedPhoto: (string) => void;
+  setUploadedPhoto: (url: string) => void;
+  setCurrentStatus: TSetCurrentStatus;
+  prevImages: TPrevImages[];
 }) {
   return (
     <Flexbox gap={12} direction="column">
@@ -27,14 +46,15 @@ export default function Upload({
           <Title>Upload screenshot</Title>
           <input
             type="file"
-            onChange={(ev) => {
+            onChange={async (ev) => {
               URL.revokeObjectURL(uploadedPhoto);
-              const url = URL.createObjectURL(ev.target.files[0]);
-              setUploadedPhoto(url);
+              const b64Image = await blobToBase64(ev.target.files[0]);
+              setUploadedPhoto(b64Image);
             }}
           />
         </Flexbox>
       </Box>
+      <PrevImages setCurrentStatus={setCurrentStatus} prevImages={prevImages} />
     </Flexbox>
   );
 }
