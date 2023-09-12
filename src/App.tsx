@@ -12,6 +12,7 @@ export default function App() {
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [preset, setPreset] = useState(null);
   const prevImages = useLocalStorage({ preset, uploadedPhoto });
+
   return (
     <div
       css={css`
@@ -37,7 +38,7 @@ export default function App() {
               }}
             />
             {prevImages.length ? (
-              <Box css={css``}>
+              <Box>
                 <Title>Your previous images</Title>
                 <div
                   css={css`
@@ -57,7 +58,7 @@ export default function App() {
                         cursor: pointer;
 
                         &:hover {
-                          scale: 0.96;
+                          scale: 0.95;
                         }
                       `}
                       onClick={() => {
