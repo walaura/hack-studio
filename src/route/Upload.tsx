@@ -2,15 +2,23 @@ import Box from "../ui/Box";
 import Flexbox from "../ui/Flexbox";
 import Title from "../ui/Title";
 
+const blobToBase64 = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, _) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.readAsDataURL(blob);
+  });
+};
+
 export default function Upload({
   uploadedPhoto,
   setUploadedPhoto,
 }: {
   uploadedPhoto?: string;
-  setUploadedPhoto: (string) => void;
+  setUploadedPhoto: (url: string) => void;
 }) {
   return (
-    <Flexbox gap={12} direction="column">
+    <>
       <Box>
         <Flexbox gap={12} direction="column">
           <Title>Digipick helper</Title>
@@ -27,14 +35,14 @@ export default function Upload({
           <Title>Upload screenshot</Title>
           <input
             type="file"
-            onChange={(ev) => {
+            onChange={async (ev) => {
               URL.revokeObjectURL(uploadedPhoto);
-              const url = URL.createObjectURL(ev.target.files[0]);
-              setUploadedPhoto(url);
+              const b64Image = await blobToBase64(ev.target.files[0]);
+              setUploadedPhoto(b64Image);
             }}
           />
         </Flexbox>
       </Box>
-    </Flexbox>
+    </>
   );
 }

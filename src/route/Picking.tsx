@@ -64,6 +64,7 @@ export default function Picking({
               .filter((pick) => pick.isActive)
               .map((pick) => (
                 <img
+                  key={pick.key}
                   style={{
                     position: "absolute",
                     mixBlendMode: "lighten",
@@ -95,7 +96,8 @@ export default function Picking({
         >
           {[0, 1, 2].map((stg) => (
             <button onClick={() => setActiveStage(stg)}>
-              #{stg + 1}{activeStage === stg && "✅"}
+              #{stg + 1}
+              {activeStage === stg && "✅"}
             </button>
           ))}
         </Flexbox>
