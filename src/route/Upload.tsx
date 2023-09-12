@@ -2,6 +2,7 @@ import { PrevImages, TSetCurrentStatus } from "../components/PrevImages";
 import Box from "../ui/Box";
 import Flexbox from "../ui/Flexbox";
 import Title from "../ui/Title";
+import { TPreset } from "./SelectPreset";
 
 const blobToBase64 = (blob: Blob): Promise<string> => {
   return new Promise((resolve, _) => {
@@ -9,6 +10,11 @@ const blobToBase64 = (blob: Blob): Promise<string> => {
     reader.onloadend = () => resolve(reader.result as string);
     reader.readAsDataURL(blob);
   });
+};
+
+export type TPrevImages = {
+  image: string;
+  preset: TPreset;
 };
 
 export default function Upload({
@@ -20,7 +26,7 @@ export default function Upload({
   uploadedPhoto?: string;
   setUploadedPhoto: (url: string) => void;
   setCurrentStatus: TSetCurrentStatus;
-  prevImages: any[];
+  prevImages: TPrevImages[];
 }) {
   return (
     <Flexbox gap={12} direction="column">

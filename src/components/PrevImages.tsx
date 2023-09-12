@@ -1,21 +1,15 @@
 import { css } from "@emotion/react";
 import Box from "../ui/Box";
 import Title from "../ui/Title";
-import { TPreset } from "../route/SelectPreset";
+import { TPrevImages } from "../route/Upload";
 
-export type TSetCurrentStatus = ({
-  image,
-  preset,
-}: {
-  image: string;
-  preset: TPreset;
-}) => void;
+export type TSetCurrentStatus = ({ image, preset }: TPrevImages) => void;
 
 export const PrevImages = ({
   prevImages,
   setCurrentStatus,
 }: {
-  prevImages: any[];
+  prevImages: TPrevImages[];
   setCurrentStatus: TSetCurrentStatus;
 }) => {
   return prevImages.length ? (
