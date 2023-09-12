@@ -33,6 +33,7 @@ const PickWithPreset = ({
       >
         {Object.values(picks).map((pick) => (
           <img
+            key={pick.key}
             css={css`
               width: 60px;
               height: 60px;
@@ -76,7 +77,7 @@ export default function SelectPreset({
       >
         <Flexbox gap={12} direction="column">
           {PRESETS.map((preset) => (
-            <Button onClick={() => onSelect(preset)}>
+            <Button key={preset.name} onClick={() => onSelect(preset)}>
               <PickWithPreset fromImage={fromImage} preset={preset} />
             </Button>
           ))}

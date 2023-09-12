@@ -24,8 +24,9 @@ export const PrevImages = ({
           margin-top: 20px;
         `}
       >
-        {prevImages.map((prevImage) => (
+        {prevImages.map((prevImage, i) => (
           <button
+            key={i}
             css={css`
               padding: 0;
               background: transparent;
