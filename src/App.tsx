@@ -22,11 +22,7 @@ export default function App() {
       `}
     >
       {!uploadedPhoto && !preset && (
-        <div
-          css={css`
-            width: 30em;
-          `}
-        >
+        <div>
           <Home
             uploadedPhoto={uploadedPhoto}
             setUploadedPhoto={(photo) => {
