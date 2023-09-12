@@ -1,10 +1,8 @@
 import { css } from "@emotion/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import Canvas from "./component/Canvas";
-import SelectPreset from "./component/SelectPreset";
+import SelectPreset from "./route/SelectPreset";
 import Upload from "./route/Upload";
-import Box from "./ui/Box";
-import Title from "./ui/Title";
 
 export default function App() {
   const [uploadedPhoto, setUploadedPhoto] = useState(null);

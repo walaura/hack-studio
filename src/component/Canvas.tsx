@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import usePicks from "./usePicks";
-import { TPreset } from "./SelectPreset";
+import { TPreset } from "../route/SelectPreset";
 import Flexbox from "../ui/Flexbox";
 
 type TStage = {

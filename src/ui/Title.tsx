@@ -1,6 +1,20 @@
 import { css } from "@emotion/react";
 
-export default function Title({ children }: { children: string }) {
+const titleStyles = {
+  strong: css`
+    background: var(--text);
+    color: #000;
+  `,
+  light: css``,
+};
+
+export default function Title({
+  children,
+  style = 'strong',
+}: {
+  children: string;
+  style?: "strong" | "light";
+}) {
   return (
     <div
       css={css`
@@ -9,8 +23,7 @@ export default function Title({ children }: { children: string }) {
     >
       <h2
         css={css`
-          background: var(--text);
-          color: #000;
+        ${titleStyles[style]}
           display: inline-flex;
           text-transform: uppercase;
           font-weight: 600;

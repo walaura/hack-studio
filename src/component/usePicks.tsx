@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { TPreset } from "./SelectPreset";
+import { TPreset } from "../route/SelectPreset";
 
 // make these (some?) configurable for diff difficulties
 const UI_SPACE_X = 1353;
 const UI_SPACE_Y = 458;
 const X_SPACE = 9;
 const Y_SPACE = 6;
-const PICKS = 9;
+const PICKS = 12;
 
 const X_TARGET = 684;
 const Y_TARGET = 264;
@@ -29,6 +29,7 @@ export default function usePicks({
   const [target, setTarget] = useState<string>(null);
 
   const uiSpaceTop = preset?.uiSpaceTop ?? UI_SPACE_Y;
+  const picksCount = (preset?.picksCount ?? PICKS) -1;
 
   useEffect(() => {
     const canvas = document.createElement("canvas");
@@ -41,7 +42,7 @@ export default function usePicks({
     image.addEventListener("load", () => {
       ctx.drawImage(image, 0, 0, 1920, 1080);
 
-      for (let i = 0; i <= PICKS; i++) {
+      for (let i = 0; i <= picksCount; i++) {
         const col = i % 4;
         const row = Math.floor(i / 4);
 

@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
-import {  ReactNode } from "react";
+import { ReactNode } from "react";
 
-type AlignProp = "start" | "end" | "center" | 'stretch';
+type AlignProp = "start" | "end" | "center" | "stretch";
 
 function alignPropToFlexAlign(prop: AlignProp): string {
   switch (prop) {
@@ -23,7 +23,7 @@ export default function Flexbox({
   children: ReactNode;
   direction?: "row" | "column";
   align?: AlignProp;
-  gap: 0 | 4 | 8 | 12;
+  gap: 0 | 4 | 8 | 12 | 16;
 }) {
   return (
     <div
