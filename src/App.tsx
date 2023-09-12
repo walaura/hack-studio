@@ -30,11 +30,7 @@ export default function App() {
       `}
     >
       {!uploadedPhoto && !preset && (
-        <div
-          css={css`
-            width: 30em;
-          `}
-        >
+        <div>
           <Home
             preset={preset}
             uploadedPhoto={uploadedPhoto}
