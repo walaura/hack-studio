@@ -35,7 +35,7 @@ export default function Canvas({
           src={target}
           style={{ position: "absolute", width: "100%", height: "100%" }}
         />
-        {Object.values(stages[activeStage].picks).map((pick) => (
+        {Object.values(stages[activeStage].picks).filter(pick => pick.isActive).map((pick) => (
           <img
             style={{
               position: "absolute",
