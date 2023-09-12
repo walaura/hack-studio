@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import usePicks from "./usePicks";
+import { TPreset } from "./component/SelectPreset";
 
 type TStage = {
   picks: {
@@ -11,14 +12,20 @@ type TStage = {
   };
 };
 
-export default function Canvas({ fromImage }: { fromImage: string }) {
+export default function Canvas({
+  fromImage,
+  preset,
+}: {
+  preset: TPreset;
+  fromImage: string;
+}) {
   const [stages, setStages] = useState<TStage[]>([
     { picks: {} },
     { picks: {} },
     { picks: {} },
   ]);
   const [activeStage, setActiveStage] = useState(0);
-  const [picks, target] = usePicks({ fromImage });
+  const [picks, target] = usePicks({ fromImage, preset });
 
   return (
     <>
