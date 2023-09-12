@@ -3,10 +3,7 @@ import { useState } from "react";
 import Picking from "./route/Picking";
 import SelectPreset from "./route/SelectPreset";
 import Upload from "./route/Upload";
-import Box from "./ui/Box";
-import Title from "./ui/Title";
-import Flexbox from "./ui/Flexbox";
-import { useLocalStorage } from "./component/useLocalStorage";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 import Button from "./ui/Button";
 
 export default function App() {
@@ -49,57 +46,18 @@ export default function App() {
             width: 30em;
           `}
         >
-          <Flexbox gap={12} direction="column">
-            <Upload
-              uploadedPhoto={uploadedPhoto}
-              setUploadedPhoto={async (photo) => {
-                setPreset(null);
-                setUploadedPhoto(photo);
-              }}
-            />
-            {prevImages.length ? (
-              <Box>
-                <Title>Your previous images</Title>
-                <div
-                  css={css`
-                    display: flex;
-                    align-items: center;
-                    overflow: auto;
-                    gap: 20px;
-                    margin-top: 20px;
-                  `}
-                >
-                  {prevImages.map((prevImage) => (
-                    <button
-                      css={css`
-                        padding: 0;
-                        background: transparent;
-                        border: none;
-                        cursor: pointer;
-                        transition: all 100ms ease;
-
-                        &:hover {
-                          scale: 0.95;
-                        }
-                      `}
-                      onClick={() => {
-                        setPreset(prevImage.preset);
-                        setUploadedPhoto(prevImage.image);
-                      }}
-                    >
-                      <img
-                        css={css`
-                          max-width: 125px;
-                        `}
-                        key={prevImage.image}
-                        src={prevImage.image}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </Box>
-            ) : null}
-          </Flexbox>
+          <Upload
+            prevImages={prevImages}
+            uploadedPhoto={uploadedPhoto}
+            setUploadedPhoto={(photo) => {
+              setPreset(null);
+              setUploadedPhoto(photo);
+            }}
+            setCurrentStatus={({ image, preset }) => {
+              setUploadedPhoto(image);
+              setPreset(preset);
+            }}
+          />
         </div>
       )}
 

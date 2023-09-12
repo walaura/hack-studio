@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import usePicks from "../component/usePicks";
+import usePicks from "../hooks/usePicks";
 import Box from "../ui/Box";
 import Button from "../ui/Button";
 import Flexbox from "../ui/Flexbox";

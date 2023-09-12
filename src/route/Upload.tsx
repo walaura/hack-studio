@@ -1,3 +1,4 @@
+import { PrevImages, TSetCurrentStatus } from "../components/PrevImages";
 import Box from "../ui/Box";
 import Flexbox from "../ui/Flexbox";
 import Title from "../ui/Title";
@@ -13,12 +14,16 @@ const blobToBase64 = (blob: Blob): Promise<string> => {
 export default function Upload({
   uploadedPhoto,
   setUploadedPhoto,
+  prevImages,
+  setCurrentStatus,
 }: {
   uploadedPhoto?: string;
   setUploadedPhoto: (url: string) => void;
+  setCurrentStatus: TSetCurrentStatus;
+  prevImages: any[];
 }) {
   return (
-    <>
+    <Flexbox gap={12} direction="column">
       <Box>
         <Flexbox gap={12} direction="column">
           <Title>Digipick helper</Title>
@@ -43,6 +48,7 @@ export default function Upload({
           />
         </Flexbox>
       </Box>
-    </>
+      <PrevImages setCurrentStatus={setCurrentStatus} prevImages={prevImages} />
+    </Flexbox>
   );
 }
