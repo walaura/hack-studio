@@ -1,5 +1,4 @@
-import { React, useRef, useEffect, useState } from "react";
-import image from "./img.jpeg";
+import React, { useRef, useEffect, useState } from "react";
 
 const UI_SPACE_X = 1353;
 const UI_SPACE_Y = 458;
@@ -26,11 +25,11 @@ type TStage = {
   };
 };
 
-export default function Canvas() {
+export default function Canvas({ fromImage }: { fromImage: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef(null);
   const [picks, setPicks] = useState<{ [key: string]: Pick }>({});
-  const [target, setTarget] = useState([]);
+  const [target, setTarget] = useState<string>(null);
   const [stages, setStages] = useState<TStage[]>([
     { picks: {} },
     { picks: {} },
@@ -70,8 +69,7 @@ export default function Canvas() {
           [String(row) + "-" + String(col)]: {
             key: String(row) + "-" + String(col),
             img,
-            active: false,
-            rotation: 0,
+            pos: [row, col]
           },
         }));
       }
@@ -87,7 +85,7 @@ export default function Canvas() {
       const img = tempCanvas.toDataURL("image/png");
       setTarget(img);
     });
-  }, [image]);
+  }, [fromImage]);
 
   return (
     <>
@@ -130,7 +128,7 @@ export default function Canvas() {
           const isInStage = stages[activeStage].picks[pick.key] != null;
           const isInStages = stages
             .map((stage, stageKey) =>
-              Object.keys(stage.picks).includes(key) ? (stageKey+1) : null
+              Object.keys(stage.picks).includes(key) ? stageKey + 1 : null
             )
             .filter(Boolean);
 
@@ -190,7 +188,7 @@ export default function Canvas() {
         height="1080"
         ref={canvasRef}
       />
-      <img style={{ display: "none" }} src={image} ref={imageRef}></img>
+      <img style={{ display: "none" }} src={fromImage} ref={imageRef}></img>
     </>
   );
 }

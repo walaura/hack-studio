@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
-import Canvas from './Canvas.tsx';
+import Main from './Main.tsx';
 
 // Render your React component instead
 const root = createRoot(document.getElementById('app'));
-root.render(<Canvas />);
+root.render(<Main />);
