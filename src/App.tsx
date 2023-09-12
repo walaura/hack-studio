@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
-import Canvas from "./component/Canvas";
+import Picking from "./route/Picking";
 import SelectPreset from "./route/SelectPreset";
 import Upload from "./route/Upload";
 
@@ -37,7 +37,7 @@ export default function App() {
         <SelectPreset onSelect={setPreset} fromImage={uploadedPhoto} />
       )}
       {uploadedPhoto && preset && (
-        <Canvas preset={preset} fromImage={uploadedPhoto} />
+        <Picking preset={preset} fromImage={uploadedPhoto} />
       )}
     </div>
   );

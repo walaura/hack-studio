@@ -16,7 +16,7 @@ export default function Button({
         padding: 16px;
         border: none;
         cursor: pointer;
-        opacity: 0.9;
+        opacity: 0.75;
         &:hover {
           opacity: 1;
         }

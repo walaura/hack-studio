@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, Interpolation, Theme } from "@emotion/react";
 import { ReactNode } from "react";
 
 type AlignProp = "start" | "end" | "center" | "stretch";
@@ -18,12 +18,16 @@ export default function Flexbox({
   children,
   direction = "row",
   align = "stretch",
+  justify = "center",
   gap = 0,
+  ...props
 }: {
   children: ReactNode;
   direction?: "row" | "column";
   align?: AlignProp;
-  gap: 0 | 4 | 8 | 12 | 16;
+  justify?: AlignProp; //not quite but meh
+  gap?: 0 | 4 | 8 | 12 | 16;
+  css?: Interpolation<Theme>;
 }) {
   return (
     <div
@@ -31,8 +35,10 @@ export default function Flexbox({
         display: flex;
         flex-direction: ${direction};
         align-items: ${alignPropToFlexAlign(align)};
+        justify-content: ${alignPropToFlexAlign(justify)};
         gap: ${gap}px;
       `}
+      {...props}
     >
       {children}
     </div>
