@@ -8,6 +8,7 @@ type TStage = {
     [key: string]: {
       key: string;
       rotation: number;
+      isActive: boolean;
     };
   };
 };
@@ -65,10 +66,15 @@ export default function Canvas({
           ))}
         </div>
         {Object.entries(picks).map(([key, pick]) => {
-          const isInStage = stages[activeStage].picks[pick.key] != null;
+          const isInStage =
+            stages[activeStage].picks[pick.key]?.isActive === true;
           const isInStages = stages
             .map((stage, stageKey) =>
-              Object.keys(stage.picks).includes(key) ? stageKey + 1 : null
+              Object.values(stage.picks).find(
+                (pick) => pick.key === key && pick.isActive
+              )
+                ? stageKey + 1
+                : null
             )
             .filter(Boolean);
 
@@ -90,14 +96,18 @@ export default function Canvas({
                 type="checkbox"
                 onChange={(ev) => {
                   setStages((stages) => {
-                    if (stages[activeStage].picks[pick.key] != null) {
-                      delete stages[activeStage].picks[pick.key];
+                    if (stages[activeStage].picks[pick.key]) {
+                      stages[activeStage].picks[pick.key] = {
+                        ...stages[activeStage].picks[pick.key],
+                        isActive: !stages[activeStage].picks[pick.key].isActive,
+                      };
                       return [...stages];
                     }
 
                     stages[activeStage].picks[pick.key] = {
                       key: pick.key,
                       rotation: 0,
+                      isActive: true,
                     };
 
                     return [...stages];
