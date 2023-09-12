@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+// make these (some?) configurable for diff difficulties
 const UI_SPACE_X = 1353;
 const UI_SPACE_Y = 458;
 const X_SPACE = 9;
@@ -10,7 +11,7 @@ const X_TARGET = 684;
 const Y_TARGET = 264;
 const SIZE_TARGET = 552;
 
-type Pick = {
+export type Pick = {
   key: string;
   img: string;
   pos: [number, number];
