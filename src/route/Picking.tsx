@@ -78,100 +78,121 @@ export default function Picking({
         </Box>
       </Flexbox>
       <Flexbox
-        direction="column"
-        gap={4}
+        gap={12}
+        align="start"
+        justify="start"
         css={css`
-          width: 26em;
-          padding: 12px;
+          height: 100%;
+          width: 30em;
         `}
       >
-        <Box>
-          <Flexbox direction="column" gap={4}>
-            {[0, 1, 2].map((stg) => (
-              <button onClick={() => setActiveStage(stg)}>
-                Stage {stg + 1} {activeStage === stg && "✅"}
-              </button>
-            ))}
-          </Flexbox>
-          <Flexbox direction="column" align="stretch" gap={4}>
-            {Object.entries(picks).map(([key, pick]) => {
-              const isInStage =
-                stages[activeStage].picks[pick.key]?.isActive === true;
-              const isInStages = stages
-                .map((stage, stageKey) =>
-                  Object.values(stage.picks).find(
-                    (pick) => pick.key === key && pick.isActive
+        <Flexbox
+          direction="column"
+          gap={4}
+          css={css`
+            margin-top: 12px;
+          `}
+        >
+          {[0, 1, 2].map((stg) => (
+            <button onClick={() => setActiveStage(stg)}>
+              #{stg + 1}{activeStage === stg && "✅"}
+            </button>
+          ))}
+        </Flexbox>
+        <div
+          css={css`
+            height: 100%;
+            padding: 12px;
+            flex-grow: 1;
+          `}
+        >
+          <Box
+            css={css`
+              height: 100%;
+            `}
+          >
+            <Flexbox direction="column" align="stretch" gap={4}>
+              {Object.entries(picks).map(([key, pick]) => {
+                const isInStage =
+                  stages[activeStage].picks[pick.key]?.isActive === true;
+                const isInStages = stages
+                  .map((stage, stageKey) =>
+                    Object.values(stage.picks).find(
+                      (pick) => pick.key === key && pick.isActive
+                    )
+                      ? stageKey + 1
+                      : null
                   )
-                    ? stageKey + 1
-                    : null
-                )
-                .filter(Boolean);
+                  .filter(Boolean);
 
-              return (
-                <label>
-                  <Flexbox gap={4}>
-                    <span>{key}</span>
-                    <input
-                      checked={isInStage}
-                      type="checkbox"
-                      onChange={(ev) => {
-                        setStages((stages) => {
-                          if (stages[activeStage].picks[pick.key]) {
+                return (
+                  <label>
+                    <Flexbox gap={4} justify="stretch">
+                      <span>{key}</span>
+                      <input
+                        checked={isInStage}
+                        type="checkbox"
+                        onChange={(ev) => {
+                          setStages((stages) => {
+                            if (stages[activeStage].picks[pick.key]) {
+                              stages[activeStage].picks[pick.key] = {
+                                ...stages[activeStage].picks[pick.key],
+                                isActive:
+                                  !stages[activeStage].picks[pick.key].isActive,
+                              };
+                              return [...stages];
+                            }
+
+                            stages[activeStage].picks[pick.key] = {
+                              key: pick.key,
+                              rotation: 0,
+                              isActive: true,
+                            };
+
+                            return [...stages];
+                          });
+                        }}
+                      />
+
+                      <img
+                        css={css`
+                          width: 80px;
+                          height: 80px;
+                          border-radius: 2px;
+                        `}
+                        src={pick.img}
+                      />
+                      <input
+                        onChange={(ev) => {
+                          setStages((stages) => {
+                            if (stages[activeStage].picks[pick.key] == null) {
+                              return [...stages];
+                            }
+
                             stages[activeStage].picks[pick.key] = {
                               ...stages[activeStage].picks[pick.key],
-                              isActive:
-                                !stages[activeStage].picks[pick.key].isActive,
+                              rotation: parseInt(ev.target.value, 10),
                             };
+
                             return [...stages];
-                          }
-
-                          stages[activeStage].picks[pick.key] = {
-                            key: pick.key,
-                            rotation: 0,
-                            isActive: true,
-                          };
-
-                          return [...stages];
-                        });
-                      }}
-                    />
-
-                    <img
-                      css={css`
-                        width: 80px;
-                        height: 80px;
-                        border-radius: 2px;
-                      `}
-                      src={pick.img}
-                    />
-                    <input
-                      onChange={(ev) => {
-                        setStages((stages) => {
-                          if (stages[activeStage].picks[pick.key] == null) {
-                            return [...stages];
-                          }
-
-                          stages[activeStage].picks[pick.key] = {
-                            ...stages[activeStage].picks[pick.key],
-                            rotation: parseInt(ev.target.value, 10),
-                          };
-
-                          return [...stages];
-                        });
-                      }}
-                      disabled={!isInStage}
-                      type="range"
-                      value={stages[activeStage].picks[pick.key]?.rotation ?? 0}
-                      min={0}
-                      max={360}
-                    />
-                    {isInStages}
-                  </Flexbox>
-                </label>
-              );
-            })}
-          </Flexbox>
-        </Box>
+                          });
+                        }}
+                        disabled={!isInStage}
+                        type="range"
+                        value={
+                          stages[activeStage].picks[pick.key]?.rotation ?? 0
+                        }
+                        min={0}
+                        max={360}
+                      />
+                      {isInStages}
+                    </Flexbox>
+                  </label>
+                );
+              })}
+            </Flexbox>
+          </Box>
+        </div>
       </Flexbox>
     </Flexbox>
   );
