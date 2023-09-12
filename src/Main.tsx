@@ -29,7 +29,7 @@ export default function Main() {
           <button onClick={() => setUploadedPhoto(null)}>Clear</button>
         )}
       </div>
-      <Canvas fromImage={uploadedPhoto ?? ""} />
+      {uploadedPhoto && <Canvas fromImage={uploadedPhoto} />}
     </>
   );
 }
