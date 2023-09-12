@@ -12,7 +12,7 @@ const X_TARGET = 684;
 const Y_TARGET = 264;
 const SIZE_TARGET = 552;
 
-export type Pick = {
+export type TPick = {
   key: string;
   img: string;
   pos: [number, number];
@@ -24,8 +24,8 @@ export default function usePicks({
 }: {
   fromImage: string;
   preset?: TPreset | null;
-}): [{ [key: string]: Pick }, string] {
-  const [picks, setPicks] = useState<{ [key: string]: Pick }>({});
+}): [{ [key: string]: TPick }, string] {
+  const [picks, setPicks] = useState<{ [key: string]: TPick }>({});
   const [target, setTarget] = useState<string>(null);
 
   const uiSpaceTop = preset?.uiSpaceTop ?? UI_SPACE_Y;

@@ -1,17 +1,16 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { css } from "@emotion/react";
-import usePicks from "../component/usePicks";
+import usePicks, { TPick } from "../component/usePicks";
 import { TPreset } from "./SelectPreset";
 import Flexbox from "../ui/Flexbox";
 import Box from "../ui/Box";
+import Button from "../ui/Button";
+
+type TPickInStage = { key: string; rotation: number; isActive: boolean };
 
 type TStage = {
   picks: {
-    [key: string]: {
-      key: string;
-      rotation: number;
-      isActive: boolean;
-    };
+    [key: string]: TPickInStage;
   };
 };
 
@@ -79,7 +78,6 @@ export default function Picking({
         </Box>
       </Flexbox>
       <Flexbox
-        gap={12}
         align="start"
         justify="start"
         css={css`
@@ -95,101 +93,70 @@ export default function Picking({
           `}
         >
           {[0, 1, 2].map((stg) => (
-            <button onClick={() => setActiveStage(stg)}>
+            <Button
+              style={activeStage === stg ? "primary" : "secondary"}
+              onClick={() => setActiveStage(stg)}
+            >
               #{stg + 1}
-              {activeStage === stg && "✅"}
-            </button>
+            </Button>
           ))}
         </Flexbox>
         <div
           css={css`
             height: 100%;
             padding: 12px;
+            padding-left: 4px;
             flex-grow: 1;
           `}
         >
           <Box
             css={css`
+              padding: 4px;
               height: 100%;
+              border-color: var(--highlight-faint);
             `}
           >
             <Flexbox direction="column" align="stretch" gap={4}>
               {Object.entries(picks).map(([key, pick]) => {
-                const isInStage =
-                  stages[activeStage].picks[pick.key]?.isActive === true;
-                const isInStages = stages
-                  .map((stage, stageKey) =>
-                    Object.values(stage.picks).find(
-                      (pick) => pick.key === key && pick.isActive
-                    )
-                      ? stageKey + 1
-                      : null
-                  )
-                  .filter(Boolean);
-
                 return (
-                  <label>
-                    <Flexbox gap={4} justify="stretch">
-                      <span>{key}</span>
-                      <input
-                        checked={isInStage}
-                        type="checkbox"
-                        onChange={(ev) => {
-                          setStages((stages) => {
-                            if (stages[activeStage].picks[pick.key]) {
-                              stages[activeStage].picks[pick.key] = {
-                                ...stages[activeStage].picks[pick.key],
-                                isActive:
-                                  !stages[activeStage].picks[pick.key].isActive,
-                              };
-                              return [...stages];
-                            }
-
-                            stages[activeStage].picks[pick.key] = {
-                              key: pick.key,
-                              rotation: 0,
-                              isActive: true,
-                            };
-
-                            return [...stages];
-                          });
-                        }}
-                      />
-
-                      <img
-                        css={css`
-                          width: 80px;
-                          height: 80px;
-                          border-radius: 2px;
-                        `}
-                        src={pick.img}
-                      />
-                      <input
-                        onChange={(ev) => {
-                          setStages((stages) => {
-                            if (stages[activeStage].picks[pick.key] == null) {
-                              return [...stages];
-                            }
-
-                            stages[activeStage].picks[pick.key] = {
-                              ...stages[activeStage].picks[pick.key],
-                              rotation: parseInt(ev.target.value, 10),
-                            };
-
-                            return [...stages];
-                          });
-                        }}
-                        disabled={!isInStage}
-                        type="range"
-                        value={
-                          stages[activeStage].picks[pick.key]?.rotation ?? 0
+                  <Label
+                    pickInStage={stages[activeStage].picks[pick.key]}
+                    stages={stages}
+                    pick={pick}
+                    onRotate={(rotation) => {
+                      setStages((stages) => {
+                        if (stages[activeStage].picks[pick.key] == null) {
+                          return [...stages];
                         }
-                        min={0}
-                        max={360}
-                      />
-                      {isInStages}
-                    </Flexbox>
-                  </label>
+
+                        stages[activeStage].picks[pick.key] = {
+                          ...stages[activeStage].picks[pick.key],
+                          rotation,
+                        };
+
+                        return [...stages];
+                      });
+                    }}
+                    onSelect={(isActive) => {
+                      setStages((stages) => {
+                        if (stages[activeStage].picks[pick.key]) {
+                          stages[activeStage].picks[pick.key] = {
+                            ...stages[activeStage].picks[pick.key],
+                            isActive,
+                          };
+                          return [...stages];
+                        }
+
+                        stages[activeStage].picks[pick.key] = {
+                          key: pick.key,
+                          rotation: 0,
+                          isActive: true,
+                        };
+
+                        return [...stages];
+                      });
+                    }}
+                  />
                 );
               })}
             </Flexbox>
@@ -197,5 +164,127 @@ export default function Picking({
         </div>
       </Flexbox>
     </Flexbox>
+  );
+}
+
+function Label({
+  pick,
+  pickInStage,
+  stages,
+  onSelect,
+  onRotate,
+}: {
+  pick: TPick;
+  pickInStage: TPickInStage | null;
+  stages: TStage[];
+
+  onSelect: (boolean) => void;
+  onRotate: (number) => void;
+}) {
+  const id = useId();
+  const { key } = pick;
+  const isInStage = pickInStage?.isActive === true;
+  const isInOtherStages = stages
+    .map((stage, stageKey) =>
+      Object.values(stage.picks).find(
+        (pick) => pick.key === key && pick.isActive
+      )
+        ? stageKey + 1
+        : null
+    )
+    .filter(Boolean);
+
+  return (
+    <label
+      htmlFor={id}
+      css={css`
+        cursor: pointer;
+      `}
+    >
+      <Flexbox gap={4} justify="stretch" align="stretch">
+        <div
+          css={css`
+            background: var(--divider);
+            padding: 4px;
+          `}
+        >
+          <Flexbox
+            gap={4}
+            direction="column"
+            align="start"
+            css={css`
+              height: 100%;
+            `}
+          >
+            <span
+              css={css`
+                flex-grow: 1;
+              `}
+            >
+              [{pick.pos[0]},{pick.pos[1]}]
+            </span>
+            <input
+              id={id}
+              checked={isInStage}
+              type="checkbox"
+              onChange={() => {
+                onSelect(!(pickInStage?.isActive ?? true));
+              }}
+            />
+          </Flexbox>
+        </div>
+        <div
+          css={css`
+            background: var(--divider);
+            padding: 1px;
+          `}
+        >
+          <img
+            css={css`
+              width: 80px;
+              height: 80px;
+              display: block;
+            `}
+            src={pick.img}
+          />
+        </div>
+        <Flexbox
+          css={css`
+            background: var(--divider);
+            padding: 8px;
+            flex-grow: 1;
+          `}
+        >
+          <input
+            onChange={(ev) => {
+              onRotate(parseInt(ev.target.value, 10));
+            }}
+            disabled={!isInStage}
+            type="range"
+            value={pickInStage?.rotation ?? 0}
+            min={0}
+            max={360}
+            css={css`
+              width: 100%;
+            `}
+          />
+        </Flexbox>
+        {isInOtherStages &&
+          isInOtherStages.map((stage) => (
+            <div
+              css={css`
+                --color: var(
+                  --${isInOtherStages.length > 1 ? "error" : "divider"}
+                );
+                color: var(--color);
+                border: 1px solid var(--color);
+                padding: 3px;
+              `}
+            >
+              #{stage}
+            </div>
+          ))}
+      </Flexbox>
+    </label>
   );
 }
