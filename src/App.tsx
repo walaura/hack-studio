@@ -3,7 +3,6 @@ import { useState } from "react";
 import Home from "./route/Home";
 import Picking from "./route/Picking";
 import SelectPreset from "./route/SelectPreset";
-import Upload from "./route/Upload";
 import Box from "./ui/Box";
 import Button from "./ui/Button";
 
@@ -24,14 +23,20 @@ export default function App() {
       {!uploadedPhoto && !preset && (
         <div>
           <Home
+            preset={preset}
             uploadedPhoto={uploadedPhoto}
             setUploadedPhoto={(photo) => {
               setPreset(null);
               setUploadedPhoto(photo);
             }}
+            setCurrentStatus={({ image, preset }) => {
+              setUploadedPhoto(image);
+              setPreset(preset);
+            }}
           />
         </div>
       )}
+
       {uploadedPhoto && !preset && (
         <SelectPreset onSelect={setPreset} fromImage={uploadedPhoto} />
       )}
