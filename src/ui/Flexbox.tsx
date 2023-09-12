@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { ReactElement, ReactNode } from "react";
+import {  ReactNode } from "react";
 
 type AlignProp = "start" | "end" | "center" | 'stretch';
 

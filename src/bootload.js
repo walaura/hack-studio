@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
-import Main from './Main.tsx';
+import App from './App.tsx';
 
 // Render your React component instead
 const root = createRoot(document.getElementById('app'));
-root.render(<Main />);
+root.render(<App />);

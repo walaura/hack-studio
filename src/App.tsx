@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Canvas from "./component/Canvas";
 import SelectPreset from "./component/SelectPreset";
+import Box from "./ui/Box";
+import Title from "./ui/Title";
 
-export default function Main() {
+export default function App() {
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [preset, setPreset] = useState(null);
 
@@ -19,26 +21,28 @@ export default function Main() {
           padding: 12,
         }}
       >
-        Upload screenshot
-        <input
-          type="file"
-          onChange={(ev) => {
-            URL.revokeObjectURL(uploadedPhoto);
-            setPreset(null);
-            const url = URL.createObjectURL(ev.target.files[0]);
-            setUploadedPhoto(url);
-          }}
-        />
-        {uploadedPhoto && (
-          <button
-            onClick={() => {
-              setUploadedPhoto(null);
+        <Box>
+          <Title>Upload screenshot</Title>
+          <input
+            type="file"
+            onChange={(ev) => {
+              URL.revokeObjectURL(uploadedPhoto);
               setPreset(null);
+              const url = URL.createObjectURL(ev.target.files[0]);
+              setUploadedPhoto(url);
             }}
-          >
-            Clear
-          </button>
-        )}
+          />
+          {uploadedPhoto && (
+            <button
+              onClick={() => {
+                setUploadedPhoto(null);
+                setPreset(null);
+              }}
+            >
+              Clear
+            </button>
+          )}
+        </Box>
       </div>
       {uploadedPhoto && !preset && (
         <SelectPreset onSelect={setPreset} fromImage={uploadedPhoto} />
