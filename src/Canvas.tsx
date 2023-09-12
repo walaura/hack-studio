@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { css } from "@emotion/react";
 
 const UI_SPACE_X = 1353;
 const UI_SPACE_Y = 458;
@@ -69,7 +70,7 @@ export default function Canvas({ fromImage }: { fromImage: string }) {
           [String(row) + "-" + String(col)]: {
             key: String(row) + "-" + String(col),
             img,
-            pos: [row, col]
+            pos: [row, col],
           },
         }));
       }
@@ -154,7 +155,14 @@ export default function Canvas({ fromImage }: { fromImage: string }) {
                   });
                 }}
               />
-              <img style={{ width: 80, height: 80 }} src={pick.img} />
+
+              <img
+                css={css`
+                  width: 80px;
+                  height: 80px;
+                `}
+                src={pick.img}
+              />
               <input
                 onChange={(ev) => {
                   setStages((stages) => {

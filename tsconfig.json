@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
-    "jsx": "react",
-    "lib": ["ES2019","dom"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
+    "lib": ["ES2019", "dom"],
     "esModuleInterop": true
   }
 }
