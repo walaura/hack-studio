@@ -1,9 +1,9 @@
 import Box from "../ui/Box";
 import Flexbox from "../ui/Flexbox";
 import Title from "../ui/Title";
-import Picking from "./Picking";
+import Upload from "./Upload";
 
-export default function Upload({
+export default function Home({
   uploadedPhoto,
   setUploadedPhoto,
 }: {
