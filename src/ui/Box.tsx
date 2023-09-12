@@ -6,7 +6,7 @@ export default function Box({ children }: { children: ReactNode }) {
     <div
       css={css`
         border: 1px solid var(--divider);
-        padding: 8px;
+        padding: 16px;
       `}
     >
       {children}

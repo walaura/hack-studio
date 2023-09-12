@@ -1,6 +1,8 @@
+import { css } from "@emotion/react";
 import React, { useState } from "react";
 import Canvas from "./component/Canvas";
 import SelectPreset from "./component/SelectPreset";
+import Upload from "./route/Upload";
 import Box from "./ui/Box";
 import Title from "./ui/Title";
 
@@ -9,47 +11,36 @@ export default function App() {
   const [preset, setPreset] = useState(null);
 
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 4,
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          padding: 12,
-        }}
-      >
-        <Box>
-          <Title>Upload screenshot</Title>
-          <input
-            type="file"
-            onChange={(ev) => {
-              URL.revokeObjectURL(uploadedPhoto);
+    <div
+      css={css`
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      `}
+    >
+      {!uploadedPhoto && !preset && (
+        <div
+          css={css`
+            width: 20em;
+          `}
+        >
+          <Upload
+            uploadedPhoto={uploadedPhoto}
+            setUploadedPhoto={(photo) => {
               setPreset(null);
-              const url = URL.createObjectURL(ev.target.files[0]);
-              setUploadedPhoto(url);
+              setUploadedPhoto(photo);
             }}
           />
-          {uploadedPhoto && (
-            <button
-              onClick={() => {
-                setUploadedPhoto(null);
-                setPreset(null);
-              }}
-            >
-              Clear
-            </button>
-          )}
-        </Box>
-      </div>
+        </div>
+      )}
       {uploadedPhoto && !preset && (
         <SelectPreset onSelect={setPreset} fromImage={uploadedPhoto} />
       )}
       {uploadedPhoto && preset && (
         <Canvas preset={preset} fromImage={uploadedPhoto} />
       )}
-    </>
+    </div>
   );
 }

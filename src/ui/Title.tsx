@@ -2,7 +2,11 @@ import { css } from "@emotion/react";
 
 export default function Title({ children }: { children: string }) {
   return (
-    <div>
+    <div
+      css={css`
+        margin: -4px -4px;
+      `}
+    >
       <h2
         css={css`
           background: var(--text);
@@ -10,7 +14,8 @@ export default function Title({ children }: { children: string }) {
           display: inline-flex;
           text-transform: uppercase;
           font-weight: 600;
-          padding: 2px 6px;
+          padding: 2px 4px;
+          margin: 0;
           font-size: 1.2rem;
         `}
       >
