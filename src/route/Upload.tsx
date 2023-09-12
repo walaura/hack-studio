@@ -1,5 +1,7 @@
+import { useId } from "react";
 import { PrevImages, TSetCurrentStatus } from "../components/PrevImages";
 import Box from "../ui/Box";
+import Button from "../ui/Button";
 import Flexbox from "../ui/Flexbox";
 import Title from "../ui/Title";
 import { TPreset } from "./SelectPreset";
@@ -56,5 +58,21 @@ export default function Upload({
       </Box>
       <PrevImages setCurrentStatus={setCurrentStatus} prevImages={prevImages} />
     </Flexbox>
+  );
+}
+
+function UploadButton({
+  onChange,
+}: {
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}) {
+  const id = useId();
+  return (
+    <label htmlFor={id}>
+      <Button>
+        <Title style="light">Select photo</Title>
+        <input type="file" onChange={onChange} />
+      </Button>
+    </label>
   );
 }

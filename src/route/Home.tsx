@@ -27,11 +27,13 @@ export default function Home({
       align="end"
       css={css`
         max-width: 60vw;
+        max-height:80vh;
       `}
     >
       <div
         css={css`
           max-width: 40em;
+          height:100%;
           width: 100%;
           flex-grow: 1;
           flex-shrink: 1;
