@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import usePicks from "../usePicks";
+import usePicks from "./usePicks";
 
 export type TPreset = { name: string; uiSpaceTop: number };
 

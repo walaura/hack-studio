@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import usePicks from "./usePicks";
-import { TPreset } from "./component/SelectPreset";
+import { TPreset } from "./SelectPreset";
 
 type TStage = {
   picks: {

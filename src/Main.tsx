@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Canvas from "./Canvas";
+import Canvas from "./component/Canvas";
 import SelectPreset from "./component/SelectPreset";
 
 export default function Main() {

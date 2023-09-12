@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TPreset } from "./component/SelectPreset";
+import { TPreset } from "./SelectPreset";
 
 // make these (some?) configurable for diff difficulties
 const UI_SPACE_X = 1353;
