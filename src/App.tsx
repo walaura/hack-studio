@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
+import Home from "./route/Home";
 import Picking from "./route/Picking";
 import SelectPreset from "./route/SelectPreset";
 import Upload from "./route/Upload";
@@ -26,7 +27,7 @@ export default function App() {
             width: 30em;
           `}
         >
-          <Upload
+          <Home
             uploadedPhoto={uploadedPhoto}
             setUploadedPhoto={(photo) => {
               setPreset(null);
