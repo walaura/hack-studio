@@ -7,7 +7,7 @@ const buttonStyles = {
     border: 1px solid var(--highlight);
   `,
   secondary: css`
-    border: 1px solid var(--text);
+    border: 1px solid var(--divider);
     background: none;
     color: var(--text);
   `,
@@ -20,7 +20,7 @@ export default function Button({
 }: {
   children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  style: keyof typeof buttonStyles;
+  style?: keyof typeof buttonStyles;
 }) {
   return (
     <button

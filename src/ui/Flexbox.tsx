@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 type AlignProp = "start" | "end" | "center" | "stretch";
 
-function alignPropToFlexAlign(prop: AlignProp): string {
+function alignPropToFlexAlign(prop: AlignProp | string): string {
   switch (prop) {
     case "start":
       return "flex-start";
@@ -25,7 +25,7 @@ export default function Flexbox({
   children: ReactNode;
   direction?: "row" | "column";
   align?: AlignProp;
-  justify?: AlignProp; //not quite but meh
+  justify?: AlignProp | 'space-between'; //not quite but meh
   gap?: 0 | 4 | 8 | 12 | 16;
   css?: Interpolation<Theme>;
 }) {

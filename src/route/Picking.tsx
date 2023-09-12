@@ -5,6 +5,7 @@ import { TPreset } from "./SelectPreset";
 import Flexbox from "../ui/Flexbox";
 import Box from "../ui/Box";
 import Button from "../ui/Button";
+import Title from "../ui/Title";
 
 type TPickInStage = { key: string; rotation: number; isActive: boolean };
 
@@ -82,24 +83,53 @@ export default function Picking({
         justify="start"
         css={css`
           height: 100%;
-          width: 30em;
+          width: min(50em, 40vw);
         `}
       >
         <Flexbox
           direction="column"
+          justify="space-between"
           gap={4}
           css={css`
-            margin-top: 12px;
+            height: 100%;
+            max-width: 16em;
+            flex-grow: 1;
+            flex-shrink: 1;
           `}
         >
-          {[0, 1, 2].map((stg) => (
-            <Button
-              style={activeStage === stg ? "primary" : "secondary"}
-              onClick={() => setActiveStage(stg)}
-            >
-              #{stg + 1}
-            </Button>
-          ))}
+          <Flexbox
+            direction="column"
+            gap={4}
+            css={css`
+              margin-top: 12px;
+            `}
+          >
+            {[0, 1, 2].map((stg) => (
+              <Button
+                style={activeStage === stg ? "primary" : "secondary"}
+                onClick={() => setActiveStage(stg)}
+              >
+                #{stg + 1}
+              </Button>
+            ))}
+          </Flexbox>
+          <Box
+            css={css`
+              margin-bottom: 12px;
+            `}
+          >
+            <Flexbox gap={12} direction="column">
+              <Title>What now?</Title>
+              <p>
+                Select the picks you want to use on each key (#1, #2, etc) and
+                align them with the holes.
+              </p>
+              <p>
+                When everything matches, go back to your game and use the
+                coordinates to select the picks for each hole.
+              </p>
+            </Flexbox>
+          </Box>
         </Flexbox>
         <div
           css={css`
@@ -182,12 +212,13 @@ function Label({
   onRotate: (number) => void;
 }) {
   const id = useId();
-  const { key } = pick;
+
+  const isActive = pickInStage?.isActive ?? false;
   const isInStage = pickInStage?.isActive === true;
   const isInOtherStages = stages
     .map((stage, stageKey) =>
       Object.values(stage.picks).find(
-        (pick) => pick.key === key && pick.isActive
+        (pickInThatStage) => pick.key === pickInThatStage.key && pickInThatStage.isActive
       )
         ? stageKey + 1
         : null
@@ -197,14 +228,23 @@ function Label({
   return (
     <label
       htmlFor={id}
-      css={css`
-        cursor: pointer;
-      `}
+      css={[
+        css`
+          cursor: pointer;
+          color: var(--text);
+          --local-background: var(--divider);
+        `,
+        isActive &&
+          css`
+            color: var(--background);
+            --local-background: var(--text);
+          `,
+      ]}
     >
       <Flexbox gap={4} justify="stretch" align="stretch">
         <div
           css={css`
-            background: var(--divider);
+            background: var(--local-background);
             padding: 4px;
           `}
         >
@@ -228,14 +268,14 @@ function Label({
               checked={isInStage}
               type="checkbox"
               onChange={() => {
-                onSelect(!(pickInStage?.isActive ?? true));
+                onSelect(!isActive);
               }}
             />
           </Flexbox>
         </div>
         <div
           css={css`
-            background: var(--divider);
+            background: var(--local-background);
             padding: 1px;
           `}
         >
@@ -250,7 +290,7 @@ function Label({
         </div>
         <Flexbox
           css={css`
-            background: var(--divider);
+            background: var(--local-background);
             padding: 8px;
             flex-grow: 1;
           `}
@@ -274,7 +314,7 @@ function Label({
             <div
               css={css`
                 --color: var(
-                  --${isInOtherStages.length > 1 ? "error" : "divider"}
+                  --${isInOtherStages.length > 1 ? "error" : "local-background"}
                 );
                 color: var(--color);
                 border: 1px solid var(--color);
