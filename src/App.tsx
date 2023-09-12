@@ -23,7 +23,7 @@ export default function App() {
       {!uploadedPhoto && !preset && (
         <div
           css={css`
-            width: 20em;
+            width: 30em;
           `}
         >
           <Upload

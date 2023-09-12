@@ -23,24 +23,17 @@ export default function Upload({
         </Flexbox>
       </Box>
       <Box>
-        <Title>Upload screenshot</Title>
-        <input
-          type="file"
-          onChange={(ev) => {
-            URL.revokeObjectURL(uploadedPhoto);
-            const url = URL.createObjectURL(ev.target.files[0]);
-            setUploadedPhoto(url);
-          }}
-        />
-        {uploadedPhoto && (
-          <button
-            onClick={() => {
-              setUploadedPhoto(null);
+        <Flexbox gap={12} direction="column">
+          <Title>Upload screenshot</Title>
+          <input
+            type="file"
+            onChange={(ev) => {
+              URL.revokeObjectURL(uploadedPhoto);
+              const url = URL.createObjectURL(ev.target.files[0]);
+              setUploadedPhoto(url);
             }}
-          >
-            Clear
-          </button>
-        )}
+          />
+        </Flexbox>
       </Box>
     </Flexbox>
   );
