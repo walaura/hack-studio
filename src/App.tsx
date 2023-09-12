@@ -3,6 +3,7 @@ import { useState } from "react";
 import Picking from "./route/Picking";
 import SelectPreset from "./route/SelectPreset";
 import Upload from "./route/Upload";
+import Box from "./ui/Box";
 import Button from "./ui/Button";
 
 export default function App() {
@@ -19,25 +20,6 @@ export default function App() {
         justify-content: center;
       `}
     >
-      {!(!uploadedPhoto && !preset) && (
-        <div
-          css={css`
-            position: fixed;
-            top: 12px;
-            left: 12px;
-          `}
-        >
-          <Button
-            style="secondary"
-            onClick={() => {
-              setPreset(null);
-              setUploadedPhoto(null);
-            }}
-          >
-            START OVER
-          </Button>
-        </div>
-      )}
       {!uploadedPhoto && !preset && (
         <div
           css={css`
@@ -59,6 +41,52 @@ export default function App() {
       {uploadedPhoto && preset && (
         <Picking preset={preset} fromImage={uploadedPhoto} />
       )}
+      {!(!uploadedPhoto && !preset) && (
+        <div
+          css={css`
+            position: fixed;
+            top: 12px;
+            left: 12px;
+          `}
+        >
+          <Button
+            style="secondary"
+            onClick={() => {
+              setPreset(null);
+              setUploadedPhoto(null);
+            }}
+          >
+            START OVER
+          </Button>
+        </div>
+      )}
+      <div
+        css={css`
+          position: fixed;
+          bottom: 12px;
+          left: 12px;
+          opacity: 0.4;
+          &:hover {
+            opacity: 1;
+          }
+        `}
+      >
+        <Box
+          css={css`
+            padding: 8px;
+          `}
+        >
+          <p>
+            Made out of frustration by{" "}
+            <a href="https://github.com/SaraVieira">@SaraVieira</a> +{" "}
+            <a href="https://www.threads.net/@freezydorito">@freezydorito</a>
+          </p>
+          <p>
+            <a href="https://github.com/walaura/digipick">Code</a> ·
+            <a href="https://www.paypal.com/paypalme/walaura/2">Donate</a>
+          </p>
+        </Box>
+      </div>
     </div>
   );
 }
