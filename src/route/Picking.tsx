@@ -4,6 +4,7 @@ import usePicks, { TPick } from "../component/usePicks";
 import { TPreset } from "./SelectPreset";
 import Flexbox from "../ui/Flexbox";
 import Box from "../ui/Box";
+import Button from "../ui/Button";
 
 type TPickInStage = { key: string; rotation: number; isActive: boolean };
 
@@ -76,7 +77,6 @@ export default function Picking({
         </Box>
       </Flexbox>
       <Flexbox
-        gap={12}
         align="start"
         justify="start"
         css={css`
@@ -92,16 +92,19 @@ export default function Picking({
           `}
         >
           {[0, 1, 2].map((stg) => (
-            <button onClick={() => setActiveStage(stg)}>
+            <Button
+              style={activeStage === stg ? "primary" : "secondary"}
+              onClick={() => setActiveStage(stg)}
+            >
               #{stg + 1}
-              {activeStage === stg && "✅"}
-            </button>
+            </Button>
           ))}
         </Flexbox>
         <div
           css={css`
             height: 100%;
             padding: 12px;
+            padding-left: 4px;
             flex-grow: 1;
           `}
         >
@@ -109,7 +112,7 @@ export default function Picking({
             css={css`
               padding: 4px;
               height: 100%;
-              border-color: var(--highlight);
+              border-color: var(--highlight-faint);
             `}
           >
             <Flexbox direction="column" align="stretch" gap={4}>
