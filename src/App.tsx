@@ -76,6 +76,7 @@ export default function App() {
                         background: transparent;
                         border: none;
                         cursor: pointer;
+                        transition: all 100ms ease;
 
                         &:hover {
                           scale: 0.95;

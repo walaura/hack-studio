@@ -20,7 +20,7 @@ const handleLocalStorageSaving = ({
   } else {
     const newStorage = JSON.stringify([
         newItem,
-      ...JSON.parse(currentLocalStorage).slice(0, 3),
+      ...JSON.parse(currentLocalStorage).slice(0, 2),
     ]);
     localStorage.setItem(LOCAL_KEY, newStorage);
   }
