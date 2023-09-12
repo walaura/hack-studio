@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { css } from "@emotion/react";
 import usePicks, { TPick } from "../component/usePicks";
 import { TPreset } from "./SelectPreset";
@@ -107,7 +107,9 @@ export default function Picking({
         >
           <Box
             css={css`
+              padding: 4px;
               height: 100%;
+              border-color: var(--highlight);
             `}
           >
             <Flexbox direction="column" align="stretch" gap={4}>
@@ -175,9 +177,10 @@ function Label({
   onSelect: (boolean) => void;
   onRotate: (number) => void;
 }) {
+  const id = useId();
   const { key } = pick;
   const isInStage = pickInStage?.isActive === true;
-  const isInStages = stages
+  const isInOtherStages = stages
     .map((stage, stageKey) =>
       Object.values(stage.picks).find(
         (pick) => pick.key === key && pick.isActive
@@ -188,36 +191,95 @@ function Label({
     .filter(Boolean);
 
   return (
-    <label>
-      <Flexbox gap={4} justify="stretch" align="center">
-        <span>{key}</span>
-        <input
-          checked={isInStage}
-          type="checkbox"
-          onChange={() => {
-            onSelect(!(pickInStage?.isActive ?? true));
-          }}
-        />
-
-        <img
+    <label
+      htmlFor={id}
+      css={css`
+        cursor: pointer;
+      `}
+    >
+      <Flexbox gap={4} justify="stretch" align="stretch">
+        <div
           css={css`
-            width: 80px;
-            height: 80px;
-            border-radius: 2px;
+            background: var(--divider);
+            padding: 4px;
           `}
-          src={pick.img}
-        />
-        <input
-          onChange={(ev) => {
-            onRotate(parseInt(ev.target.value, 10));
-          }}
-          disabled={!isInStage}
-          type="range"
-          value={pickInStage?.rotation ?? 0}
-          min={0}
-          max={360}
-        />
-        {isInStages}
+        >
+          <Flexbox
+            gap={4}
+            direction="column"
+            align="start"
+            css={css`
+              height: 100%;
+            `}
+          >
+            <span
+              css={css`
+                flex-grow: 1;
+              `}
+            >
+              [{pick.pos[0]},{pick.pos[1]}]
+            </span>
+            <input
+              id={id}
+              checked={isInStage}
+              type="checkbox"
+              onChange={() => {
+                onSelect(!(pickInStage?.isActive ?? true));
+              }}
+            />
+          </Flexbox>
+        </div>
+        <div
+          css={css`
+            background: var(--divider);
+            padding: 1px;
+          `}
+        >
+          <img
+            css={css`
+              width: 80px;
+              height: 80px;
+              display: block;
+            `}
+            src={pick.img}
+          />
+        </div>
+        <Flexbox
+          css={css`
+            background: var(--divider);
+            padding: 8px;
+            flex-grow: 1;
+          `}
+        >
+          <input
+            onChange={(ev) => {
+              onRotate(parseInt(ev.target.value, 10));
+            }}
+            disabled={!isInStage}
+            type="range"
+            value={pickInStage?.rotation ?? 0}
+            min={0}
+            max={360}
+            css={css`
+              width: 100%;
+            `}
+          />
+        </Flexbox>
+        {isInOtherStages &&
+          isInOtherStages.map((stage) => (
+            <div
+              css={css`
+                --color: var(
+                  --${isInOtherStages.length > 1 ? "error" : "divider"}
+                );
+                color: var(--color);
+                border: 1px solid var(--color);
+                padding: 3px;
+              `}
+            >
+              #{stage}
+            </div>
+          ))}
       </Flexbox>
     </label>
   );
