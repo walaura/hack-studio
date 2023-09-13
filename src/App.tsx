@@ -89,8 +89,8 @@ export default function App() {
         >
           <p>
             Made out of frustration by{" "}
-            <a href="https://github.com/SaraVieira">@SaraVieira</a> +{" "}
-            <a href="https://www.threads.net/@freezydorito">@freezydorito</a>
+            <a href="https://www.threads.net/@freezydorito">@freezydorito</a> +{" "}
+            <a href="https://github.com/SaraVieira">@SaraVieira</a>
           </p>
           <p>
             <a href="https://github.com/walaura/digipick">Code</a> ·
