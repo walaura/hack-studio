@@ -5,6 +5,9 @@ const LOCAL_KEY = "digipick-prev";
 
 
 export const useLocalStorage = ({uploadedPhoto, preset}) => {
+
+    return [[],()=>{}];
+    
     const [prevImages, setPrevImages] = useState([]);
 
 
