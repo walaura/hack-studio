@@ -11,7 +11,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 type TPickInStage = { key: string; rotation: number; isActive: boolean };
 
 type TStage = {
-  level: number,
+  level: number;
   picks: {
     [key: string]: TPickInStage;
   };
@@ -25,9 +25,9 @@ export default function Picking({
   fromImage: string;
 }) {
   const [stages, setStages] = useState<TStage[]>([
-    { picks: {}, level:0 },
-    { picks: {}, level:1 },
-    { picks: {}, level:2 },
+    { picks: {}, level: 0 },
+    { picks: {}, level: 1 },
+    { picks: {}, level: 2 },
   ]);
   const [activeStage, setActiveStage] = useState(0);
   const [picks, target] = usePicks({ fromImage, preset });
@@ -189,7 +189,7 @@ function Workspace({
   activeStage: TStage;
   target: string;
 }) {
-  const scale = 1 - (.17 * activeStage.level);
+  const scale = 1 - 0.17 * activeStage.level;
 
   return (
     <div
@@ -247,10 +247,10 @@ function Label({
     .map((stage, stageKey) =>
       Object.values(stage.picks).find(
         (pickInThatStage) =>
-          pick.key === pickInThatStage.key && pickInThatStage.isActive
+          pick.key === pickInThatStage.key && pickInThatStage.isActive,
       )
         ? stageKey + 1
-        : null
+        : null,
     )
     .filter(Boolean);
 

@@ -23,8 +23,7 @@ export default function Button({
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   style?: keyof typeof buttonStyles;
 }) {
-
-  const Element = onClick?'button':'div';
+  const Element = onClick ? "button" : "div";
 
   return (
     <Element

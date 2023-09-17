@@ -10,7 +10,7 @@ const titleStyles = {
 
 export default function Title({
   children,
-  style = 'strong',
+  style = "strong",
 }: {
   children: string;
   style?: "strong" | "light";
@@ -23,7 +23,7 @@ export default function Title({
     >
       <h2
         css={css`
-        ${titleStyles[style]}
+          ${titleStyles[style]}
           display: inline-flex;
           text-transform: uppercase;
           font-weight: 600;

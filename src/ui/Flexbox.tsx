@@ -25,7 +25,7 @@ export default function Flexbox({
   children: ReactNode;
   direction?: "row" | "column";
   align?: AlignProp;
-  justify?: AlignProp | 'space-between'; //not quite but meh
+  justify?: AlignProp | "space-between"; //not quite but meh
   gap?: 0 | 4 | 8 | 12 | 16;
   css?: Interpolation<Theme>;
 }) {

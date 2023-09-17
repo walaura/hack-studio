@@ -29,7 +29,7 @@ export default function usePicks({
   const [target, setTarget] = useState<string>(null);
 
   const uiSpaceTop = preset?.uiSpaceTop ?? UI_SPACE_Y;
-  const picksCount = (preset?.picksCount ?? PICKS) -1;
+  const picksCount = (preset?.picksCount ?? PICKS) - 1;
 
   useEffect(() => {
     const canvas = document.createElement("canvas");
@@ -58,7 +58,7 @@ export default function usePicks({
         tCtx.drawImage(
           canvas,
           UI_SPACE_X * -1 - leftOffset,
-          uiSpaceTop * -1 - topOffset
+          uiSpaceTop * -1 - topOffset,
         );
 
         const img = tempCanvas.toDataURL("image/png");
