@@ -11,6 +11,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 type TPickInStage = { key: string; rotation: number; isActive: boolean };
 
 type TStage = {
+  level: number,
   picks: {
     [key: string]: TPickInStage;
   };
@@ -24,9 +25,9 @@ export default function Picking({
   fromImage: string;
 }) {
   const [stages, setStages] = useState<TStage[]>([
-    { picks: {} },
-    { picks: {} },
-    { picks: {} },
+    { picks: {}, level:0 },
+    { picks: {}, level:1 },
+    { picks: {}, level:2 },
   ]);
   const [activeStage, setActiveStage] = useState(0);
   const [picks, target] = usePicks({ fromImage, preset });
@@ -50,33 +51,11 @@ export default function Picking({
         `}
       >
         <Box noPadding>
-          <div
-            css={css`
-              width: 32em;
-              height: 32em;
-              position: relative;
-            `}
-          >
-            <img
-              src={target}
-              style={{ position: "absolute", width: "100%", height: "100%" }}
-            />
-            {Object.values(stages[activeStage].picks)
-              .filter((pick) => pick.isActive)
-              .map((pick) => (
-                <img
-                  key={pick.key}
-                  style={{
-                    position: "absolute",
-                    mixBlendMode: "lighten",
-                    width: "100%",
-                    height: "100%",
-                    transform: `rotate(${pick.rotation}deg)`,
-                  }}
-                  src={picks[pick.key].img}
-                />
-              ))}
-          </div>
+          <Workspace
+            picks={picks}
+            activeStage={stages[activeStage]}
+            target={target}
+          />
         </Box>
       </Flexbox>
       <Flexbox
@@ -105,12 +84,13 @@ export default function Picking({
               margin-top: 12px;
             `}
           >
-            {[0, 1, 2].map((stg) => (
+            {stages.map((stg, key) => (
               <Button
-                style={activeStage === stg ? "primary" : "secondary"}
-                onClick={() => setActiveStage(stg)}
+                style={activeStage === key ? "primary" : "secondary"}
+                onClick={() => setActiveStage(key)}
+                key={key}
               >
-                #{stg + 1}
+                #{stg.level + 1}
               </Button>
             ))}
           </Flexbox>
@@ -195,6 +175,54 @@ export default function Picking({
         </div>
       </Flexbox>
     </Flexbox>
+  );
+}
+
+function Workspace({
+  picks,
+  activeStage,
+  target,
+}: {
+  picks: {
+    [key: string]: TPick;
+  };
+  activeStage: TStage;
+  target: string;
+}) {
+  const scale = 1 - (.17 * activeStage.level);
+
+  return (
+    <div
+      css={css`
+        width: 32em;
+        height: 32em;
+        position: relative;
+      `}
+    >
+      <img
+        src={target}
+        css={css`
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        `}
+      />
+      {Object.values(activeStage.picks)
+        .filter((pick) => pick.isActive)
+        .map((pick) => (
+          <img
+            key={pick.key}
+            style={{
+              position: "absolute",
+              mixBlendMode: "lighten",
+              width: "100%",
+              height: "100%",
+              transform: `rotate(${pick.rotation}deg) scale(${scale})`,
+            }}
+            src={picks[pick.key].img}
+          />
+        ))}
+    </div>
   );
 }
 
