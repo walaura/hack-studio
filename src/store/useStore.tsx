@@ -6,6 +6,8 @@ import {
   DEFAULT_ASSIGNMENTS,
 } from "../assignments/Assignments";
 
+const MAX_UNDO_LEVEL = 20;
+
 export type Store = {
   assignments: {
     [K in AssignmentSurfaceID]:
@@ -113,6 +115,12 @@ const useWriteAssignmentsToStore = (
   return { assignInheritance, assignMaterial };
 };
 
+const StoreHistoryContext = createContext<{
+  onUndo: () => void;
+  onRedo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+}>(undefined);
 const StoreReadContext = createContext<Store>(undefined);
 const StoreWriteContext = createContext<
   ReturnType<typeof useWriteMaterialsToStore> &
@@ -124,18 +132,18 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
     materials: { ...DEFAULT_MATERIALS },
     assignments: { ...DEFAULT_ASSIGNMENTS },
   });
-  const history = useRef([]);
-  const [undoStackDepth, setUndoStackDepth] = useState(0);
+  const historyRef = useRef([]);
+  const [undoStackDepth, setUndoStackDepth] = useState(-1);
 
   const updateStore = (callback) => {
     setStore((store) => {
-      history.current.push(store);
-      if (history.current.length > 4) {
-        history.current.shift();
+      const next = callback(store);
+      historyRef.current.push(next);
+      if (historyRef.current.length > MAX_UNDO_LEVEL) {
+        historyRef.current.shift();
       }
       setUndoStackDepth(0);
-      console.log(history);
-      return callback(store);
+      return next;
     });
   };
 
@@ -150,37 +158,54 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
     [writeMaterials, writeAssignments]
   );
 
+  const history = useMemo(
+    () => ({
+      onUndo: () => {
+        setUndoStackDepth((curr) => {
+          const nextInStack = Math.min(curr + 1, MAX_UNDO_LEVEL);
+          const nextStore =
+            historyRef.current[historyRef.current.length - 1 - nextInStack];
+
+          if (nextStore) {
+            setStore(nextStore);
+          }
+          return nextInStack;
+        });
+      },
+      onRedo: () => {
+        setUndoStackDepth((curr) => {
+          const nextInStack = Math.max(curr - 1, 0);
+          const nextStore =
+            historyRef.current[historyRef.current.length - 1 - nextInStack];
+          console.log(
+            historyRef.current,
+            historyRef.current.length - 1 - nextInStack,
+            curr,
+            nextInStack,
+            nextStore
+          );
+          if (nextStore) {
+            setStore(nextStore);
+          }
+          return nextInStack;
+        });
+      },
+      canRedo: undoStackDepth > 0,
+      canUndo: undoStackDepth > -1 && undoStackDepth < MAX_UNDO_LEVEL,
+    }),
+    [undoStackDepth]
+  );
+
   return (
-    <StoreWriteContext.Provider value={updaters}>
-      <StoreReadContext.Provider value={store}>
-        <button
-          onClick={() => {
-            setUndoStackDepth((curr) => {
-              const nextInStack = curr + 1;
-              const nextStore =
-                history.current[history.current.length - nextInStack];
-              if (nextStore) {
-                setStore(history.current[history.current.length - nextInStack]);
-              }
-              return nextInStack;
-            });
-          }}
-        >
-          Undo
-        </button>
-        {undoStackDepth > 0 && (
-          <button
-            onClick={() => {
-              setUndoStackDepth((curr) => curr + 1);
-            }}
-          >
-            Redo
-          </button>
-        )}
-        {children}
-      </StoreReadContext.Provider>
-    </StoreWriteContext.Provider>
+    <StoreHistoryContext.Provider value={history}>
+      <StoreWriteContext.Provider value={updaters}>
+        <StoreReadContext.Provider value={store}>
+          {children}
+        </StoreReadContext.Provider>
+      </StoreWriteContext.Provider>
+    </StoreHistoryContext.Provider>
   );
 };
+export const useStoreHistory = () => useContext(StoreHistoryContext);
 export const useStore = () => useContext(StoreReadContext);
 export const useWriteToStore = () => useContext(StoreWriteContext);

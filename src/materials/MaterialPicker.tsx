@@ -38,9 +38,11 @@ export function MaterialPicker({
         <Flexbox direction="row" justify="space-between">
           <Text type="body2emphasis">{PRETTY_NAMES[surface]}</Text>
           {assignedMaterial.type === "inherit" ? (
-            <Text color="secondary" type="body3">
-              {PRETTY_NAMES[assignedMaterial.from].toLocaleLowerCase()}
-            </Text>
+            <span>
+              <Text color="secondary" type="body3">
+                {PRETTY_NAMES[assignedMaterial.from]}
+              </Text>
+            </span>
           ) : null}
         </Flexbox>
         <Flexbox

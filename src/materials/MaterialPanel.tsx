@@ -1,7 +1,6 @@
 import Flexbox from "../ui/Flexbox";
 import Margin from "../ui/Margin";
 import Box from "../ui/Box";
-import Text from "../ui/Text";
 import { MaterialPicker } from "./MaterialPicker";
 import { useAssignments } from "../assignments/useAssignments";
 import stylex from "@stylexjs/stylex";
@@ -10,6 +9,9 @@ import {
   AssignmentSurface,
   AssignmentSurfaceID,
 } from "../assignments/Assignments";
+import Button from "../ui/Button";
+import { useStoreHistory } from "../store/useStore";
+import { BsArrowClockwise, BsArrowCounterclockwise } from "react-icons/bs";
 
 const SECTIONS = {
   base: "Base",
@@ -120,8 +122,33 @@ export default function MaterialPanel({
             </Flexbox>
           )}
         </Flexbox>
+        <div {...stylex.props(styles.divider)} />
+        <Flexbox
+          xstyle={[Margin.all20]}
+          justify="start"
+          direction="row"
+          gap={4}
+        >
+          <Footer />
+        </Flexbox>
       </Flexbox>
     </Box>
+  );
+}
+
+function Footer() {
+  const { onUndo, onRedo, canUndo, canRedo } = useStoreHistory();
+  return (
+    <>
+      <Button isEnabled={canUndo} onClick={onUndo} type="secondary">
+        <BsArrowCounterclockwise color="inherit" />
+      </Button>
+      {canRedo && (
+        <Button onClick={onRedo} type="secondary">
+          <BsArrowClockwise color="inherit" />
+        </Button>
+      )}
+    </>
   );
 }
 
@@ -133,18 +160,13 @@ function Tabs({
   setActiveSection: (section: keyof typeof SECTIONS) => void;
 }) {
   return Object.keys(SECTIONS).map((section) => (
-    <button
+    <Button
+      type={section === activeSection ? "activeTab" : "tab"}
       key={section}
-      {...stylex.props(
-        styles.tab,
-        section === activeSection && styles.activeTab
-      )}
       onClick={() => setActiveSection(section as keyof typeof SECTIONS)}
     >
-      <Text color={section === activeSection ? "primary" : "secondary"}>
-        {SECTIONS[section]}
-      </Text>
-    </button>
+      {SECTIONS[section]}
+    </Button>
   ));
 }
 
@@ -176,7 +198,7 @@ const styles = stylex.create({
     height: "100%",
   },
   divider: {
-    borderBottom: "1px solid var(--surface-1)",
+    borderBottom: "2px solid var(--surface-1)",
   },
   noBasis: {
     flexBasis: "0",

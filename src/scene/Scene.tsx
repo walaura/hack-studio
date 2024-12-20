@@ -7,6 +7,7 @@ import { MeshPhysicalMaterial } from "three";
 import { GLTF } from "three-stdlib";
 
 /* eslint-disable react/no-unknown-property */
+/* eslint-disable react/prop-types */
 
 type GLTFResult = GLTF & {
   nodes: {

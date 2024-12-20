@@ -1,6 +1,12 @@
 import stylex from "@stylexjs/stylex";
 import { ReactNode } from "react";
 
+const styles = stylex.create({
+  base: {
+    display: "contents",
+  },
+});
+
 const typeStyles = stylex.create({
   body2: {},
   body2emphasis: {
@@ -38,7 +44,7 @@ export default function Text({
   children: ReactNode;
 }) {
   return (
-    <span {...stylex.props(typeStyles[type], colorStyles[color])}>
+    <span {...stylex.props(styles.base, typeStyles[type], colorStyles[color])}>
       {children}
     </span>
   );
