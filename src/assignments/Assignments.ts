@@ -1,5 +1,6 @@
-import { EMPTY_MATERIAL_ID } from "../materials/Materials";
 import { Store } from "../store/useStore";
+
+import defaultAssignments from "../../data/default-assignments.json";
 
 enum Shell {
   FRONT_SHELL = "FRONT_SHELL",
@@ -25,8 +26,9 @@ enum Membrane {
   MEMBRANE_START_SELECT = "MEMBRANE_START_SELECT",
 }
 
+export const DEFAULT_GROUP = "DEFAULT_GROUP";
+
 export enum Groups {
-  EVERYTHING = "EVERYTHING",
   SHELL = "SHELL",
   ALL_BUTTONS = "ALL_BUTTONS",
   FACE_BUTTONS = "FACE_BUTTONS",
@@ -34,18 +36,20 @@ export enum Groups {
   LOWER_MEMBRANES = "LOWER_MEMBRANES",
 }
 
-const BaseAssignmentSurface = {
+type TGroups = keyof typeof Groups | "DEFAULT_GROUP";
+
+const BaseAssignment = {
   ...Button,
   ...SideButton,
   ...Shell,
   ...Membrane,
 };
 
-export const AssignmentSurface = { ...Groups, ...BaseAssignmentSurface };
-export type AssignmentSurfaceID = keyof typeof AssignmentSurface;
+export const Assignment = { ...Groups, ...BaseAssignment };
+export type AssignmentKey = TGroups | keyof typeof Assignment;
 
 export const GBA_INHERITS_FROM: {
-  [K in keyof typeof AssignmentSurface]: keyof typeof Groups;
+  [K in keyof typeof Assignment]: TGroups;
 } = {
   [Shell.FRONT_SHELL]: Groups.SHELL,
   [Shell.BACK_SHELL]: Groups.SHELL,
@@ -65,14 +69,13 @@ export const GBA_INHERITS_FROM: {
 
   [Membrane.MEMBRANE_AB]: Groups.LOWER_MEMBRANES,
   [Membrane.MEMBRANE_DPAD]: Groups.LOWER_MEMBRANES,
-  [Groups.LOWER_MEMBRANES]: Groups.EVERYTHING,
-  [Groups.ALL_BUTTONS]: Groups.EVERYTHING,
-  [Groups.SHELL]: Groups.EVERYTHING,
-  [Groups.EVERYTHING]: Groups.EVERYTHING,
+  [Groups.LOWER_MEMBRANES]: DEFAULT_GROUP,
+  [Groups.ALL_BUTTONS]: DEFAULT_GROUP,
+  [Groups.SHELL]: DEFAULT_GROUP,
 };
 
 export const PRETTY_NAMES: {
-  [K in keyof typeof AssignmentSurface]: string;
+  [K in AssignmentKey]: string;
 } = {
   [Shell.FRONT_SHELL]: "Front shell",
   [Shell.BACK_SHELL]: "Back shell",
@@ -95,27 +98,16 @@ export const PRETTY_NAMES: {
   [Groups.LOWER_MEMBRANES]: "All membranes",
   [Groups.ALL_BUTTONS]: "All buttons",
   [Groups.SHELL]: "Entire shell",
-  [Groups.EVERYTHING]: "Base material",
+  DEFAULT_GROUP: "No material",
 };
 
-export const DEFAULT_ASSIGNMENTS: Store["assignments"] = Object.keys(
-  AssignmentSurface
-).reduce((acc, key) => {
-  acc[key] = {
-    type: "inherit",
-    from: GBA_INHERITS_FROM[key],
-  };
-  return acc;
-}, {} as Store["assignments"]);
-DEFAULT_ASSIGNMENTS[Groups.EVERYTHING] = {
-  type: "assign",
-  material: EMPTY_MATERIAL_ID,
-};
-DEFAULT_ASSIGNMENTS[Groups.ALL_BUTTONS] = {
-  type: "assign",
-  material: "gray",
-};
-DEFAULT_ASSIGNMENTS[Groups.SHELL] = {
-  type: "assign",
-  material: "purple",
-};
+export const DEFAULT_ASSIGNMENTS: Store["assignments"] = {
+  ...Object.keys(Assignment).reduce((acc, key) => {
+    acc[key] = {
+      type: "inherit",
+      from: GBA_INHERITS_FROM[key],
+    };
+    return acc;
+  }, {} as Store["assignments"]),
+  ...defaultAssignments,
+} as Store["assignments"];

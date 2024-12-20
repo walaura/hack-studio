@@ -1,19 +1,16 @@
 import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { MaterialKey } from "../materials/useMaterials";
 import { DEFAULT_MATERIALS } from "../materials/Materials";
-import {
-  AssignmentSurfaceID,
-  DEFAULT_ASSIGNMENTS,
-} from "../assignments/Assignments";
+import { AssignmentKey, DEFAULT_ASSIGNMENTS } from "../assignments/Assignments";
 
 const MAX_UNDO_LEVEL = 20;
 
 export type Store = {
   assignments: {
-    [K in AssignmentSurfaceID]:
+    [K in AssignmentKey]:
       | {
           type: "inherit";
-          from: AssignmentSurfaceID;
+          from: AssignmentKey;
         }
       | {
           type: "assign";
@@ -35,7 +32,6 @@ const useWriteMaterialsToStore = (
     updateStore((store) => ({
       ...store,
       materials: {
-        ...store.materials,
         ...callback(store.materials),
       },
     }));
@@ -57,7 +53,7 @@ const useWriteMaterialsToStore = (
     setMaterials((m) => {
       const next = { ...m };
       delete next[id];
-      return next;
+      return { ...next };
     });
   };
 
@@ -87,7 +83,7 @@ const useWriteAssignmentsToStore = (
     }));
 
   const assignMaterial = (
-    surfaceID: AssignmentSurfaceID,
+    surfaceID: AssignmentKey,
     materialKey: MaterialKey
   ) => {
     setAssignments((prev) => ({
@@ -99,10 +95,7 @@ const useWriteAssignmentsToStore = (
     }));
   };
 
-  const assignInheritance = (
-    surfaceID: AssignmentSurfaceID,
-    from: AssignmentSurfaceID
-  ) => {
+  const assignInheritance = (surfaceID: AssignmentKey, from: AssignmentKey) => {
     setAssignments((prev) => ({
       ...prev,
       [surfaceID]: {

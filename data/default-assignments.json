@@ -1,0 +1,10 @@
+{
+  "ALL_BUTTONS": {
+    "type": "assign",
+    "material": "gray"
+  },
+  "SHELL": {
+    "type": "assign",
+    "material": "purple"
+  }
+}

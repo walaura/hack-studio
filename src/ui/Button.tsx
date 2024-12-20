@@ -59,7 +59,7 @@ export default function Button({
     <Element
       disabled={!isEnabled}
       // @ts-expect-error onclick on div
-      onClick={isEnabled && onClick}
+      onClick={isEnabled ? onClick : null}
       {...stylex.props(
         styles.base,
         typeStyles[type],
