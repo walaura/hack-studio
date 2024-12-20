@@ -54,7 +54,6 @@ const createPlasticMaterial = (material: Material) =>
       })
     : new MeshPhysicalMaterial({
         color: material.color,
-        opacity: material.opacity,
         roughness: 0.5,
         reflectivity: 0.8,
       });

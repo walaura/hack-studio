@@ -7,9 +7,36 @@ export const DEFAULT_MATERIALS: Store["materials"] = {
     color: "#ff00ff",
   },
   purple: {
-    color: "#7F00FF",
+    color: "#643A6D",
   },
   gray: {
-    color: "#eee",
+    color: "#E0E0E0",
+  },
+  white: {
+    color: "#fff",
+  },
+  black: {
+    color: "#000",
+  },
+  babyGreen: {
+    color: "#64D1C5",
+  },
+  yellow: {
+    color: "#FEBC3D",
+  },
+  beige: {
+    color: "#F2EBE4",
+  },
+  orange: {
+    color: "#EF5E16",
+  },
+  SFCGrey: {
+    color: "#C4C2CA",
+  },
+  babyBlue: {
+    color: "#ACFCFE",
+  },
+  pink: {
+    color: "#F2C2CC",
   },
 };
