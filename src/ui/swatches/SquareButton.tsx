@@ -2,19 +2,22 @@ import stylex from "@stylexjs/stylex";
 
 const styles = stylex.create({
   active: {
-    backgroundColor: "rgba(0, 0, 0, .2)",
+    backgroundColor: "var(--surface-4)",
+    boxShadow: "none",
   },
   box: {
-    width: "4em",
+    width: "3em",
     cursor: "pointer",
-    height: "4em",
-    backgroundColor: "rgba(0, 0, 0, .05)",
+    height: "3em",
+    boxShadow: "inset 0 0 0 2px var(--surface-3)",
+    backgroundColor: "transparent",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     border: "none",
     ":hover": {
-      backgroundColor: "rgba(0, 0, 0, .1)",
+      backgroundColor: "var(--surface-3)",
+      boxShadow: "none",
     },
   },
 });

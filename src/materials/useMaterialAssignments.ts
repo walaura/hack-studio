@@ -31,10 +31,11 @@ export enum Groups {
   ALL_BUTTONS = "ALL_BUTTONS",
   FACE_BUTTONS = "FACE_BUTTONS",
   SIDE_BUTTONS = "SIDE_BUTTONS",
+  LOWER_MEMBRANES = "LOWER_MEMBRANES",
 }
 
 const BaseSurface = { ...Button, ...SideButton, ...Shell, ...Membrane };
-const Surface = { ...Groups, ...BaseSurface };
+export const Surface = { ...Groups, ...BaseSurface };
 export type SurfaceID = keyof typeof Surface;
 
 export const GBA_INHERITS_FROM: {
@@ -56,8 +57,9 @@ export const GBA_INHERITS_FROM: {
   [Groups.FACE_BUTTONS]: Groups.ALL_BUTTONS,
   [Groups.SIDE_BUTTONS]: Groups.ALL_BUTTONS,
 
-  [Membrane.MEMBRANE_AB]: Groups.EVERYTHING,
-  [Membrane.MEMBRANE_DPAD]: Groups.EVERYTHING,
+  [Membrane.MEMBRANE_AB]: Groups.LOWER_MEMBRANES,
+  [Membrane.MEMBRANE_DPAD]: Groups.LOWER_MEMBRANES,
+  [Groups.LOWER_MEMBRANES]: Groups.EVERYTHING,
   [Groups.ALL_BUTTONS]: Groups.EVERYTHING,
   [Groups.SHELL]: Groups.EVERYTHING,
   [Groups.EVERYTHING]: Groups.EVERYTHING,
@@ -84,9 +86,10 @@ export const PRETTY_NAMES: {
 
   [Membrane.MEMBRANE_AB]: "A/B membrane",
   [Membrane.MEMBRANE_DPAD]: "D-pad membrane",
+  [Groups.LOWER_MEMBRANES]: "All membranes",
   [Groups.ALL_BUTTONS]: "All buttons",
   [Groups.SHELL]: "Entire shell",
-  [Groups.EVERYTHING]: "Everything",
+  [Groups.EVERYTHING]: "Base material",
 };
 
 type InternalMaterialAssignment =
@@ -136,7 +139,7 @@ function resolveMaterialAssignment(
   return assignment;
 }
 
-export function useMaterialMap() {
+export function useMaterialAssignments() {
   const [materialMapDB, setMaterialMapDB] = useState<Partial<MaterialMap>>({});
 
   const assignMaterial = (surfaceID: SurfaceID, materialID: MaterialID) => {

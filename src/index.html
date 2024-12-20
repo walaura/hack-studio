@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Digipick helper</title>
+    <title>Studio</title>
     <style type="text/css">
       @font-face {
         font-family: "Inter";
@@ -18,14 +18,17 @@
         src: url(../static/Inter-Italic.ttf) format("woff2");
       }
       :root {
-        --background: #fff;
-        --divider: rgba(0, 0, 0, 0.9);
+        --surface-1: #fff;
+        --surface-2: #eee;
+        --surface-3: #ddd;
+        --surface-4: #ccc;
+        --divider: var(--surface-3);
         --error: #e3400b;
         --highlight: #31cfff;
         --highlight-faint: #31cfffb3;
         --text-primary: #000;
         --text-secondary: #666;
-        background-color: var(--background);
+        background-color: var(--surface-1);
         background-image: url(../static/dotty.svg);
         background-size: 1em;
         color: var(--text-primary);

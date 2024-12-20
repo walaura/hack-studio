@@ -8,13 +8,8 @@ import * as THREE from "three";
 import { useMaterials } from "../materials/useMaterials";
 import Button from "../ui/Button";
 import Text from "../ui/Text";
-import {
-  Groups,
-  SurfaceID,
-  useMaterialMap,
-} from "../materials/useMaterialAssingments";
-import { MaterialPicker } from "../materials/MaterialPicker";
-import Margin from "../ui/Margin";
+import { useMaterialAssignments } from "../materials/useMaterialAssignments";
+import MaterialPanel from "../materials/MaterialPanel";
 
 const styles = stylex.create({
   canvas: {
@@ -22,12 +17,11 @@ const styles = stylex.create({
     height: "100%",
   },
   sidebar: {
-    width: 500,
-    height: "90%",
+    width: "50em",
+    height: "calc(100vh - 4em)",
+    marginRight: "4em",
     alignSelf: "center",
-  },
-  innie: {
-    overflow: "scroll",
+    flexShrink: 0,
   },
 });
 
@@ -41,7 +35,8 @@ export default function Home({}: {}) {
     removeMaterial,
   } = useMaterials();
 
-  const { materialMap, assignMaterial, assignInheritance } = useMaterialMap();
+  const { materialMap, assignMaterial, assignInheritance } =
+    useMaterialAssignments();
 
   const red = new THREE.MeshLambertMaterial({
     color: pickMaterial(materialMap.BUTTON_A.material).color,
@@ -87,90 +82,44 @@ export default function Home({}: {}) {
         <OrbitControls />
       </Canvas>
       <Flexbox xstyle={styles.sidebar} direction="column">
-        <Box elevation={0}>
-          <Flexbox xstyle={[styles.innie, Margin.all20]} direction="column">
-            <Text type="headline2">Assignments</Text>
-            {Object.keys(materialMap).map((surfaceID: SurfaceID) => (
-              <MaterialPicker
-                key={surfaceID}
-                surface={surfaceID}
-                materials={materials}
-                assignedMaterial={materialMap[surfaceID]}
-                onPickInheritance={(id) => {
-                  assignInheritance(surfaceID, id);
-                }}
-                onPickMaterial={(id) => {
-                  assignMaterial(surfaceID, id);
-                }}
-              />
-            ))}
-            <pre style={{ fontSize: ".2em" }}>
-              {JSON.stringify(materialMap, null, 2)}
-            </pre>
-          </Flexbox>
-        </Box>
-      </Flexbox>
-      <Flexbox xstyle={styles.sidebar} direction="column">
-        <Box>
-          <Text type="headline2">Materials</Text>
-          <Button
-            onClick={() => {
-              addMaterial({ color: "#ff0055" });
-            }}
-          >
-            new
-          </Button>
-          {materials.map((material) => (
-            <Box key={material.id}>
-              <input
-                type="color"
-                value={material.color}
-                onChange={(e) => {
-                  updateMaterial(material.id, { color: e.target.value });
-                }}
-              />
+        <MaterialPanel
+          materialMap={materialMap}
+          materials={materials}
+          assignInheritance={assignInheritance}
+          assignMaterial={assignMaterial}
+          materialEditor={
+            <Box>
+              <Text type="headline2">Materials</Text>
               <Button
                 onClick={() => {
-                  removeMaterial(material.id);
+                  addMaterial({ color: "#ff0055" });
                 }}
               >
-                remove
+                new
               </Button>
+              {materials.map((material) => (
+                <Box key={material.id}>
+                  <input
+                    type="color"
+                    value={material.color}
+                    onChange={(e) => {
+                      updateMaterial(material.id, { color: e.target.value });
+                    }}
+                  />
+                  <Button
+                    onClick={() => {
+                      removeMaterial(material.id);
+                    }}
+                  >
+                    remove
+                  </Button>
+                </Box>
+              ))}
+              <pre> {JSON.stringify(materials, null, 2)}</pre>
             </Box>
-          ))}
-          <pre> {JSON.stringify(materials, null, 2)}</pre>
-        </Box>
+          }
+        />
       </Flexbox>
     </Flexbox>
-  );
-}
-
-export function InheritanceDropdown({
-  selected,
-  onSelect,
-}: {
-  selected?: SurfaceID;
-  onSelect: (id: SurfaceID) => void;
-}) {
-  const groups = Object.keys(Groups);
-  return (
-    <select
-      onChange={(e) => {
-        if (e.target.value === "none") {
-          onSelect(null);
-          return;
-        }
-        onSelect(e.target.value as SurfaceID);
-      }}
-    >
-      {groups.map((group) => (
-        <option key={group} value={group} selected={selected === group}>
-          {group}
-        </option>
-      ))}
-      <option value="none" selected={!selected}>
-        None
-      </option>
-    </select>
   );
 }

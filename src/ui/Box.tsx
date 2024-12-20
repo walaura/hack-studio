@@ -5,17 +5,24 @@ const styles = stylex.create({
   box: {
     backgroundColor: "var(--background)",
     overflow: "auto",
-    border: "1px solid var(--divider)",
+    "--divider": "#fff",
   },
 });
 
 const elevationStyles = stylex.create({
   0: {
-    borderWidth: ".3em",
+    borderWidth: "0",
     borderRadius: "2em",
+    background: "var(--surface-2)",
   },
   1: {
     boxShadow: "none",
+    borderRadius: "1em",
+    background: "var(--surface-1)",
+  },
+  2: {
+    boxShadow: "inset 0 0 0 2px var(--surface-1)",
+    background: "none",
     borderRadius: "1em",
   },
 });
