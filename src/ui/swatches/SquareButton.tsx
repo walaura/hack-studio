@@ -3,26 +3,16 @@ import stylex from "@stylexjs/stylex";
 const styles = stylex.create({
   active: {
     backgroundColor: "var(--surface-4)",
-    boxShadow: "none",
-    ":hover": {
-      backgroundColor: "var(--surface-4)",
-      boxShadow: "none",
-    },
   },
   box: {
-    width: "3em",
+    width: "3.8em",
     cursor: "pointer",
-    height: "3em",
-    boxShadow: "inset 0 0 0 2px var(--surface-3)",
-    backgroundColor: "transparent",
+    height: "3.8em",
+    backgroundColor: "var(--surface-3)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     border: "none",
-    ":hover": {
-      backgroundColor: "var(--surface-3)",
-      boxShadow: "none",
-    },
   },
 });
 
@@ -46,7 +36,7 @@ export default function SquareButton({
   children: React.ReactNode;
   label?: string;
   isActive?: boolean;
-  type: keyof typeof typeStyles;
+  type?: keyof typeof typeStyles;
 }) {
   return (
     <button

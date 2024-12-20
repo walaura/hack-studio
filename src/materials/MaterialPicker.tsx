@@ -87,7 +87,6 @@ function Swatch({
   surfaceID: AssignmentSurfaceID;
 }) {
   const isActive = assignedMaterial.material === materialKey;
-  const { pickMaterial } = useMaterials();
   const { assignMaterial } = useWriteToStore();
 
   const [shouldEnableOnNextTick, setShouldEnableOnNextTick] =
@@ -108,7 +107,7 @@ function Swatch({
       }
     >
       <SwatchButton
-        color={pickMaterial(materialKey).color}
+        materialKey={materialKey}
         isActive={isActive}
         onClick={() => {
           assignMaterial(surfaceID, materialKey);

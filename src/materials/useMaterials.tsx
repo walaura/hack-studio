@@ -28,6 +28,7 @@ const resolveMaterial =
 
 const useMaterialsInternal = () => {
   const { materials: materialsFromStore } = useStore();
+  console.log(materialsFromStore);
 
   const pickMaterial = useMemo(
     () => resolveMaterial(materialsFromStore),

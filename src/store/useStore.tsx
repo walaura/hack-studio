@@ -35,7 +35,6 @@ const useWriteMaterialsToStore = (
     updateStore((store) => ({
       ...store,
       materials: {
-        ...store.materials,
         ...callback(store.materials),
       },
     }));
@@ -57,7 +56,7 @@ const useWriteMaterialsToStore = (
     setMaterials((m) => {
       const next = { ...m };
       delete next[id];
-      return next;
+      return { ...next };
     });
   };
 
