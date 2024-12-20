@@ -66,7 +66,7 @@ export function MaterialPicker({
               label={`Match ${PRETTY_NAMES[GBA_INHERITS_FROM[surface]]}`}
               onClick={() => onPickInheritance(GBA_INHERITS_FROM[surface])}
             >
-              <BsX size={"2em"} />
+              <BsX color="var(--text-primary)" size={"2em"} />
             </SquareButton>
           )}
         </Flexbox>
