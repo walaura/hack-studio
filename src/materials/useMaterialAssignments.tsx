@@ -178,7 +178,7 @@ function useMaterialAssignmentsInternal() {
         resolveMaterialAssignment(map, assignment),
       ])
     ) as MaterialMap;
-  }, []);
+  }, [defaultMaterials, materialMapDB]);
 
   return { materialMap, assignMaterial, assignInheritance };
 }
