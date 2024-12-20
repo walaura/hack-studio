@@ -216,10 +216,10 @@ const styles = stylex.create({
     overflow: "hidden",
   },
   innie: {
-    overflow: "scroll",
     height: "100%",
     width: "100%",
     padding: 20,
+    overflow: "auto",
   },
   cap: {
     height: "100%",
