@@ -3,6 +3,7 @@
     "experimentalDecorators": true,
     "jsx": "react-jsx",
     "lib": ["ES2019", "dom"],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   }
 }
