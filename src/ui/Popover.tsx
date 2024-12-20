@@ -39,9 +39,10 @@ export default function Popover({
     popoverRef.current.addEventListener("beforetoggle", (e) => {
       const position = targetRef.current.children[0].getBoundingClientRect();
       (e.target as HTMLElement).style.transform = `
-        translate(${position.left}px, ${position.bottom}px)`;
+        translate(${position.left}px, ${position.bottom + 4}px)`;
     });
   }, []);
+
   return (
     <div {...stylex.props(styles.root)}>
       <button

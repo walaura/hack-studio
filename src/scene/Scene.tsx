@@ -1,16 +1,12 @@
 import { Canvas, useLoader } from "@react-three/fiber";
-import {
-  Float,
-  OrbitControls,
-  Stage,
-  useGLTF,
-  useTexture,
-} from "@react-three/drei";
+import { Float, OrbitControls, Stage, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { Material, MaterialID } from "../materials/useMaterials";
 import { Assignments } from "../assignments/useAssignments";
 import { MeshPhysicalMaterial } from "three";
 import { GLTF } from "three-stdlib";
+
+/* eslint-disable react/no-unknown-property */
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -30,7 +26,7 @@ type GLTFResult = GLTF & {
     screws: THREE.Mesh;
     light001: THREE.Mesh;
   };
-  materials: {};
+  materials: object;
 };
 
 const createBezelMaterial = (type: "dark" | "light") =>
@@ -40,9 +36,11 @@ const createBezelMaterial = (type: "dark" | "light") =>
     color: type === "dark" ? "black" : "white",
   });
 
-const createPlasticMaterial = (color: string) =>
+const createPlasticMaterial = (material: Material) =>
   new MeshPhysicalMaterial({
-    color,
+    color: material.color,
+    opacity: material.opacity,
+    transparent: material.opacity < 1,
     roughness: 0.5,
     reflectivity: 0.8,
   });
@@ -104,7 +102,7 @@ function Gba({
               receiveShadow
               geometry={nodes.back.geometry}
               material={createPlasticMaterial(
-                pickMaterial(assignments.BACK_SHELL.material).color
+                pickMaterial(assignments.BACK_SHELL.material)
               )}
               position={[0.042, 0.087, -0.11]}
             />
@@ -113,7 +111,7 @@ function Gba({
               receiveShadow
               geometry={nodes.Front.geometry}
               material={createPlasticMaterial(
-                pickMaterial(assignments.FRONT_SHELL.material).color
+                pickMaterial(assignments.FRONT_SHELL.material)
               )}
               position={[0.143, 0.023, -0.156]}
             />
@@ -202,7 +200,7 @@ function Gba({
               receiveShadow
               geometry={nodes.battery.geometry}
               material={createPlasticMaterial(
-                pickMaterial(assignments.BACK_SHELL.material).color
+                pickMaterial(assignments.BACK_SHELL.material)
               )}
               position={[-0.057, -0.084, -0.004]}
             />

@@ -4,8 +4,9 @@ export type MaterialID = string;
 
 type InternalMaterial = {
   color: string;
+  opacity?: number;
 };
-export type Material = InternalMaterial & { id: MaterialID };
+export type Material = InternalMaterial & { id: MaterialID; opacity: number };
 
 type InternalMaterials = {
   [key: MaterialID]: InternalMaterial;
@@ -30,11 +31,13 @@ const resolveMaterial =
     if (!internalMaterials[id]) {
       return {
         id: EMPTY_MATERIAL_ID,
+        opacity: 1,
         ...DEFAULT_MATERIALS[EMPTY_MATERIAL_ID],
       };
     }
     return {
       id,
+      opacity: 1,
       ...internalMaterials[id],
     };
   };

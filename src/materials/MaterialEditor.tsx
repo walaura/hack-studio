@@ -1,5 +1,4 @@
-import Box from "../ui/Box";
-import Button from "../ui/Button";
+import Flexbox from "../ui/Flexbox";
 import { MaterialID, useMaterials } from "./useMaterials";
 
 export default function MaterialEditor({
@@ -11,7 +10,7 @@ export default function MaterialEditor({
   const material = pickMaterial(materialID);
 
   return (
-    <Box key={material.id}>
+    <Flexbox direction="column">
       <input
         type="color"
         value={material.color}
@@ -19,13 +18,24 @@ export default function MaterialEditor({
           updateMaterial(material.id, { color: e.target.value });
         }}
       />
-      <Button
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value={material.opacity * 100}
+        onChange={(e) => {
+          updateMaterial(material.id, {
+            opacity: parseInt(e.target.value) / 100,
+          });
+        }}
+      />
+      <button
         onClick={() => {
           removeMaterial(material.id);
         }}
       >
-        remove
-      </Button>
-    </Box>
+        Remove
+      </button>
+    </Flexbox>
   );
 }

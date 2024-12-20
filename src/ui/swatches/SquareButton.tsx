@@ -4,6 +4,10 @@ const styles = stylex.create({
   active: {
     backgroundColor: "var(--surface-4)",
     boxShadow: "none",
+    ":hover": {
+      backgroundColor: "var(--surface-4)",
+      boxShadow: "none",
+    },
   },
   box: {
     width: "3em",
