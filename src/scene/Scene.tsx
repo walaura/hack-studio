@@ -45,26 +45,24 @@ const createBezelMaterial = (type: "dark" | "light") =>
   });
 
 const createPlasticMaterial = (material: Material) =>
-  new MeshPhysicalMaterial({
-    color: material.color,
-    opacity: material.opacity,
-    transparent: material.opacity < 1,
-    roughness: 0.5,
-    reflectivity: 0.8,
-  });
+  material.opacity !== 1
+    ? new MeshPhysicalMaterial({
+        roughness: material.opacity,
+        transmission: 1,
+        thickness: 0.2,
+        color: material.color,
+      })
+    : new MeshPhysicalMaterial({
+        color: material.color,
+        opacity: material.opacity,
+        roughness: 0.5,
+        reflectivity: 0.8,
+      });
 const createButtonsMaterial = (color: string) =>
   new MeshPhysicalMaterial({
     color,
     roughness: 0.2,
     reflectivity: 1,
-  });
-
-const createTransparentPlastic = (color: string) =>
-  new MeshPhysicalMaterial({
-    roughness: 0.2,
-    transmission: 1,
-    thickness: 0.2,
-    color: color,
   });
 
 const membranesMaterial = (color: string) =>
@@ -82,7 +80,6 @@ function Gba({
 }) {
   const { nodes, materials } = useGLTF("./assets/gba.glb") as GLTFResult;
   const colorMap = useLoader(THREE.TextureLoader, "./assets/boot.png");
-
   return (
     <>
       <Stage environment={"forest"} preset={"soft"} position={[0, 2, 0]}>
