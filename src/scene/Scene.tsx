@@ -174,6 +174,7 @@ function Gba({
               material={createBezelMaterial("dark")}
               position={[0.151, 0.076, 0.006]}
             />
+
             <mesh
               castShadow
               receiveShadow
@@ -182,13 +183,15 @@ function Gba({
                 new THREE.MeshPhysicalMaterial({
                   map: colorMap,
                   emissiveMap: colorMap,
-                  transmission: 1,
+                  emissive: "white",
+                  emissiveIntensity: 1.5,
                   side: THREE.DoubleSide,
                 })
               }
               rotation={[0, 0, Math.PI]}
               position={[0.157, 0.099, 0]}
             />
+
             <mesh
               castShadow
               receiveShadow
@@ -250,7 +253,13 @@ export default function Scene({
   );
 }
 
-const NutsAndBolts = ({ nodes, materials }) => {
+const NutsAndBolts = ({
+  nodes,
+  materials,
+}: {
+  nodes: GLTFResult["nodes"];
+  materials: GLTFResult["materials"];
+}) => {
   return (
     <>
       <mesh
