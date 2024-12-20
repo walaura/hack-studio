@@ -9,7 +9,7 @@ import { BsX } from "react-icons/bs";
 import Margin from "../ui/Margin";
 import { StyleXStyles } from "@stylexjs/stylex";
 import {
-  AssignmentSurfaceID,
+  AssignmentKey,
   GBA_INHERITS_FROM,
   Groups,
   PRETTY_NAMES,
@@ -24,7 +24,7 @@ export function MaterialPicker({
   assignedMaterial,
   xstyle,
 }: {
-  surface: AssignmentSurfaceID;
+  surface: AssignmentKey;
   assignedMaterial: Assignment;
   xstyle?: StyleXStyles;
 }) {
@@ -84,7 +84,7 @@ function Swatch({
 }: {
   assignedMaterial: Assignment;
   materialKey: MaterialKey;
-  surfaceID: AssignmentSurfaceID;
+  surfaceID: AssignmentKey;
 }) {
   const isActive = assignedMaterial.material === materialKey;
   const { assignMaterial } = useWriteToStore();

@@ -1,13 +1,13 @@
 import { createContext, useContext, useMemo } from "react";
 import { MaterialKey } from "../materials/useMaterials";
-import { AssignmentSurfaceID } from "./Assignments";
+import { AssignmentKey } from "./Assignments";
 import { EMPTY_MATERIAL_ID } from "../materials/Materials";
 import { useStore } from "../store/useStore";
 
 type InternalAssignment =
   | {
       type: "inherit";
-      from: AssignmentSurfaceID;
+      from: AssignmentKey;
     }
   | {
       type: "assign";
@@ -19,10 +19,10 @@ export type Assignment = InternalAssignment & {
 };
 
 export type Assignments = {
-  [K in AssignmentSurfaceID]: Assignment;
+  [K in AssignmentKey]: Assignment;
 };
 type InternalAssignments = {
-  [K in AssignmentSurfaceID]: InternalAssignment;
+  [K in AssignmentKey]: InternalAssignment;
 };
 
 /**
@@ -57,12 +57,12 @@ function useAssignmentsInternal() {
       ...internalAssignments,
     } as InternalAssignments;
     const entries = Object.entries(map) as [
-      AssignmentSurfaceID,
+      AssignmentKey,
       InternalAssignment
     ][];
     return Object.fromEntries(
       entries.map(([surfaceID, assignment]) => [
-        surfaceID as AssignmentSurfaceID,
+        surfaceID as AssignmentKey,
         resolveAssignment(map, assignment),
       ])
     ) as Assignments;

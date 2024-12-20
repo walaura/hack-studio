@@ -5,10 +5,7 @@ import { MaterialPicker } from "./MaterialPicker";
 import { useAssignments } from "../assignments/useAssignments";
 import stylex from "@stylexjs/stylex";
 import React, { ReactNode, useState } from "react";
-import {
-  AssignmentSurface,
-  AssignmentSurfaceID,
-} from "../assignments/Assignments";
+import { Assignment, AssignmentKey } from "../assignments/Assignments";
 import Button from "../ui/Button";
 import { useStoreHistory } from "../store/useStore";
 import { BsArrowClockwise, BsArrowCounterclockwise } from "react-icons/bs";
@@ -24,40 +21,40 @@ const SECTIONS = {
 
 function getSectionContent(
   section: keyof typeof SECTIONS
-): (AssignmentSurfaceID | AssignmentSurfaceID[])[] {
+): (AssignmentKey | AssignmentKey[])[] {
   switch (section) {
     case "base":
       return [
-        AssignmentSurface.SHELL,
-        [AssignmentSurface.FRONT_SHELL, AssignmentSurface.BACK_SHELL],
-        AssignmentSurface.ALL_BUTTONS,
-        [AssignmentSurface.FACE_BUTTONS, AssignmentSurface.SIDE_BUTTONS],
-        AssignmentSurface.LOWER_MEMBRANES,
+        Assignment.SHELL,
+        [Assignment.FRONT_SHELL, Assignment.BACK_SHELL],
+        Assignment.ALL_BUTTONS,
+        [Assignment.FACE_BUTTONS, Assignment.SIDE_BUTTONS],
+        Assignment.LOWER_MEMBRANES,
       ];
     case "face":
       return [
-        AssignmentSurface.FACE_BUTTONS,
-        AssignmentSurface.DPAD,
-        [AssignmentSurface.BUTTON_A, AssignmentSurface.BUTTON_B],
-        AssignmentSurface.MEMBRANE_START_SELECT,
+        Assignment.FACE_BUTTONS,
+        Assignment.DPAD,
+        [Assignment.BUTTON_A, Assignment.BUTTON_B],
+        Assignment.MEMBRANE_START_SELECT,
       ];
     case "sides":
       return [
-        AssignmentSurface.SIDE_BUTTONS,
-        [AssignmentSurface.SHOULDER_L, AssignmentSurface.SHOULDER_R],
-        [AssignmentSurface.RAIL_L, AssignmentSurface.RAIL_R],
+        Assignment.SIDE_BUTTONS,
+        [Assignment.SHOULDER_L, Assignment.SHOULDER_R],
+        [Assignment.RAIL_L, Assignment.RAIL_R],
       ];
     case "membranes":
       return [
-        AssignmentSurface.LOWER_MEMBRANES,
-        AssignmentSurface.MEMBRANE_AB,
-        AssignmentSurface.MEMBRANE_DPAD,
-        AssignmentSurface.MEMBRANE_START_SELECT,
+        Assignment.LOWER_MEMBRANES,
+        Assignment.MEMBRANE_AB,
+        Assignment.MEMBRANE_DPAD,
+        Assignment.MEMBRANE_START_SELECT,
       ];
     case "editor":
       return [];
     default:
-      return Object.keys(AssignmentSurface) as AssignmentSurfaceID[];
+      return Object.keys(Assignment) as AssignmentKey[];
   }
 }
 
@@ -71,8 +68,8 @@ export default function MaterialPanel({
   const keys = getSectionContent(activeSection);
   const { assignments } = useAssignments();
 
-  const getPickerForAssignmentSurface = (
-    surfaceID: AssignmentSurfaceID,
+  const getPickerForAssignment = (
+    surfaceID: AssignmentKey,
     noBasis = false
   ) => {
     return (
@@ -111,13 +108,13 @@ export default function MaterialPanel({
                     <Flexbox gap={4} key={index}>
                       {key.map((k) => (
                         <React.Fragment key={k}>
-                          {getPickerForAssignmentSurface(k, true)}
+                          {getPickerForAssignment(k, true)}
                         </React.Fragment>
                       ))}
                     </Flexbox>
                   );
                 }
-                return getPickerForAssignmentSurface(key);
+                return getPickerForAssignment(key);
               })}
             </Flexbox>
           )}
