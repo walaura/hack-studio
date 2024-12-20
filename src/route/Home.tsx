@@ -8,7 +8,7 @@ import { useAssignments } from "../assignments/useAssignments";
 import MaterialPanel from "../materials/MaterialPanel";
 import Scene from "../scene/Scene";
 import MaterialEditor from "../materials/MaterialEditor";
-import { useWriteStore } from "../store/useStore";
+import { useWriteToStore } from "../store/useStore";
 
 const styles = stylex.create({
   canvas: {
@@ -26,7 +26,7 @@ const styles = stylex.create({
 
 export default function Home() {
   const { materials, pickMaterial } = useMaterials();
-  const { addMaterial } = useWriteStore();
+  const { addMaterial } = useWriteToStore();
 
   const { assignments } = useAssignments();
 

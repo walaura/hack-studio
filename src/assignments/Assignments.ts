@@ -1,3 +1,6 @@
+import { EMPTY_MATERIAL_ID } from "../materials/Materials";
+import { Store } from "../store/useStore";
+
 enum Shell {
   FRONT_SHELL = "FRONT_SHELL",
   BACK_SHELL = "BACK_SHELL",
@@ -93,4 +96,26 @@ export const PRETTY_NAMES: {
   [Groups.ALL_BUTTONS]: "All buttons",
   [Groups.SHELL]: "Entire shell",
   [Groups.EVERYTHING]: "Base material",
+};
+
+export const DEFAULT_ASSIGNMENTS: Store["assignments"] = Object.keys(
+  AssignmentSurface
+).reduce((acc, key) => {
+  acc[key] = {
+    type: "inherit",
+    from: GBA_INHERITS_FROM[key],
+  };
+  return acc;
+}, {} as Store["assignments"]);
+DEFAULT_ASSIGNMENTS[Groups.EVERYTHING] = {
+  type: "assign",
+  material: EMPTY_MATERIAL_ID,
+};
+DEFAULT_ASSIGNMENTS[Groups.ALL_BUTTONS] = {
+  type: "assign",
+  material: "gray",
+};
+DEFAULT_ASSIGNMENTS[Groups.SHELL] = {
+  type: "assign",
+  material: "purple",
 };
