@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { EMPTY_MATERIAL_ID, MaterialID } from "./useMaterials";
 
 enum Shell {
@@ -139,7 +139,7 @@ function resolveMaterialAssignment(
   return assignment;
 }
 
-export function useMaterialAssignments() {
+function useMaterialAssignmentsInternal() {
   const [materialMapDB, setMaterialMapDB] = useState<Partial<MaterialMap>>({});
 
   const assignMaterial = (surfaceID: SurfaceID, materialID: MaterialID) => {
@@ -204,3 +204,23 @@ DEFAULT_MATERIAL_MAP[Groups.SHELL] = {
   type: "assign",
   material: "purple",
 };
+
+const MaterialAssignmentContext =
+  createContext<ReturnType<typeof useMaterialAssignmentsInternal>>(undefined);
+
+export const MaterialAssignmentProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  return (
+    <MaterialAssignmentContext.Provider
+      value={useMaterialAssignmentsInternal()}
+    >
+      {children}
+    </MaterialAssignmentContext.Provider>
+  );
+};
+
+export const useMaterialAssignments = () =>
+  useContext(MaterialAssignmentContext);
