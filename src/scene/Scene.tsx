@@ -8,7 +8,7 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import { Material, MaterialID } from "../materials/useMaterials";
-import { MaterialMap } from "../assignments/useAssignments";
+import { Assignments } from "../assignments/useAssignments";
 import { MeshPhysicalMaterial } from "three";
 import { GLTF } from "three-stdlib";
 
@@ -64,7 +64,7 @@ function Gba({
   assignments,
 }: {
   pickMaterial: (id: MaterialID) => Material;
-  assignments: MaterialMap;
+  assignments: Assignments;
 }) {
   const { nodes } = useGLTF("./assets/gba.glb") as GLTFResult;
   const colorMap = useLoader(THREE.TextureLoader, "./assets/boot.png");
@@ -246,7 +246,7 @@ export default function Scene({
   assignments,
 }: {
   pickMaterial: (id: MaterialID) => Material;
-  assignments: MaterialMap;
+  assignments: Assignments;
 }) {
   return (
     <Canvas>

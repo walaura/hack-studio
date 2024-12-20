@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 export type MaterialID = string;
 
@@ -30,12 +24,24 @@ const DEFAULT_MATERIALS: InternalMaterials = {
   },
 };
 
-function useMaterialsInternal() {
-  const [materialsDB, setMaterials] = useState<InternalMaterials>({
+const resolveMaterial =
+  (internalMaterials: InternalMaterials) =>
+  (id: MaterialID): Material => {
+    if (!internalMaterials[id]) {
+      return {
+        id: EMPTY_MATERIAL_ID,
+        ...DEFAULT_MATERIALS[EMPTY_MATERIAL_ID],
+      };
+    }
+    return {
+      id,
+      ...internalMaterials[id],
+    };
+  };
+
+const useMaterialsInternal = () => {
+  const [internalMaterials, setMaterials] = useState<InternalMaterials>({
     ...DEFAULT_MATERIALS,
-    1: { color: "#ff0000" },
-    2: { color: "#00ff00" },
-    3: { color: "#0000ff" },
   });
 
   const updateMaterial = (
@@ -69,25 +75,14 @@ function useMaterialsInternal() {
     return id;
   };
 
-  const pickMaterial = useCallback(
-    (id: MaterialID): Material => {
-      if (!materialsDB[id]) {
-        return {
-          id: EMPTY_MATERIAL_ID,
-          ...DEFAULT_MATERIALS[EMPTY_MATERIAL_ID],
-        };
-      }
-      return {
-        id,
-        ...materialsDB[id],
-      };
-    },
-    [materialsDB]
+  const pickMaterial = useMemo(
+    () => resolveMaterial(internalMaterials),
+    [internalMaterials]
   );
 
   const materials: Material[] = useMemo(
-    () => Object.entries(materialsDB).map(([id]) => pickMaterial(id)),
-    [materialsDB, pickMaterial]
+    () => Object.entries(internalMaterials).map(([id]) => pickMaterial(id)),
+    [internalMaterials, pickMaterial]
   );
 
   return {
@@ -97,11 +92,10 @@ function useMaterialsInternal() {
     removeMaterial,
     addMaterial,
   };
-}
+};
 
 const MaterialsContext =
   createContext<ReturnType<typeof useMaterialsInternal>>(undefined);
-
 export const MaterialsProvider = ({
   children,
 }: {
@@ -113,5 +107,4 @@ export const MaterialsProvider = ({
     </MaterialsContext.Provider>
   );
 };
-
 export const useMaterials = () => useContext(MaterialsContext);

@@ -25,10 +25,10 @@ export type Assignment = InternalAssignment & {
   material: MaterialID;
 };
 
-export type MaterialMap = {
+export type Assignments = {
   [K in AssignmentSurfaceID]: Assignment;
 };
-type InternalMaterialMap = {
+type InternalAssignments = {
   [K in AssignmentSurfaceID]: InternalAssignment;
 };
 
@@ -37,7 +37,7 @@ type InternalMaterialMap = {
  * final material assignment for a surface.
  */
 function resolveAssignment(
-  assignments: InternalMaterialMap,
+  assignments: InternalAssignments,
   assignment: InternalAssignment
 ): Assignment {
   if (!assignment) {
@@ -57,13 +57,13 @@ function resolveAssignment(
 }
 
 function useAssignmentsInternal() {
-  const [assignmentsDB, setMaterialMapDB] = useState<Partial<MaterialMap>>({});
+  const [assignmentsDB, setAssignmentsDB] = useState<Partial<Assignments>>({});
 
   const assignMaterial = (
     surfaceID: AssignmentSurfaceID,
     materialID: MaterialID
   ) => {
-    setMaterialMapDB((prev) => ({
+    setAssignmentsDB((prev) => ({
       ...prev,
       [surfaceID]: {
         type: "assign",
@@ -76,7 +76,7 @@ function useAssignmentsInternal() {
     surfaceID: AssignmentSurfaceID,
     from: AssignmentSurfaceID
   ) => {
-    setMaterialMapDB((prev) => ({
+    setAssignmentsDB((prev) => ({
       ...prev,
       [surfaceID]: {
         type: "inherit",
@@ -86,11 +86,11 @@ function useAssignmentsInternal() {
   };
 
   const defaultAssignments = useDefaultAssignments();
-  const assignments: MaterialMap = useMemo(() => {
+  const assignments: Assignments = useMemo(() => {
     const map = {
       ...defaultAssignments,
       ...assignmentsDB,
-    } as InternalMaterialMap;
+    } as InternalAssignments;
     const entries = Object.entries(map) as [
       AssignmentSurfaceID,
       InternalAssignment
@@ -100,7 +100,7 @@ function useAssignmentsInternal() {
         surfaceID as AssignmentSurfaceID,
         resolveAssignment(map, assignment),
       ])
-    ) as MaterialMap;
+    ) as Assignments;
   }, [defaultAssignments, assignmentsDB]);
 
   return { assignments, assignMaterial, assignInheritance };
@@ -112,7 +112,7 @@ function useDefaultAssignments() {
   /*
   GBA
   */
-  const defaultAssignments: InternalMaterialMap = Object.keys(
+  const defaultAssignments: InternalAssignments = Object.keys(
     AssignmentSurface
   ).reduce((acc, key) => {
     acc[key] = {
@@ -120,7 +120,7 @@ function useDefaultAssignments() {
       from: GBA_INHERITS_FROM[key],
     };
     return acc;
-  }, {} as InternalMaterialMap);
+  }, {} as InternalAssignments);
   defaultAssignments[Groups.EVERYTHING] = {
     type: "assign",
     material: EMPTY_MATERIAL_ID,
