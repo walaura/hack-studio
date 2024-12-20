@@ -1,5 +1,11 @@
-import { Canvas } from "@react-three/fiber";
-import { Float, OrbitControls, Stage, useGLTF } from "@react-three/drei";
+import { Canvas, useLoader } from "@react-three/fiber";
+import {
+  Float,
+  OrbitControls,
+  Stage,
+  useGLTF,
+  useTexture,
+} from "@react-three/drei";
 import * as THREE from "three";
 import { Material, MaterialID } from "../materials/useMaterials";
 import { MaterialMap } from "../materials/useMaterialAssignments";
@@ -53,7 +59,7 @@ const membranesMaterial = (color: string) =>
     roughness: 0.9,
   });
 
-export default function Scene({
+function Gba({
   pickMaterial,
   materialMap,
 }: {
@@ -61,9 +67,10 @@ export default function Scene({
   materialMap: MaterialMap;
 }) {
   const { nodes } = useGLTF("./assets/gba.glb") as GLTFResult;
+  const colorMap = useLoader(THREE.TextureLoader, "./assets/boot.png");
 
   return (
-    <Canvas>
+    <>
       <Stage environment={"forest"} preset={"soft"} position={[0, 2, 0]}>
         <Float
           speed={1}
@@ -77,6 +84,21 @@ export default function Scene({
             scale={[2, 2, 2]}
             rotation={[0, -Math.PI / 2, 0]}
           >
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.screen.geometry}
+              material={
+                new THREE.MeshPhysicalMaterial({
+                  map: colorMap,
+                  emissiveMap: colorMap,
+                  transmission: 1,
+                  side: THREE.DoubleSide,
+                })
+              }
+              position={[0.157, 0.099, 0]}
+              rotation={[0, 0, Math.PI]}
+            />
             <mesh
               castShadow
               receiveShadow
@@ -156,21 +178,7 @@ export default function Scene({
               material={createBezelMaterial("dark")}
               position={[0.151, 0.076, 0.006]}
             />
-            <mesh
-              castShadow
-              receiveShadow
-              geometry={nodes.screen.geometry}
-              material={
-                new THREE.MeshPhysicalMaterial({
-                  roughness: 0.7,
-                  transmission: 1,
-                  thickness: 1,
-                  color: "white",
-                  emissive: "white",
-                })
-              }
-              position={[0.157, 0.099, 0]}
-            />
+
             <mesh
               castShadow
               receiveShadow
@@ -229,6 +237,20 @@ export default function Scene({
           </group>
         </Float>
       </Stage>
+    </>
+  );
+}
+
+export default function Scene({
+  pickMaterial,
+  materialMap,
+}: {
+  pickMaterial: (id: MaterialID) => Material;
+  materialMap: MaterialMap;
+}) {
+  return (
+    <Canvas>
+      <Gba pickMaterial={pickMaterial} materialMap={materialMap} />
     </Canvas>
   );
 }
