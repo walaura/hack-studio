@@ -1,15 +1,15 @@
 import { useWriteToStore } from "../store/useStore";
 import Flexbox from "../ui/Flexbox";
-import { MaterialID, useMaterials } from "./useMaterials";
+import { MaterialKey, useMaterials } from "./useMaterials";
 
 export default function MaterialEditor({
-  materialID,
+  materialKey,
 }: {
-  materialID: MaterialID;
+  materialKey: MaterialKey;
 }) {
   const { pickMaterial } = useMaterials();
   const { updateMaterial, removeMaterial } = useWriteToStore();
-  const material = pickMaterial(materialID);
+  const material = pickMaterial(materialKey);
 
   return (
     <Flexbox direction="column">

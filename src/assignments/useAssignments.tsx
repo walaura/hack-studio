@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo } from "react";
-import { MaterialID } from "../materials/useMaterials";
+import { MaterialKey } from "../materials/useMaterials";
 import { AssignmentSurfaceID } from "./Assignments";
 import { EMPTY_MATERIAL_ID } from "../materials/Materials";
 import { useStore } from "../store/useStore";
@@ -11,11 +11,11 @@ type InternalAssignment =
     }
   | {
       type: "assign";
-      material: MaterialID;
+      material: MaterialKey;
     };
 
 export type Assignment = InternalAssignment & {
-  material: MaterialID;
+  material: MaterialKey;
 };
 
 export type Assignments = {

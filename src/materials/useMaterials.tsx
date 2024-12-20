@@ -2,16 +2,16 @@ import { createContext, useContext, useMemo } from "react";
 import { DEFAULT_MATERIALS, EMPTY_MATERIAL_ID } from "./Materials";
 import { Store, useStore } from "../store/useStore";
 
-export type MaterialID = string;
+export type MaterialKey = string;
 
 export type Material = Store["materials"][string] & {
-  id: MaterialID;
+  id: MaterialKey;
   opacity: number;
 };
 
 const resolveMaterial =
   (internalMaterials: Store["materials"]) =>
-  (id: MaterialID): Material => {
+  (id: MaterialKey): Material => {
     if (!internalMaterials[id]) {
       return {
         id: EMPTY_MATERIAL_ID,

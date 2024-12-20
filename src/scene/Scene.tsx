@@ -1,7 +1,7 @@
 import { Canvas, useLoader } from "@react-three/fiber";
 import { Float, OrbitControls, Stage, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
-import { Material, MaterialID } from "../materials/useMaterials";
+import { Material, MaterialKey } from "../materials/useMaterials";
 import { Assignments } from "../assignments/useAssignments";
 import { MeshPhysicalMaterial } from "three";
 import { GLTF } from "three-stdlib";
@@ -75,7 +75,7 @@ function Gba({
   pickMaterial,
   assignments,
 }: {
-  pickMaterial: (id: MaterialID) => Material;
+  pickMaterial: (id: MaterialKey) => Material;
   assignments: Assignments;
 }) {
   const { nodes, materials } = useGLTF("./assets/gba.glb") as GLTFResult;
@@ -243,7 +243,7 @@ export default function Scene({
   pickMaterial,
   assignments,
 }: {
-  pickMaterial: (id: MaterialID) => Material;
+  pickMaterial: (id: MaterialKey) => Material;
   assignments: Assignments;
 }) {
   return (

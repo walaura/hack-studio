@@ -1,5 +1,5 @@
 import { Assignment } from "../assignments/useAssignments";
-import { MaterialID, useMaterials } from "./useMaterials";
+import { MaterialKey, useMaterials } from "./useMaterials";
 import Box from "../ui/Box";
 import Text from "../ui/Text";
 import Flexbox from "../ui/Flexbox";
@@ -56,7 +56,7 @@ export function MaterialPicker({
             <Swatch
               assignedMaterial={assignedMaterial}
               key={material.id}
-              materialID={material.id}
+              materialKey={material.id}
               surfaceID={surface}
             />
           ))}
@@ -79,14 +79,14 @@ export function MaterialPicker({
 
 function Swatch({
   assignedMaterial,
-  materialID,
+  materialKey,
   surfaceID,
 }: {
   assignedMaterial: Assignment;
-  materialID: MaterialID;
+  materialKey: MaterialKey;
   surfaceID: AssignmentSurfaceID;
 }) {
-  const isActive = assignedMaterial.material === materialID;
+  const isActive = assignedMaterial.material === materialKey;
   const { pickMaterial } = useMaterials();
   const { assignMaterial } = useWriteToStore();
 
@@ -103,15 +103,15 @@ function Swatch({
       popover={
         <>
           <Text>{assignedMaterial.material}</Text>
-          <MaterialEditor materialID={assignedMaterial.material} />
+          <MaterialEditor materialKey={assignedMaterial.material} />
         </>
       }
     >
       <SwatchButton
-        color={pickMaterial(materialID).color}
+        color={pickMaterial(materialKey).color}
         isActive={isActive}
         onClick={() => {
-          assignMaterial(surfaceID, materialID);
+          assignMaterial(surfaceID, materialKey);
         }}
       />
     </Popover>

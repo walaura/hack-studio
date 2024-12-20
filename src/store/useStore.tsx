@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useRef, useState } from "react";
-import { MaterialID } from "../materials/useMaterials";
+import { MaterialKey } from "../materials/useMaterials";
 import { DEFAULT_MATERIALS } from "../materials/Materials";
 import {
   AssignmentSurfaceID,
@@ -17,11 +17,11 @@ export type Store = {
         }
       | {
           type: "assign";
-          material: MaterialID;
+          material: MaterialKey;
         };
   };
   materials: {
-    [key: MaterialID]: {
+    [key: MaterialKey]: {
       color: string;
       opacity?: number;
     };
@@ -41,7 +41,7 @@ const useWriteMaterialsToStore = (
     }));
 
   const updateMaterial = (
-    id: MaterialID,
+    id: MaterialKey,
     to: Partial<Store["materials"][string]>
   ): void => {
     setMaterials((m) => ({
@@ -53,7 +53,7 @@ const useWriteMaterialsToStore = (
     }));
   };
 
-  const removeMaterial = (id: MaterialID): void => {
+  const removeMaterial = (id: MaterialKey): void => {
     setMaterials((m) => {
       const next = { ...m };
       delete next[id];
@@ -61,7 +61,7 @@ const useWriteMaterialsToStore = (
     });
   };
 
-  const addMaterial = (material: Store["materials"][string]): MaterialID => {
+  const addMaterial = (material: Store["materials"][string]): MaterialKey => {
     const id = Date.now() + "-" + Math.random();
     setMaterials((m) => ({
       ...m,
@@ -88,13 +88,13 @@ const useWriteAssignmentsToStore = (
 
   const assignMaterial = (
     surfaceID: AssignmentSurfaceID,
-    materialID: MaterialID
+    materialKey: MaterialKey
   ) => {
     setAssignments((prev) => ({
       ...prev,
       [surfaceID]: {
         type: "assign",
-        material: materialID,
+        material: materialKey,
       },
     }));
   };

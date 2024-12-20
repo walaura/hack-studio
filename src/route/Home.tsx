@@ -46,7 +46,7 @@ export default function Home() {
                 new
               </Button>
               {materials.map((material) => (
-                <MaterialEditor key={material.id} materialID={material.id} />
+                <MaterialEditor key={material.id} materialKey={material.id} />
               ))}
               <pre>{JSON.stringify(materials, null, 2)}</pre>
             </Box>
