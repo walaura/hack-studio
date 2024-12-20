@@ -4,6 +4,28 @@ import * as THREE from "three";
 import { Material, MaterialID } from "../materials/useMaterials";
 import { MaterialMap } from "../materials/useMaterialAssignments";
 import { MeshPhysicalMaterial } from "three";
+import { GLTF } from "three-stdlib";
+
+type GLTFResult = GLTF & {
+  nodes: {
+    back: THREE.Mesh;
+    Front: THREE.Mesh;
+    A: THREE.Mesh;
+    B: THREE.Mesh;
+    R: THREE.Mesh;
+    L: THREE.Mesh;
+    DPAD: THREE.Mesh;
+    select: THREE.Mesh;
+    bezel: THREE.Mesh;
+    screen: THREE.Mesh;
+    RSide: THREE.Mesh;
+    LSide: THREE.Mesh;
+    battery: THREE.Mesh;
+    screws: THREE.Mesh;
+    light001: THREE.Mesh;
+  };
+  materials: {};
+};
 
 const createBezelMaterial = (type: "dark" | "light") =>
   new THREE.MeshPhysicalMaterial({
@@ -38,26 +60,16 @@ export default function Scene({
   pickMaterial: (id: MaterialID) => Material;
   materialMap: MaterialMap;
 }) {
-  const red = new THREE.MeshLambertMaterial({
-    color: pickMaterial(materialMap.BUTTON_A.material).color,
-  });
-  const b = new THREE.MeshLambertMaterial({
-    color: pickMaterial(materialMap.BUTTON_B.material).color,
-  });
-  const shell = new THREE.MeshLambertMaterial({
-    color: pickMaterial(materialMap.FRONT_SHELL.material).color,
-  });
-
-  const { nodes } = useGLTF("./assets/gba.glb");
+  const { nodes } = useGLTF("./assets/gba.glb") as GLTFResult;
 
   return (
     <Canvas>
       <Stage environment={"forest"} preset={"soft"} position={[0, 2, 0]}>
         <Float
-          speed={1} // Animation speed, defaults to 1
-          rotationIntensity={1} // XYZ rotation intensity, defaults to 1
-          floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-          floatingRange={[0, 0.2]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
+          speed={1}
+          rotationIntensity={1}
+          floatIntensity={1}
+          floatingRange={[0, 0.2]}
         >
           <OrbitControls />
           <group
@@ -66,6 +78,8 @@ export default function Scene({
             rotation={[0, -Math.PI / 2, 0]}
           >
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.back.geometry}
               material={createPlasticMaterial(
                 pickMaterial(materialMap.BACK_SHELL.material).color
@@ -73,6 +87,8 @@ export default function Scene({
               position={[0.042, 0.087, -0.11]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.Front.geometry}
               material={createPlasticMaterial(
                 pickMaterial(materialMap.FRONT_SHELL.material).color
@@ -80,6 +96,8 @@ export default function Scene({
               position={[0.143, 0.023, -0.156]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.A.geometry}
               material={createButtonsMaterial(
                 pickMaterial(materialMap.BUTTON_A.material).color
@@ -87,6 +105,8 @@ export default function Scene({
               position={[0.156, 0.097, -0.408]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.B.geometry}
               material={createButtonsMaterial(
                 pickMaterial(materialMap.BUTTON_B.material).color
@@ -94,6 +114,8 @@ export default function Scene({
               position={[0.156, 0.136, -0.52]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.R.geometry}
               material={createButtonsMaterial(
                 pickMaterial(materialMap.SHOULDER_R.material).color
@@ -101,6 +123,8 @@ export default function Scene({
               position={[0.077, 0.338, -0.47]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.L.geometry}
               material={createButtonsMaterial(
                 pickMaterial(materialMap.SHOULDER_L.material).color
@@ -108,6 +132,8 @@ export default function Scene({
               position={[0.077, 0.338, 0.47]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.DPAD.geometry}
               material={createButtonsMaterial(
                 pickMaterial(materialMap.DPAD.material).color
@@ -115,6 +141,8 @@ export default function Scene({
               position={[0.17, 0.107, 0.46]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.select.geometry}
               material={membranesMaterial(
                 pickMaterial(materialMap.MEMBRANE_START_SELECT.material).color
@@ -122,11 +150,15 @@ export default function Scene({
               position={[0.158, -0.102, 0.376]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.bezel.geometry}
               material={createBezelMaterial("dark")}
               position={[0.151, 0.076, 0.006]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.screen.geometry}
               material={
                 new THREE.MeshPhysicalMaterial({
@@ -140,6 +172,8 @@ export default function Scene({
               position={[0.157, 0.099, 0]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.RSide.geometry}
               material={createButtonsMaterial(
                 pickMaterial(materialMap.RAIL_R.material).color
@@ -147,6 +181,8 @@ export default function Scene({
               position={[0.103, -0.029, -0.597]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.LSide.geometry}
               material={createButtonsMaterial(
                 pickMaterial(materialMap.RAIL_L.material).color
@@ -154,6 +190,8 @@ export default function Scene({
               position={[0.103, -0.029, 0.597]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.battery.geometry}
               material={createPlasticMaterial(
                 pickMaterial(materialMap.BACK_SHELL.material).color
@@ -161,6 +199,8 @@ export default function Scene({
               position={[-0.057, -0.084, -0.004]}
             />
             <mesh
+              castShadow
+              receiveShadow
               geometry={nodes.screws.geometry}
               material={
                 new MeshPhysicalMaterial({
@@ -170,6 +210,21 @@ export default function Scene({
                 })
               }
               position={[0.001, 0.132, -0.002]}
+            />
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.light001.geometry}
+              material={
+                new THREE.MeshPhysicalMaterial({
+                  roughness: 0.4,
+                  transmission: 10,
+                  thickness: 1,
+                  color: "green",
+                  emissive: "green",
+                })
+              }
+              position={[0.042, 0.087, -0.11]}
             />
           </group>
         </Float>
