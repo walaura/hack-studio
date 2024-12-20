@@ -10,8 +10,8 @@ import { Material, MaterialID } from "./useMaterials";
 
 const SECTIONS = {
   base: "Base",
-  face: "Face buttons",
-  sides: "Side buttons",
+  face: "Face",
+  sides: "Side",
   membranes: "Membranes",
   all: "All",
   editor: "Editor",
@@ -93,8 +93,8 @@ export default function MaterialPanel({
 
   return (
     <Box elevation={0} xstyle={styles.root}>
-      <Flexbox direction="row" justify="stretch" xstyle={styles.cap}>
-        <Flexbox xstyle={[Margin.all20]} direction="column">
+      <Flexbox direction="column" justify="stretch" xstyle={styles.cap}>
+        <Flexbox xstyle={[Margin.all20]} direction="row" gap={4}>
           <Tabs
             activeSection={activeSection as keyof typeof SECTIONS}
             setActiveSection={setActiveSection}
@@ -131,30 +131,26 @@ function Tabs({
   activeSection: keyof typeof SECTIONS;
   setActiveSection: (section: keyof typeof SECTIONS) => void;
 }) {
-  return (
-    <Flexbox direction="column">
-      {Object.keys(SECTIONS).map((section) => (
-        <button
-          {...stylex.props(
-            styles.tab,
-            section === activeSection && styles.activeTab
-          )}
-          onClick={() => setActiveSection(section as keyof typeof SECTIONS)}
-        >
-          <Text type={section === activeSection ? "body3emphasis" : "body3"}>
-            {SECTIONS[section]}
-          </Text>
-        </button>
-      ))}
-    </Flexbox>
-  );
+  return Object.keys(SECTIONS).map((section) => (
+    <button
+      key={section}
+      {...stylex.props(
+        styles.tab,
+        section === activeSection && styles.activeTab
+      )}
+      onClick={() => setActiveSection(section as keyof typeof SECTIONS)}
+    >
+      <Text color={section === activeSection ? "primary" : "secondary"}>
+        {SECTIONS[section]}
+      </Text>
+    </button>
+  ));
 }
 
 const styles = stylex.create({
   tab: {
-    padding: "1em 2em",
+    padding: ".6em 1.2em",
     border: "none",
-    width: "10em",
     backgroundColor: "transparent",
     cursor: "pointer",
     borderRadius: "9999em",
@@ -179,7 +175,7 @@ const styles = stylex.create({
     height: "100%",
   },
   divider: {
-    borderLeft: "1px solid var(--surface-3)",
+    borderBottom: "1px solid var(--surface-1)",
   },
   noBasis: {
     flexBasis: "0",

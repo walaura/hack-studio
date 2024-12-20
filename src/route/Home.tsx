@@ -1,17 +1,10 @@
 import Box from "../ui/Box";
 import Flexbox from "../ui/Flexbox";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import { useGLTF } from "@react-three/drei";
 import stylex from "@stylexjs/stylex";
-import * as THREE from "three";
-import { Material, MaterialID, useMaterials } from "../materials/useMaterials";
+import { useMaterials } from "../materials/useMaterials";
 import Button from "../ui/Button";
 import Text from "../ui/Text";
-import {
-  MaterialMap,
-  useMaterialAssignments,
-} from "../materials/useMaterialAssignments";
+import { useMaterialAssignments } from "../materials/useMaterialAssignments";
 import MaterialPanel from "../materials/MaterialPanel";
 import Scene from "../scene/Scene";
 
@@ -21,9 +14,9 @@ const styles = stylex.create({
     height: "100%",
   },
   sidebar: {
-    width: "50em",
+    width: "40em",
     height: "calc(100vh - 4em)",
-    marginRight: "4em",
+    marginRight: "2em",
     alignSelf: "center",
     flexShrink: 0,
   },
@@ -42,7 +35,7 @@ export default function Home({}: {}) {
     useMaterialAssignments();
 
   return (
-    <Flexbox gap={12} direction="row" align="end" xstyle={styles.canvas}>
+    <Flexbox direction="row" align="end" xstyle={styles.canvas}>
       <Scene pickMaterial={pickMaterial} materialMap={materialMap} />
       <Flexbox xstyle={styles.sidebar} direction="column">
         <MaterialPanel
