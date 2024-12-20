@@ -30,20 +30,18 @@ export default function App() {
       `}
     >
       {!uploadedPhoto && !preset && (
-        <div>
-          <Home
-            preset={preset}
-            uploadedPhoto={uploadedPhoto}
-            setUploadedPhoto={(photo) => {
-              setPreset(null);
-              setUploadedPhoto(photo);
-            }}
-            setCurrentStatus={({ image, preset }) => {
-              setUploadedPhoto(image);
-              setPreset(preset);
-            }}
-          />
-        </div>
+        <Home
+          preset={preset}
+          uploadedPhoto={uploadedPhoto}
+          setUploadedPhoto={(photo) => {
+            setPreset(null);
+            setUploadedPhoto(photo);
+          }}
+          setCurrentStatus={({ image, preset }) => {
+            setUploadedPhoto(image);
+            setPreset(preset);
+          }}
+        />
       )}
 
       {uploadedPhoto && !preset && (
@@ -71,33 +69,6 @@ export default function App() {
           </Button>
         </div>
       )}
-      <div
-        css={css`
-          position: fixed;
-          bottom: 12px;
-          left: 12px;
-          opacity: 0.4;
-          &:hover {
-            opacity: 1;
-          }
-        `}
-      >
-        <Box
-          css={css`
-            padding: 8px;
-          `}
-        >
-          <p>
-            Made out of frustration by{" "}
-            <a href="https://www.threads.net/@freezydorito">@freezydorito</a> +{" "}
-            <a href="https://github.com/SaraVieira">@SaraVieira</a>
-          </p>
-          <p>
-            <a href="https://github.com/walaura/digipick">Code</a> ·
-            <a href="https://www.paypal.com/paypalme/walaura/2">Donate</a>
-          </p>
-        </Box>
-      </div>
     </div>
   );
 }

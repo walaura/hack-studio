@@ -17,14 +17,25 @@
   "homepage": "https://github.com/walaura/digipick#readme",
   "dependencies": {
     "@emotion/react": "^11.11.1",
+    "@react-three/drei": "^9.120.4",
+    "@react-three/fiber": "^8.17.10",
+    "@stylexjs/babel-plugin": "^0.9.3",
+    "@stylexjs/dev-runtime": "^0.9.3",
+    "@stylexjs/stylex": "^0.9.3",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "@types/three": "^0.171.0",
     "parcel": "^2.9.3",
-    "preact": "^10.17.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "three": "^0.171.0"
   },
   "devDependencies": {
+    "parcel-reporter-static-files-copy": "^1.5.3",
     "process": "^0.11.10"
+  },
+  "staticFiles": {
+    "staticPath": "assets",
+    "staticOutPath": "assets"
   }
 }
