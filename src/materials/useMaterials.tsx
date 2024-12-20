@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 export type MaterialID = string;
 
@@ -29,7 +29,7 @@ const DEFAULT_MATERIALS: InternalMaterials = {
   },
 };
 
-export function useMaterials() {
+function useMaterialsInternal() {
   const [materialsDB, setMaterials] = useState<InternalMaterials>({
     ...DEFAULT_MATERIALS,
     1: { color: "#ff0000" },
@@ -94,3 +94,20 @@ export function useMaterials() {
     addMaterial,
   };
 }
+
+const MaterialsContext =
+  createContext<ReturnType<typeof useMaterialsInternal>>(undefined);
+
+export const MaterialsProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  return (
+    <MaterialsContext.Provider value={useMaterialsInternal()}>
+      {children}
+    </MaterialsContext.Provider>
+  );
+};
+
+export const useMaterials = () => useContext(MaterialsContext);

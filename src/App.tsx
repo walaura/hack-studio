@@ -1,3 +1,5 @@
+import { MaterialAssignmentProvider } from "./materials/useMaterialAssignments";
+import { MaterialsProvider } from "./materials/useMaterials";
 import Home from "./route/Home";
 import stylex from "@stylexjs/stylex";
 
@@ -13,8 +15,12 @@ const styles = stylex.create({
 
 export default function App() {
   return (
-    <div {...stylex.props(styles.root)}>
-      <Home />
-    </div>
+    <MaterialsProvider>
+      <MaterialAssignmentProvider>
+        <div {...stylex.props(styles.root)}>
+          <Home />
+        </div>
+      </MaterialAssignmentProvider>
+    </MaterialsProvider>
   );
 }
