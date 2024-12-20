@@ -5,9 +5,9 @@ import Text from "../ui/Text";
 import Flexbox from "../ui/Flexbox";
 import SwatchButton from "../ui/swatches/SwatchButton";
 import SquareButton from "../ui/swatches/SquareButton";
-import { BsX } from "react-icons/bs";
+import { BsArrowUp, BsPlus } from "react-icons/bs";
 import Margin from "../ui/Margin";
-import { StyleXStyles } from "@stylexjs/stylex";
+import stylex, { StyleXStyles } from "@stylexjs/stylex";
 import {
   AssignmentKey,
   GBA_INHERITS_FROM,
@@ -30,7 +30,7 @@ export function MaterialPicker({
 }) {
   const elevation = Groups[surface] != null ? 2 : 1;
   const { materials } = useMaterials();
-  const { assignInheritance } = useWriteToStore();
+  const { assignInheritance, addMaterial } = useWriteToStore();
 
   return (
     <Box xstyle={xstyle} elevation={elevation}>
@@ -45,13 +45,18 @@ export function MaterialPicker({
             </span>
           ) : null}
         </Flexbox>
-        <Flexbox
-          wrap={true}
-          direction="row"
-          gap={4}
-          align="start"
-          justify="start"
-        >
+        <div {...stylex.props(styles.grid)} key={materials.length}>
+          <SquareButton
+            type="circle"
+            label={`New material`}
+            onClick={() =>
+              addMaterial({
+                color: "blue",
+              })
+            }
+          >
+            <BsPlus color="var(--text-primary)" size={"2em"} />
+          </SquareButton>
           {materials.map((material) => (
             <Swatch
               assignedMaterial={assignedMaterial}
@@ -68,14 +73,22 @@ export function MaterialPicker({
                 assignInheritance(surface, GBA_INHERITS_FROM[surface])
               }
             >
-              <BsX color="var(--text-primary)" size={"2em"} />
+              <BsArrowUp color="var(--text-primary)" size={"1.6em"} />
             </SquareButton>
           )}
-        </Flexbox>
+        </div>
       </Flexbox>
     </Box>
   );
 }
+
+const styles = stylex.create({
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(3.6em, 2fr))",
+    gridGap: 2,
+  },
+});
 
 function Swatch({
   assignedMaterial,

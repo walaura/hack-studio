@@ -53,7 +53,7 @@ const useWriteMaterialsToStore = (
     setMaterials((m) => {
       const next = { ...m };
       delete next[id];
-      return { ...next };
+      return next;
     });
   };
 

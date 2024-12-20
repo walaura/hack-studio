@@ -5,9 +5,8 @@ const styles = stylex.create({
     backgroundColor: "var(--surface-4)",
   },
   box: {
-    width: "3.8em",
-    cursor: "pointer",
-    height: "3.8em",
+    width: "100%",
+    aspectRatio: "1/1",
     backgroundColor: "var(--surface-3)",
     display: "flex",
     alignItems: "center",
