@@ -1,4 +1,10 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 export type MaterialID = string;
 
@@ -63,22 +69,25 @@ function useMaterialsInternal() {
     return id;
   };
 
-  const pickMaterial = (id: MaterialID): Material => {
-    if (!materialsDB[id]) {
+  const pickMaterial = useCallback(
+    (id: MaterialID): Material => {
+      if (!materialsDB[id]) {
+        return {
+          id: EMPTY_MATERIAL_ID,
+          ...DEFAULT_MATERIALS[EMPTY_MATERIAL_ID],
+        };
+      }
       return {
-        id: EMPTY_MATERIAL_ID,
-        ...DEFAULT_MATERIALS[EMPTY_MATERIAL_ID],
+        id,
+        ...materialsDB[id],
       };
-    }
-    return {
-      id,
-      ...materialsDB[id],
-    };
-  };
+    },
+    [materialsDB]
+  );
 
   const materials: Material[] = useMemo(
     () => Object.entries(materialsDB).map(([id]) => pickMaterial(id)),
-    [materialsDB]
+    [materialsDB, pickMaterial]
   );
 
   return {

@@ -1,11 +1,4 @@
-import {
-  GBA_INHERITS_FROM,
-  Groups,
-  MaterialAssignment,
-  PRETTY_NAMES,
-  SurfaceID,
-  useMaterialAssignments,
-} from "./useMaterialAssignments";
+import { Assignment, useAssignments } from "../assignments/useAssignments";
 import { useMaterials } from "./useMaterials";
 import Box from "../ui/Box";
 import Text from "../ui/Text";
@@ -15,19 +8,25 @@ import SquareButton from "../ui/swatches/SquareButton";
 import { BsX } from "react-icons/bs";
 import Margin from "../ui/Margin";
 import { StyleXStyles } from "@stylexjs/stylex";
+import {
+  AssignmentSurfaceID,
+  GBA_INHERITS_FROM,
+  Groups,
+  PRETTY_NAMES,
+} from "../assignments/Assignments";
 
 export function MaterialPicker({
   surface,
   assignedMaterial,
   xstyle,
 }: {
-  surface: SurfaceID;
-  assignedMaterial: MaterialAssignment;
+  surface: AssignmentSurfaceID;
+  assignedMaterial: Assignment;
   xstyle?: StyleXStyles;
 }) {
   const elevation = Groups[surface] != null ? 2 : 1;
   const { materials } = useMaterials();
-  const { assignMaterial, assignInheritance } = useMaterialAssignments();
+  const { assignMaterial, assignInheritance } = useAssignments();
 
   return (
     <Box xstyle={xstyle} elevation={elevation}>

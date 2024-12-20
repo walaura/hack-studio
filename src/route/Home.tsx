@@ -4,7 +4,7 @@ import stylex from "@stylexjs/stylex";
 import { useMaterials } from "../materials/useMaterials";
 import Button from "../ui/Button";
 import Text from "../ui/Text";
-import { useMaterialAssignments } from "../materials/useMaterialAssignments";
+import { useAssignments } from "../assignments/useAssignments";
 import MaterialPanel from "../materials/MaterialPanel";
 import Scene from "../scene/Scene";
 
@@ -31,18 +31,13 @@ export default function Home() {
     removeMaterial,
   } = useMaterials();
 
-  const { materialMap, assignMaterial, assignInheritance } =
-    useMaterialAssignments();
+  const { assignments } = useAssignments();
 
   return (
     <Flexbox direction="row" align="end" xstyle={styles.canvas}>
-      <Scene pickMaterial={pickMaterial} materialMap={materialMap} />
+      <Scene pickMaterial={pickMaterial} assignments={assignments} />
       <Flexbox xstyle={styles.sidebar} direction="column">
         <MaterialPanel
-          materialMap={materialMap}
-          materials={materials}
-          assignInheritance={assignInheritance}
-          assignMaterial={assignMaterial}
           materialEditor={
             <Box>
               <Text type="headline2">Materials</Text>

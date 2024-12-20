@@ -8,7 +8,7 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import { Material, MaterialID } from "../materials/useMaterials";
-import { MaterialMap } from "../materials/useMaterialAssignments";
+import { MaterialMap } from "../assignments/useAssignments";
 import { MeshPhysicalMaterial } from "three";
 import { GLTF } from "three-stdlib";
 
@@ -61,10 +61,10 @@ const membranesMaterial = (color: string) =>
 
 function Gba({
   pickMaterial,
-  materialMap,
+  assignments,
 }: {
   pickMaterial: (id: MaterialID) => Material;
-  materialMap: MaterialMap;
+  assignments: MaterialMap;
 }) {
   const { nodes } = useGLTF("./assets/gba.glb") as GLTFResult;
   const colorMap = useLoader(THREE.TextureLoader, "./assets/boot.png");
@@ -104,7 +104,7 @@ function Gba({
               receiveShadow
               geometry={nodes.back.geometry}
               material={createPlasticMaterial(
-                pickMaterial(materialMap.BACK_SHELL.material).color
+                pickMaterial(assignments.BACK_SHELL.material).color
               )}
               position={[0.042, 0.087, -0.11]}
             />
@@ -113,7 +113,7 @@ function Gba({
               receiveShadow
               geometry={nodes.Front.geometry}
               material={createPlasticMaterial(
-                pickMaterial(materialMap.FRONT_SHELL.material).color
+                pickMaterial(assignments.FRONT_SHELL.material).color
               )}
               position={[0.143, 0.023, -0.156]}
             />
@@ -122,7 +122,7 @@ function Gba({
               receiveShadow
               geometry={nodes.A.geometry}
               material={createButtonsMaterial(
-                pickMaterial(materialMap.BUTTON_A.material).color
+                pickMaterial(assignments.BUTTON_A.material).color
               )}
               position={[0.156, 0.097, -0.408]}
             />
@@ -131,7 +131,7 @@ function Gba({
               receiveShadow
               geometry={nodes.B.geometry}
               material={createButtonsMaterial(
-                pickMaterial(materialMap.BUTTON_B.material).color
+                pickMaterial(assignments.BUTTON_B.material).color
               )}
               position={[0.156, 0.136, -0.52]}
             />
@@ -140,7 +140,7 @@ function Gba({
               receiveShadow
               geometry={nodes.R.geometry}
               material={createButtonsMaterial(
-                pickMaterial(materialMap.SHOULDER_R.material).color
+                pickMaterial(assignments.SHOULDER_R.material).color
               )}
               position={[0.077, 0.338, -0.47]}
             />
@@ -149,7 +149,7 @@ function Gba({
               receiveShadow
               geometry={nodes.L.geometry}
               material={createButtonsMaterial(
-                pickMaterial(materialMap.SHOULDER_L.material).color
+                pickMaterial(assignments.SHOULDER_L.material).color
               )}
               position={[0.077, 0.338, 0.47]}
             />
@@ -158,7 +158,7 @@ function Gba({
               receiveShadow
               geometry={nodes.DPAD.geometry}
               material={createButtonsMaterial(
-                pickMaterial(materialMap.DPAD.material).color
+                pickMaterial(assignments.DPAD.material).color
               )}
               position={[0.17, 0.107, 0.46]}
             />
@@ -167,7 +167,7 @@ function Gba({
               receiveShadow
               geometry={nodes.select.geometry}
               material={membranesMaterial(
-                pickMaterial(materialMap.MEMBRANE_START_SELECT.material).color
+                pickMaterial(assignments.MEMBRANE_START_SELECT.material).color
               )}
               position={[0.158, -0.102, 0.376]}
             />
@@ -184,7 +184,7 @@ function Gba({
               receiveShadow
               geometry={nodes.RSide.geometry}
               material={createButtonsMaterial(
-                pickMaterial(materialMap.RAIL_R.material).color
+                pickMaterial(assignments.RAIL_R.material).color
               )}
               position={[0.103, -0.029, -0.597]}
             />
@@ -193,7 +193,7 @@ function Gba({
               receiveShadow
               geometry={nodes.LSide.geometry}
               material={createButtonsMaterial(
-                pickMaterial(materialMap.RAIL_L.material).color
+                pickMaterial(assignments.RAIL_L.material).color
               )}
               position={[0.103, -0.029, 0.597]}
             />
@@ -202,7 +202,7 @@ function Gba({
               receiveShadow
               geometry={nodes.battery.geometry}
               material={createPlasticMaterial(
-                pickMaterial(materialMap.BACK_SHELL.material).color
+                pickMaterial(assignments.BACK_SHELL.material).color
               )}
               position={[-0.057, -0.084, -0.004]}
             />
@@ -243,14 +243,14 @@ function Gba({
 
 export default function Scene({
   pickMaterial,
-  materialMap,
+  assignments,
 }: {
   pickMaterial: (id: MaterialID) => Material;
-  materialMap: MaterialMap;
+  assignments: MaterialMap;
 }) {
   return (
     <Canvas>
-      <Gba pickMaterial={pickMaterial} materialMap={materialMap} />
+      <Gba pickMaterial={pickMaterial} assignments={assignments} />
     </Canvas>
   );
 }

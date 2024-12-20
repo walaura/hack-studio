@@ -3,10 +3,13 @@ import Margin from "../ui/Margin";
 import Box from "../ui/Box";
 import Text from "../ui/Text";
 import { MaterialPicker } from "./MaterialPicker";
-import { MaterialMap, Surface, SurfaceID } from "./useMaterialAssignments";
+import { useAssignments } from "../assignments/useAssignments";
 import stylex from "@stylexjs/stylex";
-import { ReactNode, useState } from "react";
-import { Material, MaterialID } from "./useMaterials";
+import React, { ReactNode, useState } from "react";
+import {
+  AssignmentSurface,
+  AssignmentSurfaceID,
+} from "../assignments/Assignments";
 
 const SECTIONS = {
   base: "Base",
@@ -19,74 +22,63 @@ const SECTIONS = {
 
 function getSectionContent(
   section: keyof typeof SECTIONS
-): (SurfaceID | SurfaceID[])[] {
+): (AssignmentSurfaceID | AssignmentSurfaceID[])[] {
   switch (section) {
     case "base":
       return [
-        Surface.SHELL,
-        [Surface.FRONT_SHELL, Surface.BACK_SHELL],
-        Surface.ALL_BUTTONS,
-        [Surface.FACE_BUTTONS, Surface.SIDE_BUTTONS],
-        Surface.LOWER_MEMBRANES,
+        AssignmentSurface.SHELL,
+        [AssignmentSurface.FRONT_SHELL, AssignmentSurface.BACK_SHELL],
+        AssignmentSurface.ALL_BUTTONS,
+        [AssignmentSurface.FACE_BUTTONS, AssignmentSurface.SIDE_BUTTONS],
+        AssignmentSurface.LOWER_MEMBRANES,
       ];
     case "face":
       return [
-        Surface.FACE_BUTTONS,
-        Surface.DPAD,
-        [Surface.BUTTON_A, Surface.BUTTON_B],
-        Surface.MEMBRANE_START_SELECT,
+        AssignmentSurface.FACE_BUTTONS,
+        AssignmentSurface.DPAD,
+        [AssignmentSurface.BUTTON_A, AssignmentSurface.BUTTON_B],
+        AssignmentSurface.MEMBRANE_START_SELECT,
       ];
     case "sides":
       return [
-        Surface.SIDE_BUTTONS,
-        [Surface.SHOULDER_L, Surface.SHOULDER_R],
-        [Surface.RAIL_L, Surface.RAIL_R],
+        AssignmentSurface.SIDE_BUTTONS,
+        [AssignmentSurface.SHOULDER_L, AssignmentSurface.SHOULDER_R],
+        [AssignmentSurface.RAIL_L, AssignmentSurface.RAIL_R],
       ];
     case "membranes":
       return [
-        Surface.LOWER_MEMBRANES,
-        Surface.MEMBRANE_AB,
-        Surface.MEMBRANE_DPAD,
-        Surface.MEMBRANE_START_SELECT,
+        AssignmentSurface.LOWER_MEMBRANES,
+        AssignmentSurface.MEMBRANE_AB,
+        AssignmentSurface.MEMBRANE_DPAD,
+        AssignmentSurface.MEMBRANE_START_SELECT,
       ];
     case "editor":
       return [];
     default:
-      return Object.keys(Surface) as SurfaceID[];
+      return Object.keys(AssignmentSurface) as AssignmentSurfaceID[];
   }
 }
 
 export default function MaterialPanel({
-  materialMap,
-  materials,
-  assignInheritance,
-  assignMaterial,
   materialEditor,
 }: {
-  materialMap: MaterialMap;
-  materials: Material[];
-  assignInheritance: (surfaceID: SurfaceID, from: SurfaceID) => void;
-  assignMaterial: (surfaceID: SurfaceID, materialID: MaterialID) => void;
   materialEditor: ReactNode;
 }) {
   const [activeSection, setActiveSection] =
     useState<keyof typeof SECTIONS>("base");
   const keys = getSectionContent(activeSection);
+  const { assignments } = useAssignments();
 
-  const getPickerForSurface = (surfaceID: SurfaceID, noBasis = false) => {
+  const getPickerForAssignmentSurface = (
+    surfaceID: AssignmentSurfaceID,
+    noBasis = false
+  ) => {
     return (
       <MaterialPicker
         xstyle={noBasis ? styles.noBasis : undefined}
         key={surfaceID}
         surface={surfaceID}
-        materials={materials}
-        assignedMaterial={materialMap[surfaceID]}
-        onPickInheritance={(id) => {
-          assignInheritance(surfaceID, id);
-        }}
-        onPickMaterial={(id) => {
-          assignMaterial(surfaceID, id);
-        }}
+        assignedMaterial={assignments[surfaceID]}
       />
     );
   };
@@ -101,20 +93,29 @@ export default function MaterialPanel({
           />
         </Flexbox>
         <div {...stylex.props(styles.divider)} />
-        <Flexbox xstyle={[styles.innie]} direction="column" justify="start">
+        <Flexbox
+          xstyle={styles.innie}
+          direction="column"
+          justify="start"
+          key={activeSection}
+        >
           {activeSection === "editor" ? (
             materialEditor
           ) : (
             <Flexbox gap={4} direction="column">
-              {keys.map((key) => {
+              {keys.map((key, index) => {
                 if (Array.isArray(key)) {
                   return (
-                    <Flexbox gap={4}>
-                      {key.map((k) => getPickerForSurface(k, true))}
+                    <Flexbox gap={4} key={index}>
+                      {key.map((k) => (
+                        <React.Fragment key={k}>
+                          {getPickerForAssignmentSurface(k, true)}
+                        </React.Fragment>
+                      ))}
                     </Flexbox>
                   );
                 }
-                return getPickerForSurface(key);
+                return getPickerForAssignmentSurface(key);
               })}
             </Flexbox>
           )}

@@ -1,4 +1,4 @@
-import { MaterialAssignmentProvider } from "./materials/useMaterialAssignments";
+import { AssignmentProvider } from "./assignments/useAssignments";
 import { MaterialsProvider } from "./materials/useMaterials";
 import Home from "./route/Home";
 import stylex from "@stylexjs/stylex";
@@ -16,11 +16,11 @@ const styles = stylex.create({
 export default function App() {
   return (
     <MaterialsProvider>
-      <MaterialAssignmentProvider>
+      <AssignmentProvider>
         <div {...stylex.props(styles.root)}>
           <Home />
         </div>
-      </MaterialAssignmentProvider>
+      </AssignmentProvider>
     </MaterialsProvider>
   );
 }
