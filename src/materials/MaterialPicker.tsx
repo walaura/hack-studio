@@ -3,7 +3,7 @@ import {
   MaterialAssignment,
   PRETTY_NAMES,
   SurfaceID,
-} from "./useMaterialMap";
+} from "./useMaterialAssingments";
 import { Material, MaterialID } from "./useMaterials";
 import Box from "../ui/Box";
 import Text from "../ui/Text";

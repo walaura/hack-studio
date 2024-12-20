@@ -8,7 +8,11 @@ import * as THREE from "three";
 import { useMaterials } from "../materials/useMaterials";
 import Button from "../ui/Button";
 import Text from "../ui/Text";
-import { Groups, SurfaceID, useMaterialMap } from "../materials/useMaterialMap";
+import {
+  Groups,
+  SurfaceID,
+  useMaterialMap,
+} from "../materials/useMaterialAssingments";
 import { MaterialPicker } from "../materials/MaterialPicker";
 import Margin from "../ui/Margin";
 
