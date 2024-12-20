@@ -1,15 +1,12 @@
 import { createContext, useContext, useMemo, useState } from "react";
-import {
-  EMPTY_MATERIAL_ID,
-  MaterialID,
-  useMaterials,
-} from "../materials/useMaterials";
+import { MaterialID, useMaterials } from "../materials/useMaterials";
 import {
   AssignmentSurface,
   AssignmentSurfaceID,
   GBA_INHERITS_FROM,
   Groups,
 } from "./Assignments";
+import { EMPTY_MATERIAL_ID } from "../materials/Materials";
 
 type InternalAssignment =
   | {
