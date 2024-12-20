@@ -24,7 +24,15 @@ type GLTFResult = GLTF & {
     LSide: THREE.Mesh;
     battery: THREE.Mesh;
     screws: THREE.Mesh;
-    light001: THREE.Mesh;
+    light: THREE.Mesh;
+    CAPACITOR;
+    memebrane_dpAD: THREE.Mesh;
+    Plane007: THREE.Mesh;
+    Plane007_1: THREE.Mesh;
+    lights: THREE.Mesh;
+    Plane007_2: THREE.Mesh;
+    Plane007_3: THREE.Mesh;
+    speaker: THREE.Mesh;
   };
   materials: object;
 };
@@ -51,6 +59,14 @@ const createButtonsMaterial = (color: string) =>
     reflectivity: 1,
   });
 
+const createTransparentPlastic = (color: string) =>
+  new MeshPhysicalMaterial({
+    roughness: 0.2,
+    transmission: 1,
+    thickness: 0.2,
+    color: color,
+  });
+
 const membranesMaterial = (color: string) =>
   new MeshPhysicalMaterial({
     color,
@@ -64,7 +80,7 @@ function Gba({
   pickMaterial: (id: MaterialID) => Material;
   assignments: Assignments;
 }) {
-  const { nodes } = useGLTF("./assets/gba.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF("./assets/gba.glb") as GLTFResult;
   const colorMap = useLoader(THREE.TextureLoader, "./assets/boot.png");
 
   return (
@@ -82,21 +98,6 @@ function Gba({
             scale={[2, 2, 2]}
             rotation={[0, -Math.PI / 2, 0]}
           >
-            <mesh
-              castShadow
-              receiveShadow
-              geometry={nodes.screen.geometry}
-              material={
-                new THREE.MeshPhysicalMaterial({
-                  map: colorMap,
-                  emissiveMap: colorMap,
-                  transmission: 1,
-                  side: THREE.DoubleSide,
-                })
-              }
-              position={[0.157, 0.099, 0]}
-              rotation={[0, 0, Math.PI]}
-            />
             <mesh
               castShadow
               receiveShadow
@@ -176,7 +177,21 @@ function Gba({
               material={createBezelMaterial("dark")}
               position={[0.151, 0.076, 0.006]}
             />
-
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.screen.geometry}
+              material={
+                new THREE.MeshPhysicalMaterial({
+                  map: colorMap,
+                  emissiveMap: colorMap,
+                  transmission: 1,
+                  side: THREE.DoubleSide,
+                })
+              }
+              rotation={[0, 0, Math.PI]}
+              position={[0.157, 0.099, 0]}
+            />
             <mesh
               castShadow
               receiveShadow
@@ -204,34 +219,19 @@ function Gba({
               )}
               position={[-0.057, -0.084, -0.004]}
             />
+
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.screws.geometry}
-              material={
-                new MeshPhysicalMaterial({
-                  color: "black",
-                  metalness: 1,
-                  roughness: 0.06,
-                })
-              }
-              position={[0.001, 0.132, -0.002]}
+              geometry={nodes.memebrane_dpAD.geometry}
+              material={membranesMaterial(
+                pickMaterial(assignments.MEMBRANE_START_SELECT.material).color
+              )}
+              position={[0.108, 0.106, 0.463]}
+              rotation={[0, 0, -Math.PI / 2]}
+              scale={0.101}
             />
-            <mesh
-              castShadow
-              receiveShadow
-              geometry={nodes.light001.geometry}
-              material={
-                new THREE.MeshPhysicalMaterial({
-                  roughness: 0.4,
-                  transmission: 10,
-                  thickness: 1,
-                  color: "green",
-                  emissive: "green",
-                })
-              }
-              position={[0.042, 0.087, -0.11]}
-            />
+            <NutsAndBolts nodes={nodes} materials={materials} />
           </group>
         </Float>
       </Stage>
@@ -252,3 +252,82 @@ export default function Scene({
     </Canvas>
   );
 }
+
+const NutsAndBolts = ({ nodes, materials }) => {
+  return (
+    <>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.CAPACITOR.geometry}
+        material={materials["Material.003"]}
+        position={[0.069, -0.108, 0.509]}
+        rotation={[0, 0, -Math.PI / 2]}
+        scale={[0.034, 0.017, 0.034]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.screws.geometry}
+        material={
+          new MeshPhysicalMaterial({
+            color: "black",
+            metalness: 1,
+            roughness: 0.06,
+          })
+        }
+        position={[0.001, 0.132, -0.002]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.light.geometry}
+        material={
+          new THREE.MeshPhysicalMaterial({
+            roughness: 0.4,
+            transmission: 10,
+            thickness: 1,
+            color: "green",
+            emissive: "green",
+          })
+        }
+        position={[0.042, 0.087, -0.11]}
+      />
+      <group position={[0.054, 0.067, -0.008]} scale={[0.453, 0.453, 0.661]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Plane007.geometry}
+          material={materials["Material.003"]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Plane007_1.geometry}
+          material={nodes.Plane007_1.material}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Plane007_2.geometry}
+          material={materials["Material.004"]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Plane007_3.geometry}
+          material={materials["Material.005"]}
+        />
+      </group>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.speaker.geometry}
+        material={materials["Material.003"]}
+        position={[0.057, -0.101, -0.45]}
+        rotation={[0, 0, -Math.PI / 2]}
+        scale={0.104}
+      />
+    </>
+  );
+};
