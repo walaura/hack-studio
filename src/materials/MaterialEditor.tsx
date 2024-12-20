@@ -1,3 +1,4 @@
+import { useWriteStore } from "../store/useStore";
 import Flexbox from "../ui/Flexbox";
 import { MaterialID, useMaterials } from "./useMaterials";
 
@@ -6,7 +7,8 @@ export default function MaterialEditor({
 }: {
   materialID: MaterialID;
 }) {
-  const { updateMaterial, pickMaterial, removeMaterial } = useMaterials();
+  const { pickMaterial } = useMaterials();
+  const { updateMaterial, removeMaterial } = useWriteStore();
   const material = pickMaterial(materialID);
 
   return (

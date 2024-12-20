@@ -2,6 +2,7 @@ import { AssignmentProvider } from "./assignments/useAssignments";
 import { MaterialsProvider } from "./materials/useMaterials";
 import Home from "./route/Home";
 import stylex from "@stylexjs/stylex";
+import { StoreProvider } from "./store/useStore";
 
 const styles = stylex.create({
   root: {
@@ -15,12 +16,14 @@ const styles = stylex.create({
 
 export default function App() {
   return (
-    <MaterialsProvider>
-      <AssignmentProvider>
-        <div {...stylex.props(styles.root)}>
-          <Home />
-        </div>
-      </AssignmentProvider>
-    </MaterialsProvider>
+    <StoreProvider>
+      <MaterialsProvider>
+        <AssignmentProvider>
+          <div {...stylex.props(styles.root)}>
+            <Home />
+          </div>
+        </AssignmentProvider>
+      </MaterialsProvider>
+    </StoreProvider>
   );
 }

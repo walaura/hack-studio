@@ -7,6 +7,8 @@ import Text from "../ui/Text";
 import { useAssignments } from "../assignments/useAssignments";
 import MaterialPanel from "../materials/MaterialPanel";
 import Scene from "../scene/Scene";
+import MaterialEditor from "../materials/MaterialEditor";
+import { useWriteStore } from "../store/useStore";
 
 const styles = stylex.create({
   canvas: {
@@ -23,13 +25,8 @@ const styles = stylex.create({
 });
 
 export default function Home() {
-  const {
-    materials,
-    pickMaterial,
-    updateMaterial,
-    addMaterial,
-    removeMaterial,
-  } = useMaterials();
+  const { materials, pickMaterial } = useMaterials();
+  const { addMaterial } = useWriteStore();
 
   const { assignments } = useAssignments();
 
@@ -49,24 +46,9 @@ export default function Home() {
                 new
               </Button>
               {materials.map((material) => (
-                <Box key={material.id}>
-                  <input
-                    type="color"
-                    value={material.color}
-                    onChange={(e) => {
-                      updateMaterial(material.id, { color: e.target.value });
-                    }}
-                  />
-                  <Button
-                    onClick={() => {
-                      removeMaterial(material.id);
-                    }}
-                  >
-                    remove
-                  </Button>
-                </Box>
+                <MaterialEditor key={material.id} materialID={material.id} />
               ))}
-              <pre> {JSON.stringify(materials, null, 2)}</pre>
+              <pre>{JSON.stringify(materials, null, 2)}</pre>
             </Box>
           }
         />
