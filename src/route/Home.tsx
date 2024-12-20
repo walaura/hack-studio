@@ -1,4 +1,3 @@
-import { TSetCurrentStatus } from "../components/PrevImages";
 import Box from "../ui/Box";
 import Flexbox from "../ui/Flexbox";
 import { Canvas } from "@react-three/fiber";
@@ -6,15 +5,12 @@ import { OrbitControls } from "@react-three/drei";
 import { useGLTF } from "@react-three/drei";
 import stylex from "@stylexjs/stylex";
 import * as THREE from "three";
-import { Material, MaterialID, useMaterials } from "../materials/useMaterials";
+import { useMaterials } from "../materials/useMaterials";
 import Button from "../ui/Button";
-import Title from "../ui/Title";
-import {
-  MaterialAssignment,
-  SurfaceID,
-  useMaterialMap,
-} from "../materials/useMaterialMap";
-import Swatch from "../ui/Swatch";
+import Text from "../ui/Text";
+import { Groups, SurfaceID, useMaterialMap } from "../materials/useMaterialMap";
+import { MaterialPicker } from "../materials/MaterialPicker";
+import Margin from "../ui/Margin";
 
 const styles = stylex.create({
   canvas: {
@@ -22,12 +18,17 @@ const styles = stylex.create({
     height: "100%",
   },
   sidebar: {
-    width: 300,
+    width: 500,
+    height: "90%",
+    alignSelf: "center",
+  },
+  innie: {
+    overflow: "scroll",
   },
 });
 
 export default function Home({}: {}) {
-  const { nodes, materials: rawMaterials } = useGLTF("./assets/untitled.glb");
+  const { nodes } = useGLTF("./assets/untitled.glb");
   const {
     materials,
     pickMaterial,
@@ -36,13 +37,16 @@ export default function Home({}: {}) {
     removeMaterial,
   } = useMaterials();
 
-  const { materialMap, assignMaterial } = useMaterialMap();
+  const { materialMap, assignMaterial, assignInheritance } = useMaterialMap();
 
   const red = new THREE.MeshLambertMaterial({
     color: pickMaterial(materialMap.BUTTON_A.material).color,
   });
   const b = new THREE.MeshLambertMaterial({
     color: pickMaterial(materialMap.BUTTON_B.material).color,
+  });
+  const shell = new THREE.MeshLambertMaterial({
+    color: pickMaterial(materialMap.FRONT_SHELL.material).color,
   });
 
   return (
@@ -56,7 +60,7 @@ export default function Home({}: {}) {
             receiveShadow
             /* @ts-ignore */
             geometry={nodes.Cube.geometry}
-            material={rawMaterials.Material}
+            material={shell}
             scale={[0.376, 1.746, 3.799]}
           />
           <mesh
@@ -79,28 +83,32 @@ export default function Home({}: {}) {
         <OrbitControls />
       </Canvas>
       <Flexbox xstyle={styles.sidebar} direction="column">
-        <Box>
-          <Title>Assignments</Title>
-          {Object.keys(materialMap).map((surfaceID: SurfaceID) => (
-            <Box key={surfaceID}>
-              {surfaceID}
+        <Box elevation={0}>
+          <Flexbox xstyle={[styles.innie, Margin.all20]} direction="column">
+            <Text type="headline2">Assignments</Text>
+            {Object.keys(materialMap).map((surfaceID: SurfaceID) => (
               <MaterialPicker
+                key={surfaceID}
+                surface={surfaceID}
                 materials={materials}
                 assignedMaterial={materialMap[surfaceID]}
+                onPickInheritance={(id) => {
+                  assignInheritance(surfaceID, id);
+                }}
                 onPickMaterial={(id) => {
                   assignMaterial(surfaceID, id);
                 }}
               />
-            </Box>
-          ))}
-          <pre style={{ fontSize: ".2em" }}>
-            {JSON.stringify(materialMap, null, 2)}
-          </pre>
+            ))}
+            <pre style={{ fontSize: ".2em" }}>
+              {JSON.stringify(materialMap, null, 2)}
+            </pre>
+          </Flexbox>
         </Box>
       </Flexbox>
       <Flexbox xstyle={styles.sidebar} direction="column">
         <Box>
-          <Title>Materials</Title>
+          <Text type="headline2">Materials</Text>
           <Button
             onClick={() => {
               addMaterial({ color: "#ff0055" });
@@ -133,32 +141,32 @@ export default function Home({}: {}) {
   );
 }
 
-function MaterialPicker({
-  materials,
-  assignedMaterial,
-  onPickMaterial,
+export function InheritanceDropdown({
+  selected,
+  onSelect,
 }: {
-  materials: Material[];
-  assignedMaterial: MaterialAssignment;
-  onPickMaterial: (id: MaterialID) => void;
+  selected?: SurfaceID;
+  onSelect: (id: SurfaceID) => void;
 }) {
+  const groups = Object.keys(Groups);
   return (
-    <Flexbox direction="row" gap={4}>
-      {assignedMaterial.type === "inherit" ? (
-        <>Inheriting from {assignedMaterial.from}</>
-      ) : (
-        "raw"
-      )}
-      {materials.map((material) => (
-        <Swatch
-          color={material.color}
-          key={material.id}
-          isActive={assignedMaterial.material === material.id}
-          onClick={() => {
-            onPickMaterial(material.id);
-          }}
-        ></Swatch>
+    <select
+      onChange={(e) => {
+        if (e.target.value === "none") {
+          onSelect(null);
+          return;
+        }
+        onSelect(e.target.value as SurfaceID);
+      }}
+    >
+      {groups.map((group) => (
+        <option key={group} value={group} selected={selected === group}>
+          {group}
+        </option>
       ))}
-    </Flexbox>
+      <option value="none" selected={!selected}>
+        None
+      </option>
+    </select>
   );
 }

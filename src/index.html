@@ -1,57 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Digipick helper</title>
     <style type="text/css">
       @font-face {
-        font-family: "Space Mono";
+        font-family: "Inter";
+        font-weight: 100 900;
+        font-display: swap;
+        src: url(../static/Inter.ttf) format("woff2");
+      }
+      @font-face {
+        font-family: "Inter";
         font-style: italic;
-        font-weight: 400;
+        font-weight: 100 900;
         font-display: swap;
-        src: url(../static/SpaceMono-Italic.ttf) format("woff2");
-      }
-      @font-face {
-        font-family: "Space Mono";
-        font-style: italic;
-        font-weight: 700;
-        font-display: swap;
-        src: url(../static/SpaceMono-BoldItalic.ttf) format("woff2");
-      }
-      @font-face {
-        font-family: "Space Mono";
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url(../static/SpaceMono-Regular.ttf) format("woff2");
-      }
-      @font-face {
-        font-family: "Space Mono";
-        font-style: normal;
-        font-weight: 700;
-        font-display: swap;
-        src: url(../static/SpaceMono-Bold.ttf) format("woff2");
+        src: url(../static/Inter-Italic.ttf) format("woff2");
       }
       :root {
-        --background: #030d1a;
-        --divider: rgba(255, 255, 255, 0.3);
+        --background: #fff;
+        --divider: rgba(0, 0, 0, 0.3);
         --error: #e3400b;
         --highlight: #31cfff;
         --highlight-faint: #31cfffb3;
-        --text: #fff;
+        --text-primary: #000;
+        --text-secondary: #666;
         background-color: var(--background);
-        background-image: url(../static/wavy-spacey-stuff.webp);
-        background-size: cover;
-        color: var(--text);
+        background-image: url(../static/dotty.svg);
+        background-size: 1em;
+        color: var(--text-primary);
       }
       a {
-        color: var(--text);
+        color: var(---text-primary);
         text-decoration-thickness: 0.3;
       }
       * {
         margin: 0;
         padding: 0;
-        font: 0.9rem "Space Mono";
+        font: 0.9rem "Inter";
         line-height: 1.4;
         box-sizing: border-box;
       }
