@@ -9,7 +9,11 @@ import { ReactNode, useState } from "react";
 import { Assignment, AssignmentKey } from "../assignments/Assignments";
 import Button from "../ui/Button";
 import { useStoreHistory } from "../store/useStore";
-import { BsArrowClockwise, BsArrowCounterclockwise } from "react-icons/bs";
+import {
+  BsArrowClockwise,
+  BsArrowCounterclockwise,
+  BsMoon,
+} from "react-icons/bs";
 
 const SECTIONS = {
   base: "Base",
@@ -147,9 +151,8 @@ export default function MaterialPanel({
         <div {...stylex.props(styles.divider)} />
         <Flexbox
           xstyle={[Margin.all20]}
-          justify="start"
+          justify="space-between"
           direction="row"
-          gap={4}
         >
           <Footer />
         </Flexbox>
@@ -162,14 +165,24 @@ function Footer() {
   const { onUndo, onRedo, canUndo, canRedo } = useStoreHistory();
   return (
     <>
-      <Button isEnabled={canUndo} onClick={onUndo} type="secondary">
-        <BsArrowCounterclockwise color="inherit" />
-      </Button>
-      {canRedo && (
-        <Button onClick={onRedo} type="secondary">
-          <BsArrowClockwise color="inherit" />
+      <Flexbox direction="row">
+        <Button isEnabled={canUndo} onClick={onUndo} type="secondary">
+          <BsArrowCounterclockwise color="inherit" />
         </Button>
-      )}
+        {canRedo && (
+          <Button onClick={onRedo} type="secondary">
+            <BsArrowClockwise color="inherit" />
+          </Button>
+        )}
+      </Flexbox>
+      <Button
+        onClick={() => {
+          document.documentElement.classList.toggle("light");
+        }}
+        type="secondary"
+      >
+        <BsMoon color="inherit" />
+      </Button>
     </>
   );
 }
