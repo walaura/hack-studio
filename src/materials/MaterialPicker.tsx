@@ -1,4 +1,4 @@
-import { Assignment, useAssignments } from "../assignments/useAssignments";
+import { Assignment } from "../assignments/useAssignments";
 import { MaterialID, useMaterials } from "./useMaterials";
 import Box from "../ui/Box";
 import Text from "../ui/Text";
@@ -17,6 +17,7 @@ import {
 import Popover from "../ui/Popover";
 import MaterialEditor from "./MaterialEditor";
 import { useEffect, useState } from "react";
+import { useWriteToStore } from "../store/useStore";
 
 export function MaterialPicker({
   surface,
@@ -29,7 +30,7 @@ export function MaterialPicker({
 }) {
   const elevation = Groups[surface] != null ? 2 : 1;
   const { materials } = useMaterials();
-  const { assignInheritance } = useAssignments();
+  const { assignInheritance } = useWriteToStore();
 
   return (
     <Box xstyle={xstyle} elevation={elevation}>
@@ -85,7 +86,7 @@ function Swatch({
 }) {
   const isActive = assignedMaterial.material === materialID;
   const { pickMaterial } = useMaterials();
-  const { assignMaterial } = useAssignments();
+  const { assignMaterial } = useWriteToStore();
 
   const [shouldEnableOnNextTick, setShouldEnableOnNextTick] =
     useState(isActive);

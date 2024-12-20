@@ -1,12 +1,8 @@
-import { createContext, useContext, useMemo, useState } from "react";
-import { MaterialID, useMaterials } from "../materials/useMaterials";
-import {
-  AssignmentSurface,
-  AssignmentSurfaceID,
-  GBA_INHERITS_FROM,
-  Groups,
-} from "./Assignments";
+import { createContext, useContext, useMemo } from "react";
+import { MaterialID } from "../materials/useMaterials";
+import { AssignmentSurfaceID } from "./Assignments";
 import { EMPTY_MATERIAL_ID } from "../materials/Materials";
+import { useStore } from "../store/useStore";
 
 type InternalAssignment =
   | {
@@ -54,39 +50,11 @@ function resolveAssignment(
 }
 
 function useAssignmentsInternal() {
-  const [assignmentsDB, setAssignmentsDB] = useState<Partial<Assignments>>({});
+  const { assignments: internalAssignments } = useStore();
 
-  const assignMaterial = (
-    surfaceID: AssignmentSurfaceID,
-    materialID: MaterialID
-  ) => {
-    setAssignmentsDB((prev) => ({
-      ...prev,
-      [surfaceID]: {
-        type: "assign",
-        material: materialID,
-      },
-    }));
-  };
-
-  const assignInheritance = (
-    surfaceID: AssignmentSurfaceID,
-    from: AssignmentSurfaceID
-  ) => {
-    setAssignmentsDB((prev) => ({
-      ...prev,
-      [surfaceID]: {
-        type: "inherit",
-        from,
-      },
-    }));
-  };
-
-  const defaultAssignments = useDefaultAssignments();
   const assignments: Assignments = useMemo(() => {
     const map = {
-      ...defaultAssignments,
-      ...assignmentsDB,
+      ...internalAssignments,
     } as InternalAssignments;
     const entries = Object.entries(map) as [
       AssignmentSurfaceID,
@@ -98,40 +66,9 @@ function useAssignmentsInternal() {
         resolveAssignment(map, assignment),
       ])
     ) as Assignments;
-  }, [defaultAssignments, assignmentsDB]);
+  }, [internalAssignments]);
 
-  return { assignments, assignMaterial, assignInheritance };
-}
-
-function useDefaultAssignments() {
-  const { pickMaterial } = useMaterials();
-
-  /*
-  GBA
-  */
-  const defaultAssignments: InternalAssignments = Object.keys(
-    AssignmentSurface
-  ).reduce((acc, key) => {
-    acc[key] = {
-      type: "inherit",
-      from: GBA_INHERITS_FROM[key],
-    };
-    return acc;
-  }, {} as InternalAssignments);
-  defaultAssignments[Groups.EVERYTHING] = {
-    type: "assign",
-    material: EMPTY_MATERIAL_ID,
-  };
-  defaultAssignments[Groups.ALL_BUTTONS] = {
-    type: "assign",
-    material: pickMaterial("gray").id,
-  };
-  defaultAssignments[Groups.SHELL] = {
-    type: "assign",
-    material: pickMaterial("purple").id,
-  };
-
-  return defaultAssignments;
+  return { assignments };
 }
 
 const AssignmentContext =
