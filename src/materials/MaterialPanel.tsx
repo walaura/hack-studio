@@ -1,10 +1,11 @@
 import Flexbox from "../ui/Flexbox";
 import Margin from "../ui/Margin";
 import Box from "../ui/Box";
+import Text from "../ui/Text";
 import { MaterialPicker } from "./MaterialPicker";
 import { useAssignments } from "../assignments/useAssignments";
 import stylex from "@stylexjs/stylex";
-import React, { ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 import { Assignment, AssignmentKey } from "../assignments/Assignments";
 import Button from "../ui/Button";
 import { useStoreHistory } from "../store/useStore";
@@ -19,16 +20,34 @@ const SECTIONS = {
   editor: "Editor",
 };
 
-function getSectionContent(
-  section: keyof typeof SECTIONS
-): (AssignmentKey | AssignmentKey[])[] {
+type SectionLayout =
+  | {
+      type: "title";
+      title: string;
+    }
+  | AssignmentKey
+  | SectionLayout[];
+
+function getSectionContent(section: keyof typeof SECTIONS): SectionLayout[] {
   switch (section) {
     case "base":
       return [
+        {
+          type: "title",
+          title: "Shell",
+        },
         Assignment.SHELL,
         [Assignment.FRONT_SHELL, Assignment.BACK_SHELL],
+        {
+          type: "title",
+          title: "Buttons",
+        },
         Assignment.ALL_BUTTONS,
         [Assignment.FACE_BUTTONS, Assignment.SIDE_BUTTONS],
+        {
+          type: "title",
+          title: "Membranes",
+        },
         Assignment.LOWER_MEMBRANES,
       ];
     case "face":
@@ -69,9 +88,19 @@ export default function MaterialPanel({
   const { assignments } = useAssignments();
 
   const getPickerForAssignment = (
-    surfaceID: AssignmentKey,
+    surfaceID: SectionLayout,
     noBasis = false
   ) => {
+    if (typeof surfaceID === "object") {
+      if ("type" in surfaceID && surfaceID.type === "title") {
+        return (
+          <Flexbox xstyle={styles.title} key={surfaceID.title} justify="start">
+            <Text type="headline2">{surfaceID.title}</Text>
+          </Flexbox>
+        );
+      }
+      return;
+    }
     return (
       <MaterialPicker
         xstyle={noBasis ? styles.noBasis : undefined}
@@ -106,11 +135,7 @@ export default function MaterialPanel({
                 if (Array.isArray(key)) {
                   return (
                     <Flexbox gap={4} key={index}>
-                      {key.map((k) => (
-                        <React.Fragment key={k}>
-                          {getPickerForAssignment(k, true)}
-                        </React.Fragment>
-                      ))}
+                      {key.map((k) => getPickerForAssignment(k, true))}
                     </Flexbox>
                   );
                 }
@@ -168,6 +193,11 @@ function Tabs({
 }
 
 const styles = stylex.create({
+  title: {
+    marginTop: 16,
+    marginBottom: 4,
+    marginLeft: 12,
+  },
   tab: {
     padding: ".6em 1.2em",
     border: "none",
