@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { DEFAULT_MATERIAL, Material, MaterialID } from "./useMaterials";
+import { EMPTY_MATERIAL_ID, MaterialID } from "./useMaterials";
 
 enum Shell {
   FRONT_SHELL = "FRONT_SHELL",
@@ -124,7 +124,7 @@ function resolveMaterialAssignment(
   if (!assignment) {
     return {
       type: "assign",
-      material: DEFAULT_MATERIAL.id,
+      material: EMPTY_MATERIAL_ID,
     };
   }
   if (assignment.type === "inherit") {
@@ -194,5 +194,13 @@ const DEFAULT_MATERIAL_MAP: InternalMaterialMap = Object.keys(Surface).reduce(
 );
 DEFAULT_MATERIAL_MAP[Groups.EVERYTHING] = {
   type: "assign",
-  material: DEFAULT_MATERIAL.id,
+  material: EMPTY_MATERIAL_ID,
+};
+DEFAULT_MATERIAL_MAP[Groups.ALL_BUTTONS] = {
+  type: "assign",
+  material: "gray",
+};
+DEFAULT_MATERIAL_MAP[Groups.SHELL] = {
+  type: "assign",
+  material: "purple",
 };

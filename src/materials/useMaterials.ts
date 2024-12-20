@@ -2,30 +2,45 @@ import { useMemo, useState } from "react";
 
 export type MaterialID = string;
 
-type RawMaterial = {
+type InternalMaterial = {
   color: string;
 };
 
-export type Material = RawMaterial & { id: MaterialID };
+export type Material = InternalMaterial & { id: MaterialID };
 
 type Materials = {
-  [key: MaterialID]: RawMaterial;
+  [key: MaterialID]: Material;
 };
 
-export const DEFAULT_MATERIAL: Material = {
-  id: "0",
-  color: "#ff00ff",
+type InternalMaterials = {
+  [key: MaterialID]: InternalMaterial;
+};
+
+export const EMPTY_MATERIAL_ID = "0";
+const DEFAULT_MATERIALS: InternalMaterials = {
+  [EMPTY_MATERIAL_ID]: {
+    color: "#ff00ff",
+  },
+  purple: {
+    color: "#7F00FF",
+  },
+  gray: {
+    color: "#eee",
+  },
 };
 
 export function useMaterials() {
-  const [materialsDB, setMaterials] = useState<Materials>({
-    [DEFAULT_MATERIAL.id]: DEFAULT_MATERIAL,
+  const [materialsDB, setMaterials] = useState<InternalMaterials>({
+    ...DEFAULT_MATERIALS,
     1: { color: "#ff0000" },
     2: { color: "#00ff00" },
     3: { color: "#0000ff" },
   });
 
-  const updateMaterial = (id: MaterialID, to: Partial<RawMaterial>): void => {
+  const updateMaterial = (
+    id: MaterialID,
+    to: Partial<InternalMaterial>
+  ): void => {
     setMaterials((m) => ({
       ...m,
       [id]: {
@@ -43,7 +58,7 @@ export function useMaterials() {
     });
   };
 
-  const addMaterial = (material: RawMaterial): MaterialID => {
+  const addMaterial = (material: InternalMaterial): MaterialID => {
     const id = Date.now() + "-" + Math.random();
     setMaterials((m) => ({
       ...m,
@@ -55,7 +70,10 @@ export function useMaterials() {
 
   const pickMaterial = (id: MaterialID): Material => {
     if (!materialsDB[id]) {
-      return DEFAULT_MATERIAL;
+      return {
+        id: EMPTY_MATERIAL_ID,
+        ...DEFAULT_MATERIALS[EMPTY_MATERIAL_ID],
+      };
     }
     return {
       id,
@@ -64,7 +82,7 @@ export function useMaterials() {
   };
 
   const materials: Material[] = useMemo(
-    () => Object.entries(materialsDB).map(([id, material]) => pickMaterial(id)),
+    () => Object.entries(materialsDB).map(([id]) => pickMaterial(id)),
     [materialsDB]
   );
 
