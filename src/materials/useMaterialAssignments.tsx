@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
-import { EMPTY_MATERIAL_ID, MaterialID } from "./useMaterials";
+import { EMPTY_MATERIAL_ID, MaterialID, useMaterials } from "./useMaterials";
 
 enum Shell {
   FRONT_SHELL = "FRONT_SHELL",
@@ -162,9 +162,10 @@ function useMaterialAssignmentsInternal() {
     }));
   };
 
+  const defaultMaterials = useDefaultMaterialMap();
   const materialMap: MaterialMap = useMemo(() => {
     const map = {
-      ...DEFAULT_MATERIAL_MAP,
+      ...defaultMaterials,
       ...materialMapDB,
     } as InternalMaterialMap;
     const entries = Object.entries(map) as [
@@ -177,33 +178,39 @@ function useMaterialAssignmentsInternal() {
         resolveMaterialAssignment(map, assignment),
       ])
     ) as MaterialMap;
-  }, [materialMapDB]);
+  }, []);
 
   return { materialMap, assignMaterial, assignInheritance };
 }
 
-const DEFAULT_MATERIAL_MAP: InternalMaterialMap = Object.keys(Surface).reduce(
-  (acc, key) => {
-    acc[key] = {
-      type: "inherit",
-      from: GBA_INHERITS_FROM[key],
-    };
-    return acc;
-  },
-  {} as InternalMaterialMap
-);
-DEFAULT_MATERIAL_MAP[Groups.EVERYTHING] = {
-  type: "assign",
-  material: EMPTY_MATERIAL_ID,
-};
-DEFAULT_MATERIAL_MAP[Groups.ALL_BUTTONS] = {
-  type: "assign",
-  material: "gray",
-};
-DEFAULT_MATERIAL_MAP[Groups.SHELL] = {
-  type: "assign",
-  material: "purple",
-};
+function useDefaultMaterialMap() {
+  const { pickMaterial } = useMaterials();
+
+  const defaultMaterialMap: InternalMaterialMap = Object.keys(Surface).reduce(
+    (acc, key) => {
+      acc[key] = {
+        type: "inherit",
+        from: GBA_INHERITS_FROM[key],
+      };
+      return acc;
+    },
+    {} as InternalMaterialMap
+  );
+  defaultMaterialMap[Groups.EVERYTHING] = {
+    type: "assign",
+    material: EMPTY_MATERIAL_ID,
+  };
+  defaultMaterialMap[Groups.ALL_BUTTONS] = {
+    type: "assign",
+    material: pickMaterial("gray").id,
+  };
+  defaultMaterialMap[Groups.SHELL] = {
+    type: "assign",
+    material: pickMaterial("purple").id,
+  };
+
+  return defaultMaterialMap;
+}
 
 const MaterialAssignmentContext =
   createContext<ReturnType<typeof useMaterialAssignmentsInternal>>(undefined);

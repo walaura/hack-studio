@@ -22,7 +22,7 @@ const styles = stylex.create({
   },
 });
 
-export default function Home({}: {}) {
+export default function Home() {
   const {
     materials,
     pickMaterial,

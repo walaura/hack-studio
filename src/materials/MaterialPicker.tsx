@@ -4,8 +4,9 @@ import {
   MaterialAssignment,
   PRETTY_NAMES,
   SurfaceID,
+  useMaterialAssignments,
 } from "./useMaterialAssignments";
-import { Material, MaterialID } from "./useMaterials";
+import { useMaterials } from "./useMaterials";
 import Box from "../ui/Box";
 import Text from "../ui/Text";
 import Flexbox from "../ui/Flexbox";
@@ -17,20 +18,16 @@ import { StyleXStyles } from "@stylexjs/stylex";
 
 export function MaterialPicker({
   surface,
-  materials,
   assignedMaterial,
-  onPickMaterial,
-  onPickInheritance,
   xstyle,
 }: {
   surface: SurfaceID;
-  materials: Material[];
   assignedMaterial: MaterialAssignment;
-  onPickMaterial: (id: MaterialID) => void;
-  onPickInheritance: (id: SurfaceID) => void;
   xstyle?: StyleXStyles;
 }) {
   const elevation = Groups[surface] != null ? 2 : 1;
+  const { materials } = useMaterials();
+  const { assignMaterial, assignInheritance } = useMaterialAssignments();
 
   return (
     <Box xstyle={xstyle} elevation={elevation}>
@@ -56,7 +53,7 @@ export function MaterialPicker({
               key={material.id}
               isActive={assignedMaterial.material === material.id}
               onClick={() => {
-                onPickMaterial(material.id);
+                assignMaterial(surface, material.id);
               }}
             />
           ))}
@@ -64,7 +61,9 @@ export function MaterialPicker({
             <SquareButton
               type="circle"
               label={`Match ${PRETTY_NAMES[GBA_INHERITS_FROM[surface]]}`}
-              onClick={() => onPickInheritance(GBA_INHERITS_FROM[surface])}
+              onClick={() =>
+                assignInheritance(surface, GBA_INHERITS_FROM[surface])
+              }
             >
               <BsX color="var(--text-primary)" size={"2em"} />
             </SquareButton>

@@ -5,12 +5,7 @@ export type MaterialID = string;
 type InternalMaterial = {
   color: string;
 };
-
 export type Material = InternalMaterial & { id: MaterialID };
-
-type Materials = {
-  [key: MaterialID]: Material;
-};
 
 type InternalMaterials = {
   [key: MaterialID]: InternalMaterial;
