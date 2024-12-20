@@ -1,5 +1,5 @@
 import { Assignment, useAssignments } from "../assignments/useAssignments";
-import { useMaterials } from "./useMaterials";
+import { MaterialID, useMaterials } from "./useMaterials";
 import Box from "../ui/Box";
 import Text from "../ui/Text";
 import Flexbox from "../ui/Flexbox";
@@ -14,6 +14,9 @@ import {
   Groups,
   PRETTY_NAMES,
 } from "../assignments/Assignments";
+import Popover from "../ui/Popover";
+import MaterialEditor from "./MaterialEditor";
+import { useEffect, useState } from "react";
 
 export function MaterialPicker({
   surface,
@@ -26,7 +29,7 @@ export function MaterialPicker({
 }) {
   const elevation = Groups[surface] != null ? 2 : 1;
   const { materials } = useMaterials();
-  const { assignMaterial, assignInheritance } = useAssignments();
+  const { assignInheritance } = useAssignments();
 
   return (
     <Box xstyle={xstyle} elevation={elevation}>
@@ -47,13 +50,11 @@ export function MaterialPicker({
           justify="start"
         >
           {materials.map((material) => (
-            <SwatchButton
-              color={material.color}
+            <Swatch
+              assignedMaterial={assignedMaterial}
               key={material.id}
-              isActive={assignedMaterial.material === material.id}
-              onClick={() => {
-                assignMaterial(surface, material.id);
-              }}
+              materialID={material.id}
+              surfaceID={surface}
             />
           ))}
           {assignedMaterial.type !== "inherit" && (
@@ -70,5 +71,46 @@ export function MaterialPicker({
         </Flexbox>
       </Flexbox>
     </Box>
+  );
+}
+
+function Swatch({
+  assignedMaterial,
+  materialID,
+  surfaceID,
+}: {
+  assignedMaterial: Assignment;
+  materialID: MaterialID;
+  surfaceID: AssignmentSurfaceID;
+}) {
+  const isActive = assignedMaterial.material === materialID;
+  const { pickMaterial } = useMaterials();
+  const { assignMaterial } = useAssignments();
+
+  const [shouldEnableOnNextTick, setShouldEnableOnNextTick] =
+    useState(isActive);
+
+  useEffect(() => {
+    setShouldEnableOnNextTick(isActive);
+  }, [isActive]);
+
+  return (
+    <Popover
+      isActive={shouldEnableOnNextTick}
+      popover={
+        <>
+          <Text>{assignedMaterial.material}</Text>
+          <MaterialEditor materialID={assignedMaterial.material} />
+        </>
+      }
+    >
+      <SwatchButton
+        color={pickMaterial(materialID).color}
+        isActive={isActive}
+        onClick={() => {
+          assignMaterial(surfaceID, materialID);
+        }}
+      />
+    </Popover>
   );
 }
