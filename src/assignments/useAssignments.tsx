@@ -72,7 +72,6 @@ function useAssignmentsInternal() {
 }
 
 const AssignmentContext =
-  // eslint-disable-next-line no-undefined
   createContext<ReturnType<typeof useAssignmentsInternal>>(undefined);
 
 export const AssignmentProvider = ({
