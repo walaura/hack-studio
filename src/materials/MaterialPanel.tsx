@@ -179,7 +179,7 @@ const styles = stylex.create({
     height: "100%",
   },
   divider: {
-    borderLeft: "1px solid var(--divider)",
+    borderLeft: "1px solid var(--surface-3)",
   },
   noBasis: {
     flexBasis: "0",

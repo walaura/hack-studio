@@ -5,7 +5,6 @@ const styles = stylex.create({
   box: {
     backgroundColor: "var(--background)",
     overflow: "auto",
-    "--divider": "#fff",
   },
 });
 

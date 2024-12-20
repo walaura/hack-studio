@@ -18,20 +18,28 @@
         src: url(../static/Inter-Italic.ttf) format("woff2");
       }
       :root {
-        --surface-1: #fff;
-        --surface-2: #eee;
-        --surface-3: #ddd;
-        --surface-4: #ccc;
-        --divider: var(--surface-3);
-        --error: #e3400b;
-        --highlight: #31cfff;
-        --highlight-faint: #31cfffb3;
-        --text-primary: #000;
-        --text-secondary: #666;
+        --surface-1: #111;
+        --surface-2: #222;
+        --surface-3: #333;
+        --surface-4: #444;
+        --text-primary: #fff;
+        --text-secondary: #ccc;
         background-color: var(--surface-1);
         background-image: url(../static/dotty.svg);
         background-size: 1em;
         color: var(--text-primary);
+        background-blend-mode: color-burn;
+      }
+      .light:root {
+        --surface-1: #fff;
+        --surface-2: #eee;
+        --surface-3: #ddd;
+        --surface-4: #ccc;
+        --highlight: #31cfff;
+        --highlight-faint: #31cfffb3;
+        --text-primary: #000;
+        --text-secondary: #666;
+        background-blend-mode: normal;
       }
       a {
         color: var(---text-primary);
