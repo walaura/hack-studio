@@ -47,16 +47,19 @@ export default function Button({
   onClick,
   type = "primary",
   isEnabled = true,
+  title,
 }: {
   children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: keyof typeof typeStyles;
   isEnabled?: boolean;
+  title?: string;
 }) {
   const Element = onClick ? "button" : "div";
 
   return (
     <Element
+      title={title}
       disabled={!isEnabled}
       // @ts-expect-error onclick on div
       onClick={isEnabled ? onClick : null}

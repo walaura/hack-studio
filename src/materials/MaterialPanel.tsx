@@ -9,9 +9,11 @@ import { ReactNode, useState } from "react";
 import { Assignment, AssignmentKey } from "../assignments/Assignments";
 import Button from "../ui/Button";
 import { useStoreHistory } from "../store/useStore";
+import { saveAs } from "file-saver";
 import {
   BsArrowClockwise,
   BsArrowCounterclockwise,
+  BsDownload,
   BsMoon,
 } from "react-icons/bs";
 
@@ -175,6 +177,17 @@ function Footer() {
           </Button>
         )}
       </Flexbox>
+      <Button
+        title="Download Image"
+        onClick={() => {
+          document
+            .getElementsByTagName("canvas")[0]
+            .toBlob((blob) => saveAs(blob, "gba"));
+        }}
+        type="secondary"
+      >
+        <BsDownload color="inherit" />
+      </Button>
       <Button
         onClick={() => {
           document.documentElement.classList.toggle("light");

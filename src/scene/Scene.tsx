@@ -1,5 +1,11 @@
 import { Canvas, useLoader } from "@react-three/fiber";
-import { Float, OrbitControls, Stage, useGLTF } from "@react-three/drei";
+import {
+  Float,
+  OrbitControls,
+  Stage,
+  useGLTF,
+  useVideoTexture,
+} from "@react-three/drei";
 import * as THREE from "three";
 import { Material, MaterialKey } from "../materials/useMaterials";
 import { Assignments } from "../assignments/useAssignments";
@@ -79,7 +85,8 @@ function Gba({
   assignments: Assignments;
 }) {
   const { nodes, materials } = useGLTF("./assets/gba.glb") as GLTFResult;
-  const colorMap = useLoader(THREE.TextureLoader, "./assets/boot.png");
+  // const colorMap = useLoader(THREE.TextureLoader, "./assets/boot.png");
+  const colorMap = useVideoTexture("./assets/boot.mp4", { loop: false });
   return (
     <>
       <Stage environment={"forest"} preset={"soft"} position={[0, 2, 0]}>
@@ -89,7 +96,6 @@ function Gba({
           floatIntensity={1}
           floatingRange={[0, 0.2]}
         >
-          <OrbitControls />
           <group
             dispose={null}
             scale={[2, 2, 2]}
@@ -189,6 +195,7 @@ function Gba({
                 })
               }
               rotation={[0, 0, Math.PI]}
+              scale={1.2}
               position={[0.157, 0.099, 0]}
             />
 
@@ -247,7 +254,7 @@ export default function Scene({
   assignments: Assignments;
 }) {
   return (
-    <Canvas>
+    <Canvas gl={{ preserveDrawingBuffer: true }}>
       <Gba pickMaterial={pickMaterial} assignments={assignments} />
     </Canvas>
   );
@@ -262,6 +269,7 @@ const NutsAndBolts = ({
 }) => {
   return (
     <>
+      <OrbitControls />
       <mesh
         castShadow
         receiveShadow
