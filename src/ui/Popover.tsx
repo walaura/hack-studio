@@ -1,5 +1,6 @@
 import stylex from "@stylexjs/stylex";
 import React, { useEffect } from "react";
+import { BsX } from "react-icons/bs";
 
 const styles = stylex.create({
   active: {
@@ -19,6 +20,15 @@ const styles = stylex.create({
     border: "none",
     borderRadius: ".4em",
     padding: 20,
+  },
+  closeButton: {
+    top: 8,
+    right: 8,
+    position: "absolute",
+    appearance: "none",
+    border: "none",
+    background: "transparent",
+    cursor: "pointer",
   },
 });
 
@@ -61,11 +71,15 @@ export default function Popover({
         popover="auto"
         {...stylex.props(styles.popover)}
       >
-        {popover}
-        {/*@ts-expect-error popovertarget is a valid attribute*/}
-        <button popovertarget={id} popovertargetaction="close">
-          Close
+        <button
+          {...stylex.props(styles.closeButton)}
+          /*  @ts-expect-error popovertarget is a valid attribute */
+          popovertarget={id}
+          popovertargetaction="close"
+        >
+          <BsX fill="var(--text-primary)" size={20} />
         </button>
+        {popover}
       </div>
     </div>
   );

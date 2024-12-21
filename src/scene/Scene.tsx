@@ -54,9 +54,11 @@ const createBezelMaterial = (type: "dark" | "light") =>
 const createPlasticMaterial = (material: Material) =>
   material.opacity !== 1
     ? new MeshPhysicalMaterial({
-        roughness: material.opacity,
+        roughness: Math.min(Math.max(material.opacity, 0.1), 0.4),
         transmission: 1,
         thickness: 0.2,
+        ior: 1.46,
+        clearcoat: 0,
         color: material.color,
       })
     : new MeshPhysicalMaterial({
