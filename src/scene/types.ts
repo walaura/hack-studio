@@ -92,3 +92,20 @@ export type GBType = GLTF & {
   };
   materials: object;
 };
+
+export type GBCTypes = GLTF & {
+  nodes: {
+    A: THREE.Mesh;
+    B: THREE.Mesh;
+    back: THREE.Mesh;
+    battery: THREE.Mesh;
+    bezel: THREE.Mesh;
+    DPAD: THREE.Mesh;
+    front: THREE.Mesh;
+    screen: THREE.Mesh;
+    screws: THREE.Mesh;
+    select: THREE.Mesh;
+    start: THREE.Mesh;
+  };
+  materials: object;
+};

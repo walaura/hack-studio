@@ -8,6 +8,7 @@ import {
   createHardPlasticMaterial,
   lightMaterial,
   membranesMaterial,
+  screwsMaterial,
 } from "../materials";
 import useAssignment from "../../assignments/useAssignment";
 import { Assignment } from "../../assignments/Assignments";
@@ -188,13 +189,7 @@ const NutsAndBolts = ({
         castShadow
         receiveShadow
         geometry={nodes.screws.geometry}
-        material={
-          new THREE.MeshPhysicalMaterial({
-            color: "black",
-            metalness: 1,
-            roughness: 0.06,
-          })
-        }
+        material={screwsMaterial}
         position={[0.001, 0.132, -0.002]}
       />
       <mesh

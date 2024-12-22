@@ -1,3 +1,4 @@
+import { projectTypeName } from "../project/useProject";
 import Button from "./Button";
 import Flexbox from "./Flexbox";
 
@@ -19,7 +20,7 @@ export default function Tabs<Tabs extends { [key: string]: string }>({
           key={tab}
           onClick={() => setActiveTab(tab as keyof Tabs)}
         >
-          {tabs[tab]}
+          {projectTypeName[tab]}
         </Button>
       ))}
     </Flexbox>

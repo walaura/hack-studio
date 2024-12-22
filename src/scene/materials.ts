@@ -62,3 +62,9 @@ export const metalMaterial = new MeshPhysicalMaterial({
   metalness: 1,
   color: "grey",
 });
+
+export const screwsMaterial = new MeshPhysicalMaterial({
+  color: "black",
+  metalness: 1,
+  roughness: 0.06,
+});

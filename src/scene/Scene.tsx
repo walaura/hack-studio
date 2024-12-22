@@ -7,6 +7,7 @@ import { ModelProps } from "./types";
 import useProject from "../project/useProject";
 import { useMemo } from "react";
 import { GB } from "./models/GB";
+import { GBC } from "./models/GBC";
 
 function Model(props: ModelProps) {
   const { type } = useProject();
@@ -18,6 +19,8 @@ function Model(props: ModelProps) {
         return SP;
       case "GB":
         return GB;
+      case "GBC":
+        return GBC;
     }
   }, [type]);
   return (
