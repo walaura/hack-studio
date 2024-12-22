@@ -58,7 +58,7 @@ export function AssignmentPanel<Tabs extends { [key: string]: string }>({
 
   return (
     <>
-      <Flexbox xstyle={Margin.all20} direction="row">
+      <Flexbox xstyle={Margin.all12} direction="row">
         <Tabs
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -86,7 +86,7 @@ const styles = stylex.create({
   innie: {
     height: "100%",
     width: "100%",
-    padding: 20,
+    padding: 16,
     overflow: "auto",
   },
   row: {

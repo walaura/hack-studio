@@ -6,7 +6,6 @@ const styles = stylex.create({
   base: {
     border: "none",
     backgroundColor: "transparent",
-    cursor: "pointer",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -53,7 +52,7 @@ const getTextColor = (type: keyof typeof typeStyles) => {
 const getTextType = (
   type: keyof typeof typeStyles
 ): ComponentProps<typeof Text>["type"] => {
-  if (type === "primary" || type === "secondary") {
+  if (type === "primary") {
     return "body2emphasis";
   }
 };

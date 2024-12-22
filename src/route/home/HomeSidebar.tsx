@@ -37,7 +37,7 @@ export default function MaterialPanel({
           <AssignmentPanel />
           <Divider />
           <Flexbox
-            xstyle={[Margin.all20]}
+            xstyle={[Margin.all12]}
             justify="space-between"
             direction="row"
           >
@@ -55,7 +55,7 @@ function TypePicker() {
 
   return (
     <Box elevation={0}>
-      <Flexbox direction="row" gap={4} xstyle={Margin.all20}>
+      <Flexbox direction="row" gap={4} xstyle={Margin.all12}>
         <Tabs
           tabs={ProjectType}
           activeTab={type}

@@ -2,12 +2,9 @@ import Box from "../../ui/Box";
 import Flexbox from "../../ui/Flexbox";
 import stylex from "@stylexjs/stylex";
 import useMaterials from "../../materials/useMaterials";
-import Button from "../../ui/Button";
-import Text from "../../ui/Text";
 import MaterialPanel from "./HomeSidebar";
 import Scene from "../../scene/Scene";
 import MaterialEditor from "../../materials/MaterialEditor";
-import { useWriteToStore } from "../../store/useStore";
 
 const styles = stylex.create({
   canvas: {
@@ -15,7 +12,7 @@ const styles = stylex.create({
     height: "100%",
   },
   sidebar: {
-    width: 480,
+    width: 460,
     height: "calc(100vh - 16px - 16px)",
     marginRight: 16,
     alignSelf: "center",
@@ -25,7 +22,6 @@ const styles = stylex.create({
 
 export default function Home() {
   const { materials, pickMaterial } = useMaterials();
-  const { addMaterial } = useWriteToStore();
 
   return (
     <Flexbox direction="row" align="end" xstyle={styles.canvas}>
@@ -34,14 +30,6 @@ export default function Home() {
         <MaterialPanel
           materialEditor={
             <Box>
-              <Text type="headline2">Materials</Text>
-              <Button
-                onClick={() => {
-                  addMaterial({ color: "#ff0055" });
-                }}
-              >
-                new
-              </Button>
               {materials.map((material) => (
                 <MaterialEditor key={material.id} materialKey={material.id} />
               ))}

@@ -3,7 +3,7 @@ import Text from "../ui/Text";
 import Flexbox from "../ui/Flexbox";
 import SwatchButton from "../ui/swatches/SwatchButton";
 import SquareButton from "../ui/swatches/SquareButton";
-import { BsArrowsCollapse, BsArrowUp, BsPlus } from "react-icons/bs";
+import { BsArrowsCollapse, BsPlus } from "react-icons/bs";
 import Margin from "../ui/Margin";
 import stylex from "@stylexjs/stylex";
 import { AssignmentKey, Groups, PRETTY_NAMES } from "./Assignments";
@@ -30,11 +30,14 @@ export function AssignmentPicker({
   const maybeInheritance = useAssignmentInheritsFrom(assignmentKey);
   const assignedMaterial = useAssignment(assignmentKey);
 
+  const canRevertToInheritedMaterial =
+    assignedMaterial.type !== "inherit" && maybeInheritance !== "DEFAULT_GROUP";
+
   return (
     <Box elevation={elevation}>
-      <Flexbox direction="column" gap={4} xstyle={Margin.all12}>
+      <Flexbox direction="column" gap={8} xstyle={Margin.all12}>
         <Flexbox direction="row" justify="space-between">
-          <Text type="body2emphasis">{PRETTY_NAMES[assignmentKey]}</Text>
+          <Text type="body2">{PRETTY_NAMES[assignmentKey]}</Text>
           {assignedMaterial.type === "inherit" ? (
             <span>
               <Text color="secondary" type="body3">
@@ -66,7 +69,7 @@ export function AssignmentPicker({
               assignmentKeyID={assignmentKey}
             />
           ))}
-          {assignedMaterial.type !== "inherit" && (
+          {canRevertToInheritedMaterial && (
             <SquareButton
               type="square"
               label={`Match ${PRETTY_NAMES[maybeInheritance]}`}
@@ -91,13 +94,13 @@ const styles = stylex.create({
 
 const sizeStyles = stylex.create({
   small: {
-    "--grid-size": "1em",
+    "--grid-size": "28px",
   },
   normal: {
-    "--grid-size": "2em",
+    "--grid-size": "34px",
   },
   large: {
-    "--grid-size": "4em",
+    "--grid-size": "48px",
   },
 });
 

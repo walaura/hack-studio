@@ -63,7 +63,9 @@ function resolveAssignment(
   return assignment;
 }
 
-export function useAssignmentInheritsFrom(forKey: AssignmentKey): Groups {
+export function useAssignmentInheritsFrom(
+  forKey: AssignmentKey
+): AssignmentKey {
   const { type } = useProject();
 
   return useMemo(
