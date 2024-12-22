@@ -27,7 +27,7 @@ export default function AssignmentPanelForGBA() {
                     Tweak shell
                   </Button>
                 </APGroup>
-                <APGroup>
+                <APGroup isLast>
                   <APRow>
                     <AssignmentPicker assignmentKey={Assignment.ALL_BUTTONS} />
                     <AssignmentPicker assignmentKey={Assignment.SIDE_BUTTONS} />
@@ -68,7 +68,7 @@ export default function AssignmentPanelForGBA() {
                     size="small"
                   />
                 </APGroup>
-                <APGroup title={"Membranes"}>
+                <APGroup title={"Membranes"} isLast>
                   <APRow>
                     <AssignmentPicker assignmentKey={Assignment.MEMBRANE_AB} />
                     <AssignmentPicker

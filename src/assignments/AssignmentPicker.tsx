@@ -3,7 +3,7 @@ import Text from "../ui/Text";
 import Flexbox from "../ui/Flexbox";
 import SwatchButton from "../ui/swatches/SwatchButton";
 import SquareButton from "../ui/swatches/SquareButton";
-import { BsArrowsCollapse, BsPlus } from "react-icons/bs";
+import { FaArrowUpShortWide, FaPlus } from "react-icons/fa6";
 import Margin from "../ui/Margin";
 import stylex from "@stylexjs/stylex";
 import { AssignmentKey, Groups, PRETTY_NAMES } from "./Assignments";
@@ -59,7 +59,7 @@ export function AssignmentPicker({
               })
             }
           >
-            <BsPlus color="var(--text-primary)" size={"60%"} />
+            <FaPlus color="var(--text-primary)" size={"40%"} />
           </SquareButton>
           {materials.map((material) => (
             <Swatch
@@ -75,7 +75,7 @@ export function AssignmentPicker({
               label={`Match ${PRETTY_NAMES[maybeInheritance]}`}
               onClick={() => deleteAssignment(assignmentKey)}
             >
-              <BsArrowsCollapse color="var(--text-primary)" size={"50%"} />
+              <FaArrowUpShortWide color="var(--text-primary)" size={"40%"} />
             </SquareButton>
           )}
         </div>

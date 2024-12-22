@@ -6,19 +6,19 @@ import { ReactNode } from "react";
 import Button from "../../ui/Button";
 import { useStoreHistory, useWriteToStore } from "../../store/useStore";
 import { saveAs } from "file-saver";
-import {
-  BsArrowClockwise,
-  BsArrowCounterclockwise,
-  BsDownload,
-  BsMoon,
-  BsPencil,
-} from "react-icons/bs";
 import Popover from "../../ui/Popover";
 import AssignmentPanelForGBA from "./assignments/AssignmentPanelForGBA";
 import Divider from "../../ui/Divider";
 import Tabs from "../../ui/Tabs";
 import useProject, { ProjectType } from "../../project/useProject";
 import AssignmentPanelForGBASP from "./assignments/AssignmentPanelForGBASP";
+import {
+  FaArrowRotateLeft,
+  FaArrowRotateRight,
+  FaDownload,
+  FaMoon,
+  FaPencil,
+} from "react-icons/fa6";
 
 export default function MaterialPanel({
   materialEditor,
@@ -72,18 +72,18 @@ function Footer({ materialEditor }: { materialEditor: ReactNode }) {
     <>
       <Flexbox direction="row" gap={4}>
         <Button isEnabled={canUndo} onClick={onUndo} type="secondary">
-          <BsArrowCounterclockwise color="inherit" />
+          <FaArrowRotateLeft color="inherit" />
         </Button>
         {canRedo && (
           <Button onClick={onRedo} type="secondary">
-            <BsArrowClockwise color="inherit" />
+            <FaArrowRotateRight color="inherit" />
           </Button>
         )}
       </Flexbox>
       <Flexbox direction="row" gap={4}>
         <Popover popover={materialEditor}>
           <Button title="Material editor" type="secondary">
-            <BsPencil color="inherit" />
+            <FaPencil color="inherit" />
           </Button>
         </Popover>
         <Button
@@ -95,7 +95,7 @@ function Footer({ materialEditor }: { materialEditor: ReactNode }) {
           }}
           type="secondary"
         >
-          <BsDownload color="inherit" />
+          <FaDownload color="inherit" />
         </Button>
         <Button
           onClick={() => {
@@ -103,7 +103,7 @@ function Footer({ materialEditor }: { materialEditor: ReactNode }) {
           }}
           type="secondary"
         >
-          <BsMoon color="inherit" />
+          <FaMoon color="inherit" />
         </Button>
       </Flexbox>
     </>
@@ -113,7 +113,6 @@ function Footer({ materialEditor }: { materialEditor: ReactNode }) {
 const styles = stylex.create({
   root: {
     height: "100%",
-    overflow: "hidden",
   },
   cap: {
     height: "100%",

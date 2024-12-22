@@ -13,6 +13,7 @@ const styles = stylex.create({
   },
   sidebar: {
     width: 460,
+    overflow: "visible",
     height: "calc(100vh - 16px - 16px)",
     marginRight: 16,
     alignSelf: "center",

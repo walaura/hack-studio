@@ -1,7 +1,7 @@
-import stylex from "@stylexjs/stylex";
+import stylex, { StyleXStyles } from "@stylexjs/stylex";
 
-export default function Divider() {
-  return <div {...stylex.props(styles.divider)} />;
+export default function Divider({ xstyle }: { xstyle?: StyleXStyles }) {
+  return <div {...stylex.props(styles.divider, xstyle)} />;
 }
 
 const styles = stylex.create({

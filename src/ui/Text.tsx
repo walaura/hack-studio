@@ -20,7 +20,7 @@ const typeStyles = stylex.create({
     fontWeight: 600,
   },
   headline2: {
-    fontSize: "1.2rem",
+    fontSize: "1.1rem",
     fontWeight: 600,
   },
 });
