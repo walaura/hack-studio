@@ -1,7 +1,7 @@
 import Box from "../ui/Box";
 import Flexbox from "../ui/Flexbox";
 import stylex from "@stylexjs/stylex";
-import { useMaterials } from "../materials/useMaterials";
+import useMaterials from "../materials/useMaterials";
 import Button from "../ui/Button";
 import Text from "../ui/Text";
 import MaterialPanel from "../materials/MaterialPanel";

@@ -1,6 +1,6 @@
 import stylex from "@stylexjs/stylex";
 import SquareButton from "./SquareButton";
-import { MaterialKey, useMaterials } from "../../materials/useMaterials";
+import useMaterials, { MaterialKey } from "../../materials/useMaterials";
 import { BsDice5 } from "react-icons/bs";
 
 const styles = stylex.create({
