@@ -102,12 +102,5 @@ export const PRETTY_NAMES: {
 };
 
 export const DEFAULT_ASSIGNMENTS: Store["assignments"] = {
-  ...Object.keys(Assignment).reduce((acc, key) => {
-    acc[key] = {
-      type: "inherit",
-      from: GBA_INHERITS_FROM[key],
-    };
-    return acc;
-  }, {} as Store["assignments"]),
   ...defaultAssignments,
 } as Store["assignments"];
