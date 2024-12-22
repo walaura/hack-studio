@@ -6,6 +6,9 @@ import { AssignmentKey, DEFAULT_ASSIGNMENTS } from "../assignments/Assignments";
 const MAX_UNDO_LEVEL = 20;
 
 export type Store = {
+  project: {
+    type: "gba" | "gba-sp";
+  };
   assignments: {
     [K in AssignmentKey]:
       | {
@@ -124,6 +127,9 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const [store, setStore] = useState<Store>({
     materials: { ...DEFAULT_MATERIALS },
     assignments: { ...DEFAULT_ASSIGNMENTS },
+    project: {
+      type: "gba",
+    },
   });
   const historyRef = useRef([]);
   const [undoStackDepth, setUndoStackDepth] = useState(-1);
