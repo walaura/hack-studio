@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/walaura/digipick#readme",
   "dependencies": {
+    "@react-spring/three": "^9.7.5",
     "@react-three/drei": "^9.120.4",
     "@react-three/fiber": "^8.17.10",
     "@stylexjs/babel-plugin": "^0.9.3",

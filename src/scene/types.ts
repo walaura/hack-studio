@@ -42,9 +42,7 @@ export type SPTypes = GLTF & {
     battery: THREE.Mesh;
     bottom: THREE.Mesh;
     Dpad: THREE.Mesh;
-    Cube036: THREE.Mesh;
-    Cube036_1: THREE.Mesh;
-    Cube036_2: THREE.Mesh;
+    io: THREE.Mesh;
     L: THREE.Mesh;
     lights: THREE.Mesh;
     off: THREE.Mesh;
@@ -61,10 +59,6 @@ export type SPTypes = GLTF & {
     cartdrige: THREE.Mesh;
   };
   materials: {
-    Button_Black: THREE.MeshStandardMaterial;
-    Buttons_Light_Grey: THREE.MeshStandardMaterial;
-    Port_Gold: THREE.MeshStandardMaterial;
-    Battery_Light: THREE.MeshStandardMaterial;
     Screen_Black: THREE.MeshStandardMaterial;
     TEXT_White: THREE.MeshStandardMaterial;
     Black_TEXT_Background: THREE.MeshStandardMaterial;
