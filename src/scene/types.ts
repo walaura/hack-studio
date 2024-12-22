@@ -1,5 +1,7 @@
 import { GLTF } from "three-stdlib";
 import * as THREE from "three";
+import { Material, MaterialKey } from "../materials/useMaterials";
+import { Assignments } from "../assignments/useAssignments";
 
 export type GBAType = GLTF & {
   nodes: {
@@ -28,4 +30,45 @@ export type GBAType = GLTF & {
     speaker: THREE.Mesh;
   };
   materials: object;
+};
+
+export type ModelProps = {
+  pickMaterial: (id: MaterialKey) => Material;
+  assignments: Assignments;
+};
+
+export type SPTypes = GLTF & {
+  nodes: {
+    A: THREE.Mesh;
+    B: THREE.Mesh;
+    battery: THREE.Mesh;
+    bottom: THREE.Mesh;
+    Dpad: THREE.Mesh;
+    Cube036: THREE.Mesh;
+    Cube036_1: THREE.Mesh;
+    Cube036_2: THREE.Mesh;
+    L: THREE.Mesh;
+    lights: THREE.Mesh;
+    off: THREE.Mesh;
+    R: THREE.Mesh;
+    select: THREE.Mesh;
+    start: THREE.Mesh;
+    top: THREE.Mesh;
+    Cube006: THREE.Mesh;
+    Cube006_1: THREE.Mesh;
+    Cube019: THREE.Mesh;
+    Cube019_1: THREE.Mesh;
+    pads: THREE.Mesh;
+    screen: THREE.Mesh;
+    cartdrige: THREE.Mesh;
+  };
+  materials: {
+    Button_Black: THREE.MeshStandardMaterial;
+    Buttons_Light_Grey: THREE.MeshStandardMaterial;
+    Port_Gold: THREE.MeshStandardMaterial;
+    Battery_Light: THREE.MeshStandardMaterial;
+    Screen_Black: THREE.MeshStandardMaterial;
+    TEXT_White: THREE.MeshStandardMaterial;
+    Black_TEXT_Background: THREE.MeshStandardMaterial;
+  };
 };
