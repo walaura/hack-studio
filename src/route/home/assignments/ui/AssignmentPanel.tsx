@@ -6,7 +6,7 @@ import Tabs from "../../../../ui/Tabs";
 import Margin from "../../../../ui/Margin";
 import Divider from "../../../../ui/Divider";
 import stylex from "@stylexjs/stylex";
-import { MaterialPicker } from "../../../../materials/MaterialPicker";
+import { AssignmentPicker } from "../../../../assignments/AssignmentPicker";
 
 export function APRow({ children }: { children: ReactNode }) {
   return <div {...stylex.props(styles.row)}>{children}</div>;
@@ -48,7 +48,7 @@ export function AssignmentPanel<Tabs extends { [key: string]: string }>({
   const allAssignments = useMemo(
     () =>
       Object.keys(Assignment).map((assignment) => (
-        <MaterialPicker
+        <AssignmentPicker
           assignmentKey={assignment as AssignmentKey}
           key={assignment}
         />

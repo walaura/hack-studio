@@ -1,5 +1,5 @@
 import { Assignment } from "../../../assignments/Assignments";
-import { MaterialPicker } from "../../../materials/MaterialPicker";
+import { AssignmentPicker } from "../../../assignments/AssignmentPicker";
 import { AssignmentPanel, APGroup, APRow } from "./ui/AssignmentPanel";
 
 const SECTIONS = {
@@ -18,21 +18,23 @@ export default function AssignmentPanelForGBASP() {
             return (
               <>
                 <APGroup title={"Shell"}>
-                  <MaterialPicker assignmentKey={Assignment.SHELL} />
+                  <AssignmentPicker assignmentKey={Assignment.SHELL} />
                   <APRow>
-                    <MaterialPicker assignmentKey={Assignment.FRONT_SHELL} />
-                    <MaterialPicker assignmentKey={Assignment.BACK_SHELL} />
+                    <AssignmentPicker assignmentKey={Assignment.FRONT_SHELL} />
+                    <AssignmentPicker assignmentKey={Assignment.BACK_SHELL} />
                   </APRow>
                 </APGroup>
                 <APGroup title={"Buttons"}>
-                  <MaterialPicker assignmentKey={Assignment.ALL_BUTTONS} />
+                  <AssignmentPicker assignmentKey={Assignment.ALL_BUTTONS} />
                   <APRow>
-                    <MaterialPicker assignmentKey={Assignment.FACE_BUTTONS} />
-                    <MaterialPicker assignmentKey={Assignment.SIDE_BUTTONS} />
+                    <AssignmentPicker assignmentKey={Assignment.FACE_BUTTONS} />
+                    <AssignmentPicker assignmentKey={Assignment.SIDE_BUTTONS} />
                   </APRow>
                 </APGroup>
                 <APGroup title={"Membranes"}>
-                  <MaterialPicker assignmentKey={Assignment.LOWER_MEMBRANES} />
+                  <AssignmentPicker
+                    assignmentKey={Assignment.LOWER_MEMBRANES}
+                  />
                 </APGroup>
               </>
             );
@@ -40,21 +42,25 @@ export default function AssignmentPanelForGBASP() {
             return (
               <>
                 <APGroup title={"Buttons"}>
-                  <MaterialPicker assignmentKey={Assignment.FACE_BUTTONS} />
-                  <MaterialPicker assignmentKey={Assignment.BUTTON_HOME} />
-                  <MaterialPicker assignmentKey={Assignment.DPAD} />
+                  <AssignmentPicker assignmentKey={Assignment.FACE_BUTTONS} />
+                  <AssignmentPicker assignmentKey={Assignment.BUTTON_HOME} />
+                  <AssignmentPicker assignmentKey={Assignment.DPAD} />
                   <APRow>
-                    <MaterialPicker assignmentKey={Assignment.BUTTON_A} />
-                    <MaterialPicker assignmentKey={Assignment.BUTTON_B} />
+                    <AssignmentPicker assignmentKey={Assignment.BUTTON_A} />
+                    <AssignmentPicker assignmentKey={Assignment.BUTTON_B} />
                   </APRow>
                 </APGroup>
                 <APGroup title={"Membranes"}>
-                  <MaterialPicker assignmentKey={Assignment.LOWER_MEMBRANES} />
+                  <AssignmentPicker
+                    assignmentKey={Assignment.LOWER_MEMBRANES}
+                  />
                   <APRow>
-                    <MaterialPicker assignmentKey={Assignment.MEMBRANE_AB} />
-                    <MaterialPicker assignmentKey={Assignment.MEMBRANE_DPAD} />
+                    <AssignmentPicker assignmentKey={Assignment.MEMBRANE_AB} />
+                    <AssignmentPicker
+                      assignmentKey={Assignment.MEMBRANE_DPAD}
+                    />
                   </APRow>
-                  <MaterialPicker
+                  <AssignmentPicker
                     assignmentKey={Assignment.MEMBRANE_START_SELECT}
                   />
                 </APGroup>
@@ -64,14 +70,14 @@ export default function AssignmentPanelForGBASP() {
             return (
               <>
                 <APGroup title={"Sides"}>
-                  <MaterialPicker assignmentKey={Assignment.SIDE_BUTTONS} />
+                  <AssignmentPicker assignmentKey={Assignment.SIDE_BUTTONS} />
                   <APRow>
-                    <MaterialPicker assignmentKey={Assignment.SHOULDER_L} />
-                    <MaterialPicker assignmentKey={Assignment.SHOULDER_R} />
+                    <AssignmentPicker assignmentKey={Assignment.SHOULDER_L} />
+                    <AssignmentPicker assignmentKey={Assignment.SHOULDER_R} />
                   </APRow>
                   <APRow>
-                    <MaterialPicker assignmentKey={Assignment.RAIL_L} />
-                    <MaterialPicker assignmentKey={Assignment.RAIL_R} />
+                    <AssignmentPicker assignmentKey={Assignment.RAIL_L} />
+                    <AssignmentPicker assignmentKey={Assignment.RAIL_R} />
                   </APRow>
                 </APGroup>
               </>

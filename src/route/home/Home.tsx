@@ -15,9 +15,9 @@ const styles = stylex.create({
     height: "100%",
   },
   sidebar: {
-    width: "40em",
-    height: "calc(100vh - 4em)",
-    marginRight: "2em",
+    width: 480,
+    height: "calc(100vh - 16px - 16px)",
+    marginRight: 16,
     alignSelf: "center",
     flexShrink: 0,
   },

@@ -6,6 +6,6 @@ export default function Divider() {
 
 const styles = stylex.create({
   divider: {
-    borderBottom: "2px solid var(--surface-1)",
+    borderBottom: "1px solid var(--surface-2)",
   },
 });

@@ -10,18 +10,18 @@ const styles = stylex.create({
 const typeStyles = stylex.create({
   body2: {},
   body2emphasis: {
-    fontWeight: "bold",
+    fontWeight: 600,
   },
   body3: {
     fontSize: ".8em",
   },
   body3emphasis: {
     fontSize: ".8em",
-    fontWeight: "bold",
+    fontWeight: 600,
   },
   headline2: {
-    fontSize: "1.4em",
-    fontWeight: "bold",
+    fontSize: "1.2rem",
+    fontWeight: 600,
   },
 });
 

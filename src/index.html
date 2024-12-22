@@ -4,39 +4,33 @@
     <meta charset="utf-8" />
     <title>Studio</title>
     <style type="text/css">
-      @font-face {
-        font-family: "Inter";
-        font-weight: 100 900;
-        font-display: swap;
-        src: url(../static/Inter.ttf) format("woff2");
-      }
-      @font-face {
-        font-family: "Inter";
-        font-style: italic;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url(../static/Inter-Italic.ttf) format("woff2");
-      }
       :root {
-        --surface-1: #111;
-        --surface-2: #222;
-        --surface-3: #333;
-        --surface-4: #444;
-        --text-primary: #fff;
-        --text-secondary: #ccc;
-        background-color: var(--surface-1);
+        --background: #151515;
+        --surface-1: #1d1d1d;
+        --surface-1-shadow: rgba(0, 0, 0, 0.9);
+        --surface-2: #333;
+        --surface-highlight: rgba(255, 255, 255, 0.05);
+
+        --selected: #999;
+
+        --text-primary: #ddd;
+        --text-secondary: #999;
+
+        background-color: var(--background);
         background-image: url(../static/dotty.svg);
         background-size: 1em;
         color: var(--text-primary);
         background-blend-mode: color-burn;
+        font: 0.8em -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
       }
       .light:root {
-        --surface-1: #fff;
-        --surface-2: #eee;
-        --surface-3: #ddd;
-        --surface-4: #ccc;
-        --highlight: #31cfff;
-        --highlight-faint: #31cfffb3;
+        --background: #fff;
+        --surface-1: #eee;
+        --surface-1-shadow: rgba(0, 0, 0, 0.2);
+        --surface-2: #ddd;
+        --surface-highlight: rgba(0, 0, 0, 0.08);
         --text-primary: #000;
         --text-secondary: #666;
         background-blend-mode: normal;
@@ -48,7 +42,7 @@
       * {
         margin: 0;
         padding: 0;
-        font: 0.9rem "Inter";
+        font: inherit;
         line-height: 1.4;
         box-sizing: border-box;
       }
