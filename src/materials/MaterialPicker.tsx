@@ -1,4 +1,4 @@
-import { Assignment } from "../assignments/useAssignments";
+import { Assignment } from "../assignments/useAssignment";
 import { MaterialKey, useMaterials } from "./useMaterials";
 import Box from "../ui/Box";
 import Text from "../ui/Text";

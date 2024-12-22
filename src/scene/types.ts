@@ -1,7 +1,6 @@
 import { GLTF } from "three-stdlib";
 import * as THREE from "three";
 import { Material, MaterialKey } from "../materials/useMaterials";
-import { Assignments } from "../assignments/useAssignments";
 
 export type GBAType = GLTF & {
   nodes: {
@@ -34,7 +33,6 @@ export type GBAType = GLTF & {
 
 export type ModelProps = {
   pickMaterial: (id: MaterialKey) => Material;
-  assignments: Assignments;
 };
 
 export type SPTypes = GLTF & {

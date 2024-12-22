@@ -8,10 +8,13 @@ import {
   createHardPlasticMaterial,
   membranesMaterial,
 } from "../materials";
+import useAssignment from "../../assignments/useAssignment";
+import { Assignment } from "../../assignments/Assignments";
 
-export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
+export const GBA = ({ pickMaterial }: ModelProps) => {
   const { nodes, materials } = useGLTF("./assets/gba.glb") as GBAType;
   const colorMap = useVideoTexture("./assets/boot.mp4", { loop: false });
+
   return (
     <group dispose={null} scale={[2, 2, 2]} rotation={[0, -Math.PI / 2, 0]}>
       <mesh
@@ -19,7 +22,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.back.geometry}
         material={createHardPlasticMaterial(
-          pickMaterial(assignments.BACK_SHELL.material)
+          pickMaterial(useAssignment(Assignment.BACK_SHELL).material)
         )}
         position={[0.042, 0.087, -0.11]}
       />
@@ -28,7 +31,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.Front.geometry}
         material={createHardPlasticMaterial(
-          pickMaterial(assignments.FRONT_SHELL.material)
+          pickMaterial(useAssignment(Assignment.FRONT_SHELL).material)
         )}
         position={[0.143, 0.023, -0.156]}
       />
@@ -37,7 +40,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.A.geometry}
         material={createButtonsMaterial(
-          pickMaterial(assignments.BUTTON_A.material).color
+          pickMaterial(useAssignment(Assignment.BUTTON_A).material).color
         )}
         position={[0.156, 0.097, -0.408]}
       />
@@ -46,7 +49,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.B.geometry}
         material={createButtonsMaterial(
-          pickMaterial(assignments.BUTTON_B.material).color
+          pickMaterial(useAssignment(Assignment.BUTTON_B).material).color
         )}
         position={[0.156, 0.136, -0.52]}
       />
@@ -55,7 +58,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.R.geometry}
         material={createButtonsMaterial(
-          pickMaterial(assignments.SHOULDER_R.material).color
+          pickMaterial(useAssignment(Assignment.SHOULDER_R).material).color
         )}
         position={[0.077, 0.338, -0.47]}
       />
@@ -64,7 +67,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.L.geometry}
         material={createButtonsMaterial(
-          pickMaterial(assignments.SHOULDER_L.material).color
+          pickMaterial(useAssignment(Assignment.SHOULDER_L).material).color
         )}
         position={[0.077, 0.338, 0.47]}
       />
@@ -73,7 +76,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.DPAD.geometry}
         material={createButtonsMaterial(
-          pickMaterial(assignments.DPAD.material).color
+          pickMaterial(useAssignment(Assignment.DPAD).material).color
         )}
         position={[0.17, 0.107, 0.46]}
       />
@@ -82,7 +85,8 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.select.geometry}
         material={membranesMaterial(
-          pickMaterial(assignments.MEMBRANE_START_SELECT.material).color
+          pickMaterial(useAssignment(Assignment.MEMBRANE_START_SELECT).material)
+            .color
         )}
         position={[0.158, -0.102, 0.376]}
       />
@@ -117,7 +121,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.RSide.geometry}
         material={createButtonsMaterial(
-          pickMaterial(assignments.RAIL_R.material).color
+          pickMaterial(useAssignment(Assignment.RAIL_R).material).color
         )}
         position={[0.103, -0.029, -0.597]}
       />
@@ -126,7 +130,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.LSide.geometry}
         material={createButtonsMaterial(
-          pickMaterial(assignments.RAIL_L.material).color
+          pickMaterial(useAssignment(Assignment.RAIL_L).material).color
         )}
         position={[0.103, -0.029, 0.597]}
       />
@@ -135,7 +139,7 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.battery.geometry}
         material={createHardPlasticMaterial(
-          pickMaterial(assignments.BACK_SHELL.material)
+          pickMaterial(useAssignment(Assignment.BACK_SHELL).material)
         )}
         position={[-0.057, -0.084, -0.004]}
       />
@@ -145,7 +149,8 @@ export const GBA = ({ pickMaterial, assignments }: ModelProps) => {
         receiveShadow
         geometry={nodes.memebrane_dpAD.geometry}
         material={membranesMaterial(
-          pickMaterial(assignments.MEMBRANE_START_SELECT.material).color
+          pickMaterial(useAssignment(Assignment.MEMBRANE_START_SELECT).material)
+            .color
         )}
         position={[0.108, 0.106, 0.463]}
         rotation={[0, 0, -Math.PI / 2]}

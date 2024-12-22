@@ -1,4 +1,4 @@
-import { AssignmentProvider } from "./assignments/useAssignments";
+import { AssignmentProvider } from "./assignments/useAssignment";
 import { MaterialsProvider } from "./materials/useMaterials";
 import Home from "./route/Home";
 import stylex from "@stylexjs/stylex";
