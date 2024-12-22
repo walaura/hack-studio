@@ -1,13 +1,13 @@
-import Box from "../ui/Box";
-import Flexbox from "../ui/Flexbox";
+import Box from "../../ui/Box";
+import Flexbox from "../../ui/Flexbox";
 import stylex from "@stylexjs/stylex";
-import useMaterials from "../materials/useMaterials";
-import Button from "../ui/Button";
-import Text from "../ui/Text";
-import MaterialPanel from "../materials/MaterialPanel";
-import Scene from "../scene/Scene";
-import MaterialEditor from "../materials/MaterialEditor";
-import { useWriteToStore } from "../store/useStore";
+import useMaterials from "../../materials/useMaterials";
+import Button from "../../ui/Button";
+import Text from "../../ui/Text";
+import MaterialPanel from "./HomeSidebar";
+import Scene from "../../scene/Scene";
+import MaterialEditor from "../../materials/MaterialEditor";
+import { useWriteToStore } from "../../store/useStore";
 
 const styles = stylex.create({
   canvas: {

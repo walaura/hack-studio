@@ -1,4 +1,4 @@
-import { Assignment } from "../assignments/Assignments";
+import { Assignment } from "../../../assignments/Assignments";
 import {
   AssignmentPanel,
   APGroup,

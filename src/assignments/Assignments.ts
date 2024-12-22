@@ -10,6 +10,7 @@ enum Shell {
 
 enum Button {
   DPAD = "DPAD",
+  BUTTON_HOME = "BUTTON_HOME",
   BUTTON_A = "BUTTON_A",
   BUTTON_B = "BUTTON_B",
 }
@@ -49,7 +50,10 @@ const BaseAssignment = {
 export const Assignment = { ...Groups, ...BaseAssignment };
 export type AssignmentKey = TGroups | keyof typeof Assignment;
 
-export function getDefaultInheritanceForProject(_projectType: ProjectType) {
+export function getDefaultInheritanceForProject(
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _projectType: ProjectType
+) {
   const base = {
     [Shell.FRONT_SHELL]: Groups.SHELL,
     [Shell.BACK_SHELL]: Groups.SHELL,
@@ -57,6 +61,7 @@ export function getDefaultInheritanceForProject(_projectType: ProjectType) {
     [Button.DPAD]: Groups.FACE_BUTTONS,
     [Button.BUTTON_A]: Groups.FACE_BUTTONS,
     [Button.BUTTON_B]: Groups.FACE_BUTTONS,
+    [Button.BUTTON_HOME]: Groups.FACE_BUTTONS,
     [Membrane.MEMBRANE_START_SELECT]: Groups.FACE_BUTTONS,
 
     [SideButton.SHOULDER_L]: Groups.SIDE_BUTTONS,
@@ -86,6 +91,7 @@ export const PRETTY_NAMES: {
   [Button.DPAD]: "+ D-pad",
   [Button.BUTTON_A]: "A button",
   [Button.BUTTON_B]: "B button",
+  [Button.BUTTON_HOME]: "Home button",
   [Membrane.MEMBRANE_START_SELECT]: "Start/Select",
 
   [SideButton.SHOULDER_L]: "L button",

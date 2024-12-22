@@ -129,7 +129,7 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
     materials: { ...DEFAULT_MATERIALS },
     assignments: { ...DEFAULT_ASSIGNMENTS },
     project: {
-      type: ProjectType.GBA,
+      type: ProjectType.GBA_SP,
     },
   });
   const historyRef = useRef([]);

@@ -1,15 +1,18 @@
 import { Canvas } from "@react-three/fiber";
 import { Float, OrbitControls, Stage } from "@react-three/drei";
 
-// import { GBA } from "./models/Gba";
-import { ModelProps } from "./types";
+import { GBA } from "./models/Gba";
 import { SP } from "./models/SP";
+import { ModelProps } from "./types";
+import useProject from "../project/useProject";
 
 function Model(props: ModelProps) {
+  const { type } = useProject();
+  const Component = type === "GBA" ? GBA : SP;
   return (
     <>
       <Stage environment={"forest"} preset={"soft"} position={[0, 2, 0]}>
-        <SP {...props} />
+        <Component {...props} />
       </Stage>
     </>
   );

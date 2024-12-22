@@ -1,10 +1,10 @@
-import Flexbox from "../ui/Flexbox";
-import Margin from "../ui/Margin";
-import Box from "../ui/Box";
+import Flexbox from "../../ui/Flexbox";
+import Margin from "../../ui/Margin";
+import Box from "../../ui/Box";
 import stylex from "@stylexjs/stylex";
 import { ReactNode } from "react";
-import Button from "../ui/Button";
-import { useStoreHistory } from "../store/useStore";
+import Button from "../../ui/Button";
+import { useStoreHistory } from "../../store/useStore";
 import { saveAs } from "file-saver";
 import {
   BsArrowClockwise,
@@ -13,9 +13,9 @@ import {
   BsMoon,
   BsPencil,
 } from "react-icons/bs";
-import Popover from "../ui/Popover";
-import AssignmentPanelForGBA from "../assignment-panel/AssignmentPanelForGBA";
-import Divider from "../ui/Divider";
+import Popover from "../../ui/Popover";
+import AssignmentPanelForGBA from "./assignments/AssignmentPanelForGBA";
+import Divider from "../../ui/Divider";
 
 export default function MaterialPanel({
   materialEditor,

@@ -1,4 +1,4 @@
-import Home from "./route/Home";
+import Home from "./route/home/Home";
 import stylex from "@stylexjs/stylex";
 import { StoreProvider } from "./store/useStore";
 
