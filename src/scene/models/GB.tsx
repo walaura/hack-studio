@@ -12,8 +12,6 @@ import {
 } from "../materials";
 import useAssignment from "../../assignments/useAssignment";
 import { Assignment } from "../../assignments/Assignments";
-import { MeshPhysicalMaterial } from "three";
-
 export function GB({ pickMaterial }: ModelProps) {
   const { nodes } = useGLTF("./assets/gb.glb") as GBType;
   const colorMap = useVideoTexture("./assets/bootgb.mp4", { loop: false });
