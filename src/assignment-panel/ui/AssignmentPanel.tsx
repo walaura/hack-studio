@@ -1,6 +1,5 @@
 import { ReactNode, useMemo, useState } from "react";
 import { Assignment, AssignmentKey } from "../../assignments/Assignments";
-import { useAssignments } from "../../assignments/useAssignments";
 import { MaterialPicker } from "../../materials/MaterialPicker";
 import Flexbox from "../../ui/Flexbox";
 import Text from "../../ui/Text";
@@ -8,17 +7,17 @@ import Tabs from "../../ui/Tabs";
 import Margin from "../../ui/Margin";
 import Divider from "../../ui/Divider";
 import stylex from "@stylexjs/stylex";
+import useAssignment from "../../assignments/useAssignment";
 
 export function APRow({ children }: { children: ReactNode }) {
   return <div {...stylex.props(styles.row)}>{children}</div>;
 }
 
 export function APPicker({ assignmentKey }: { assignmentKey: AssignmentKey }) {
-  const { assignments } = useAssignments();
   return (
     <MaterialPicker
       surface={assignmentKey}
-      assignedMaterial={assignments[assignmentKey]}
+      assignedMaterial={useAssignment(assignmentKey)}
     />
   );
 }
