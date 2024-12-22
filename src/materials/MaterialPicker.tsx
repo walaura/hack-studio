@@ -1,5 +1,3 @@
-import { Assignment } from "../assignments/useAssignment";
-import { MaterialKey, useMaterials } from "./useMaterials";
 import Box from "../ui/Box";
 import Text from "../ui/Text";
 import Flexbox from "../ui/Flexbox";
@@ -18,6 +16,8 @@ import Popover from "../ui/Popover";
 import MaterialEditor from "./MaterialEditor";
 import { useEffect, useState } from "react";
 import { useWriteToStore } from "../store/useStore";
+import useMaterials, { MaterialKey } from "./useMaterials";
+import { Assignment } from "../assignments/useAssignment";
 
 export function MaterialPicker({
   surface,

@@ -1,19 +1,19 @@
-import { createContext, useCallback, useContext } from "react";
+import { useMemo } from "react";
 import { MaterialKey } from "../materials/useMaterials";
 import { AssignmentKey, GBA_INHERITS_FROM } from "./Assignments";
 import { EMPTY_MATERIAL_ID } from "../materials/Materials";
 import { Store, useStore } from "../store/useStore";
 
-type Assignment = Store["assignments"][AssignmentKey];
+type AssignmentFromStore = Store["assignments"][AssignmentKey];
 
-type ResolvedAssignment = Assignment & {
+export type Assignment = AssignmentFromStore & {
   material: MaterialKey;
 };
 
 function findAssignmentOrDefault(
   assignments: Store["assignments"],
   assignmentKey: AssignmentKey
-): Assignment {
+): AssignmentFromStore {
   const maybeAssignment = assignments[assignmentKey];
   if (maybeAssignment) {
     return maybeAssignment;
@@ -39,7 +39,7 @@ function findAssignmentOrDefault(
 function resolveAssignment(
   assignments: Store["assignments"],
   assignmentKey: AssignmentKey
-): ResolvedAssignment {
+): Assignment {
   const assignment = findAssignmentOrDefault(assignments, assignmentKey);
 
   if (assignment.type === "inherit") {
@@ -51,31 +51,11 @@ function resolveAssignment(
   return assignment;
 }
 
-function useAssignmentInternal() {
+export default function useAssignment(forKey: AssignmentKey) {
   const { assignments: internalAssignments } = useStore();
 
-  return useCallback(
-    (forKey: AssignmentKey) => resolveAssignment(internalAssignments, forKey),
-    [internalAssignments]
+  return useMemo(
+    () => resolveAssignment(internalAssignments, forKey),
+    [internalAssignments, forKey]
   );
 }
-
-const AssignmentContext =
-  createContext<ReturnType<typeof useAssignmentInternal>>(undefined);
-
-export const AssignmentProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const getAssignment = useAssignmentInternal();
-  return (
-    <AssignmentContext.Provider value={getAssignment}>
-      {children}
-    </AssignmentContext.Provider>
-  );
-};
-
-const useAssignment = (forKey: AssignmentKey) =>
-  useContext(AssignmentContext)(forKey);
-export default useAssignment;

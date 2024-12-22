@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { DEFAULT_MATERIALS, EMPTY_MATERIAL_ID } from "./Materials";
 import { Store, useStore } from "../store/useStore";
 
@@ -26,7 +26,7 @@ const resolveMaterial =
     };
   };
 
-const useMaterialsInternal = () => {
+const useMaterials = () => {
   const { materials: materialsFromStore } = useStore();
   console.log(materialsFromStore);
 
@@ -46,17 +46,4 @@ const useMaterialsInternal = () => {
   };
 };
 
-const MaterialsContext =
-  createContext<ReturnType<typeof useMaterialsInternal>>(undefined);
-export const MaterialsProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  return (
-    <MaterialsContext.Provider value={useMaterialsInternal()}>
-      {children}
-    </MaterialsContext.Provider>
-  );
-};
-export const useMaterials = () => useContext(MaterialsContext);
+export default useMaterials;

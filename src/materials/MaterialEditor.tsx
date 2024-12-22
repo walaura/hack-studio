@@ -1,7 +1,7 @@
 import { useWriteToStore } from "../store/useStore";
 import Button from "../ui/Button";
 import Flexbox from "../ui/Flexbox";
-import { MaterialKey, useMaterials } from "./useMaterials";
+import useMaterials, { MaterialKey } from "./useMaterials";
 import stylex from "@stylexjs/stylex";
 
 const styles = stylex.create({
