@@ -8,7 +8,6 @@ import Margin from "../ui/Margin";
 import stylex, { StyleXStyles } from "@stylexjs/stylex";
 import {
   AssignmentKey,
-  GBA_INHERITS_FROM,
   Groups,
   PRETTY_NAMES,
 } from "../assignments/Assignments";
@@ -17,7 +16,10 @@ import MaterialEditor from "./MaterialEditor";
 import { useEffect, useState } from "react";
 import { useWriteToStore } from "../store/useStore";
 import useMaterials, { MaterialKey } from "./useMaterials";
-import { Assignment } from "../assignments/useAssignment";
+import {
+  Assignment,
+  useAssignmentInheritsFrom,
+} from "../assignments/useAssignment";
 
 export function MaterialPicker({
   surface,
@@ -31,6 +33,7 @@ export function MaterialPicker({
   const elevation = Groups[surface] != null ? 2 : 1;
   const { materials } = useMaterials();
   const { assignInheritance, addMaterial } = useWriteToStore();
+  const maybeInheritance = useAssignmentInheritsFrom(surface);
 
   return (
     <Box xstyle={xstyle} elevation={elevation}>
@@ -68,10 +71,8 @@ export function MaterialPicker({
           {assignedMaterial.type !== "inherit" && (
             <SquareButton
               type="circle"
-              label={`Match ${PRETTY_NAMES[GBA_INHERITS_FROM[surface]]}`}
-              onClick={() =>
-                assignInheritance(surface, GBA_INHERITS_FROM[surface])
-              }
+              label={`Match ${PRETTY_NAMES[maybeInheritance]}`}
+              onClick={() => assignInheritance(surface, maybeInheritance)}
             >
               <BsArrowUp color="var(--text-primary)" size={"1.6em"} />
             </SquareButton>

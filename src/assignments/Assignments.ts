@@ -49,32 +49,6 @@ const BaseAssignment = {
 export const Assignment = { ...Groups, ...BaseAssignment };
 export type AssignmentKey = TGroups | keyof typeof Assignment;
 
-export const GBA_INHERITS_FROM: {
-  [K in keyof typeof Assignment]: TGroups;
-} = {
-  [Shell.FRONT_SHELL]: Groups.SHELL,
-  [Shell.BACK_SHELL]: Groups.SHELL,
-
-  [Button.DPAD]: Groups.FACE_BUTTONS,
-  [Button.BUTTON_A]: Groups.FACE_BUTTONS,
-  [Button.BUTTON_B]: Groups.FACE_BUTTONS,
-  [Membrane.MEMBRANE_START_SELECT]: Groups.FACE_BUTTONS,
-
-  [SideButton.SHOULDER_L]: Groups.SIDE_BUTTONS,
-  [SideButton.SHOULDER_R]: Groups.SIDE_BUTTONS,
-  [SideButton.RAIL_L]: Groups.SIDE_BUTTONS,
-  [SideButton.RAIL_R]: Groups.SIDE_BUTTONS,
-
-  [Groups.FACE_BUTTONS]: Groups.ALL_BUTTONS,
-  [Groups.SIDE_BUTTONS]: Groups.ALL_BUTTONS,
-
-  [Membrane.MEMBRANE_AB]: Groups.LOWER_MEMBRANES,
-  [Membrane.MEMBRANE_DPAD]: Groups.LOWER_MEMBRANES,
-  [Groups.LOWER_MEMBRANES]: DEFAULT_GROUP,
-  [Groups.ALL_BUTTONS]: DEFAULT_GROUP,
-  [Groups.SHELL]: DEFAULT_GROUP,
-};
-
 export function getDefaultInheritanceForProject(_projectType: ProjectType) {
   const base = {
     [Shell.FRONT_SHELL]: Groups.SHELL,

@@ -1,9 +1,13 @@
 import { useMemo } from "react";
 import { MaterialKey } from "../materials/useMaterials";
-import { AssignmentKey, GBA_INHERITS_FROM } from "./Assignments";
+import {
+  AssignmentKey,
+  getDefaultInheritanceForProject,
+  Groups,
+} from "./Assignments";
 import { EMPTY_MATERIAL_ID } from "../materials/Materials";
 import { Store, useStore } from "../store/useStore";
-
+import useProject, { ProjectType } from "../project/useProject";
 type AssignmentFromStore = Store["assignments"][AssignmentKey];
 
 export type Assignment = AssignmentFromStore & {
@@ -11,6 +15,7 @@ export type Assignment = AssignmentFromStore & {
 };
 
 function findAssignmentOrDefault(
+  projectType: ProjectType,
   assignments: Store["assignments"],
   assignmentKey: AssignmentKey
 ): AssignmentFromStore {
@@ -18,7 +23,8 @@ function findAssignmentOrDefault(
   if (maybeAssignment) {
     return maybeAssignment;
   }
-  const maybeInherit = GBA_INHERITS_FROM[assignmentKey];
+  const maybeInherit =
+    getDefaultInheritanceForProject(projectType)[assignmentKey];
   if (maybeInherit) {
     return {
       type: "inherit",
@@ -37,25 +43,41 @@ function findAssignmentOrDefault(
  * final material assignment for a surface.
  */
 function resolveAssignment(
+  projectType: ProjectType,
   assignments: Store["assignments"],
   assignmentKey: AssignmentKey
 ): Assignment {
-  const assignment = findAssignmentOrDefault(assignments, assignmentKey);
+  const assignment = findAssignmentOrDefault(
+    projectType,
+    assignments,
+    assignmentKey
+  );
 
   if (assignment.type === "inherit") {
     return {
       ...assignment,
-      material: resolveAssignment(assignments, assignment.from).material,
+      material: resolveAssignment(projectType, assignments, assignment.from)
+        .material,
     };
   }
   return assignment;
 }
 
-export default function useAssignment(forKey: AssignmentKey) {
-  const { assignments: internalAssignments } = useStore();
+export function useAssignmentInheritsFrom(forKey: AssignmentKey): Groups {
+  const { type } = useProject();
 
   return useMemo(
-    () => resolveAssignment(internalAssignments, forKey),
-    [internalAssignments, forKey]
+    () => getDefaultInheritanceForProject(type)[forKey],
+    [forKey, type]
+  );
+}
+
+export default function useAssignment(forKey: AssignmentKey) {
+  const { assignments: internalAssignments } = useStore();
+  const { type } = useProject();
+
+  return useMemo(
+    () => resolveAssignment(type, internalAssignments, forKey),
+    [internalAssignments, forKey, type]
   );
 }
