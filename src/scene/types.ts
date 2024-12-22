@@ -64,3 +64,31 @@ export type SPTypes = GLTF & {
     Black_TEXT_Background: THREE.MeshStandardMaterial;
   };
 };
+
+export type GBType = GLTF & {
+  nodes: {
+    DPAD: THREE.Mesh;
+    PlugIn: THREE.Mesh;
+    Volume: THREE.Mesh;
+    ButtonA: THREE.Mesh;
+    BatteryClip: THREE.Mesh;
+    PowerSwitch: THREE.Mesh;
+    ButtonSelect: THREE.Mesh;
+    HeadphoneBorder: THREE.Mesh;
+    Brightness: THREE.Mesh;
+    plugOut: THREE.Mesh;
+    Screws: THREE.Mesh;
+    ButtonB: THREE.Mesh;
+    Charger: THREE.Mesh;
+    Vent: THREE.Mesh;
+    Back: THREE.Mesh;
+    HeadphonePin: THREE.Mesh;
+    ChargerPin: THREE.Mesh;
+    low_Screen: THREE.Mesh;
+    front: THREE.Mesh;
+    bezel: THREE.Mesh;
+    PlugInMetal: THREE.Mesh;
+    light: THREE.Mesh;
+  };
+  materials: object;
+};

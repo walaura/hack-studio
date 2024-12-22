@@ -5,10 +5,21 @@ import { GBA } from "./models/Gba";
 import { SP } from "./models/SP";
 import { ModelProps } from "./types";
 import useProject from "../project/useProject";
+import { useMemo } from "react";
+import { GB } from "./models/GB";
 
 function Model(props: ModelProps) {
   const { type } = useProject();
-  const Component = type === "GBA" ? GBA : SP;
+  const Component = useMemo(() => {
+    switch (type) {
+      case "GBA":
+        return GBA;
+      case "GBA_SP":
+        return SP;
+      case "GB":
+        return GB;
+    }
+  }, [type]);
   return (
     <>
       <Stage

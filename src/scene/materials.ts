@@ -56,3 +56,9 @@ export const createHardPlasticMaterial = (material: Material) => {
         ...commonPlastic,
       });
 };
+
+export const metalMaterial = new MeshPhysicalMaterial({
+  roughness: 0.3,
+  metalness: 1,
+  color: "grey",
+});
