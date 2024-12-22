@@ -12,7 +12,7 @@ const elevationStyles = stylex.create({
     borderWidth: "0",
     borderRadius: 8,
     background: "var(--surface-1)",
-    boxShadow: "0 1px 6px 0 var(--surface-1-shadow)",
+    boxShadow: "0 4px 6px 0 var(--surface-1-shadow)",
     border: "1px solid var(--surface-2)",
   },
   1: {

@@ -22,6 +22,10 @@ const typeStyles = stylex.create({
   secondary: {
     boxShadow: "inset 0 0 0 1px var(--surface-2)",
   },
+  empty: {
+    backgroundColor: "transparent",
+    boxShadow: "none",
+  },
   tab: {
     ":hover": {
       boxShadow: "inset 0 0 0 1px var(--surface-2)",
@@ -57,6 +61,8 @@ const getTextType = (
   }
 };
 
+const EMPTY_OBJECT = {};
+
 export default function Button({
   children,
   onClick,
@@ -64,6 +70,7 @@ export default function Button({
   isEnabled = true,
   title,
   size = "normal",
+  buttonProps = EMPTY_OBJECT,
 }: {
   children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -71,6 +78,9 @@ export default function Button({
   size?: keyof typeof sizeStyles;
   isEnabled?: boolean;
   title?: string;
+  buttonProps?: {
+    [key: string]: unknown;
+  };
 }) {
   const Element = onClick ? "button" : "div";
 
@@ -80,6 +90,7 @@ export default function Button({
       disabled={!isEnabled}
       // @ts-expect-error onclick on div
       onClick={isEnabled ? onClick : null}
+      {...buttonProps}
       {...stylex.props(
         styles.base,
         typeStyles[type],

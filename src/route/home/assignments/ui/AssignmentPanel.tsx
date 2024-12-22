@@ -15,19 +15,24 @@ export function APRow({ children }: { children: ReactNode }) {
 export function APGroup({
   title,
   children,
+  isLast = false,
 }: {
   title?: string;
   children: ReactNode;
+  isLast?: boolean;
 }) {
   return (
     <Flexbox
       justify="start"
       direction="column"
-      gap={4}
-      xstyle={Margin.bottom20}
+      gap={8}
+      xstyle={Margin.bottom12}
     >
       {title && <Text type="headline2">{title}</Text>}
-      {children}
+      <Flexbox direction="column" gap={8}>
+        {children}
+      </Flexbox>
+      {!isLast && <Divider xstyle={styles.divider} />}
     </Flexbox>
   );
 }
@@ -72,7 +77,7 @@ export function AssignmentPanel<Tabs extends { [key: string]: string }>({
         justify="start"
         key={String(activeTab)}
       >
-        <Flexbox direction="column" gap={4}>
+        <Flexbox direction="column" gap={8}>
           {activeTab === "__all"
             ? allAssignments
             : children(activeTab, setActiveTab)}
@@ -88,10 +93,17 @@ const styles = stylex.create({
     width: "100%",
     padding: 16,
     overflow: "auto",
+    flexBasis: 0,
+    flexGrow: 1,
+    flexShrink: 1,
   },
   row: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
-    gap: 4,
+    gap: 8,
+  },
+  divider: {
+    marginInline: -16,
+    marginTop: 16,
   },
 });

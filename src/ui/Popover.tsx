@@ -1,9 +1,12 @@
 import stylex from "@stylexjs/stylex";
 import React, { useEffect } from "react";
-import { BsX } from "react-icons/bs";
+
 import Box from "./Box";
 import Flexbox from "./Flexbox";
 import Margin from "./Margin";
+import { FaXmark } from "react-icons/fa6";
+import Button from "./Button";
+import Divider from "./Divider";
 
 const styles = stylex.create({
   trigger: {
@@ -17,6 +20,7 @@ const styles = stylex.create({
     position: "absolute",
     backgroundColor: "transparent",
     border: "none",
+    overflow: "visible",
   },
   closeButton: {
     top: 8,
@@ -69,15 +73,20 @@ export default function Popover({
         {...stylex.props(styles.popover)}
       >
         <Box elevation={0}>
-          <Flexbox direction="column" xstyle={Margin.all20}>
-            <button
-              {...stylex.props(styles.closeButton)}
-              /*  @ts-expect-error popovertarget is a valid attribute */
-              popovertarget={id}
-              popovertargetaction="close"
+          <Flexbox direction="row" justify="end">
+            <Button
+              type="empty"
+              onClick={() => {}}
+              buttonProps={{
+                popovertarget: id,
+                popovertargetaction: "close",
+              }}
             >
-              <BsX fill="var(--text-primary)" size={20} />
-            </button>
+              <FaXmark fill="var(--text-primary)" size={"1em"} />
+            </Button>
+          </Flexbox>
+          <Divider />
+          <Flexbox direction="column" xstyle={Margin.all16}>
             {popover}
           </Flexbox>
         </Box>

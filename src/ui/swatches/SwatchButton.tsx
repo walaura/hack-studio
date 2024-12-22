@@ -1,7 +1,7 @@
 import stylex from "@stylexjs/stylex";
 import SquareButton from "./SquareButton";
 import useMaterials, { MaterialKey } from "../../materials/useMaterials";
-import { BsDice5 } from "react-icons/bs";
+import { FaMicrochip } from "react-icons/fa6";
 
 const styles = stylex.create({
   swatch: {
@@ -56,7 +56,11 @@ export default function SwatchButton({
           )}
         ></div>
         {opacity !== 1 && (
-          <BsDice5 color="#000" style={{ filter: "blur(2px)" }} size={"80%"} />
+          <FaMicrochip
+            color="#000"
+            style={{ filter: "blur(2px)", opacity: 0.3 }}
+            size={"80%"}
+          />
         )}
       </div>
     </SquareButton>
