@@ -10,74 +10,15 @@ import * as THREE from "three";
 import { Material, MaterialKey } from "../materials/useMaterials";
 import { Assignments } from "../assignments/useAssignments";
 import { MeshPhysicalMaterial } from "three";
-import { GLTF } from "three-stdlib";
+import { GBAType } from "./types";
+import {
+  createBezelMaterial,
+  createButtonsMaterial,
+  createHardPlasticMaterial,
+  membranesMaterial,
+} from "./materials";
 
 /* eslint-disable react/no-unknown-property */
-/* eslint-disable react/prop-types */
-
-type GLTFResult = GLTF & {
-  nodes: {
-    back: THREE.Mesh;
-    Front: THREE.Mesh;
-    A: THREE.Mesh;
-    B: THREE.Mesh;
-    R: THREE.Mesh;
-    L: THREE.Mesh;
-    DPAD: THREE.Mesh;
-    select: THREE.Mesh;
-    bezel: THREE.Mesh;
-    screen: THREE.Mesh;
-    RSide: THREE.Mesh;
-    LSide: THREE.Mesh;
-    battery: THREE.Mesh;
-    screws: THREE.Mesh;
-    light: THREE.Mesh;
-    CAPACITOR;
-    memebrane_dpAD: THREE.Mesh;
-    Plane007: THREE.Mesh;
-    Plane007_1: THREE.Mesh;
-    lights: THREE.Mesh;
-    Plane007_2: THREE.Mesh;
-    Plane007_3: THREE.Mesh;
-    speaker: THREE.Mesh;
-  };
-  materials: object;
-};
-
-const createBezelMaterial = (type: "dark" | "light") =>
-  new THREE.MeshPhysicalMaterial({
-    roughness: 0.1,
-    thickness: 1,
-    color: type === "dark" ? "black" : "white",
-  });
-
-const createPlasticMaterial = (material: Material) =>
-  material.opacity !== 1
-    ? new MeshPhysicalMaterial({
-        roughness: Math.min(Math.max(material.opacity, 0.1), 0.4),
-        transmission: 1,
-        thickness: 0.2,
-        ior: 1.46,
-        clearcoat: 0,
-        color: material.color,
-      })
-    : new MeshPhysicalMaterial({
-        color: material.color,
-        roughness: 0.5,
-        reflectivity: 0.8,
-      });
-const createButtonsMaterial = (color: string) =>
-  new MeshPhysicalMaterial({
-    color,
-    roughness: 0.2,
-    reflectivity: 1,
-  });
-
-const membranesMaterial = (color: string) =>
-  new MeshPhysicalMaterial({
-    color,
-    roughness: 0.9,
-  });
 
 function Gba({
   pickMaterial,
@@ -86,9 +27,9 @@ function Gba({
   pickMaterial: (id: MaterialKey) => Material;
   assignments: Assignments;
 }) {
-  const { nodes, materials } = useGLTF("./assets/gba.glb") as GLTFResult;
-  // const colorMap = useLoader(THREE.TextureLoader, "./assets/boot.png");
+  const { nodes, materials } = useGLTF("./assets/gba.glb") as GBAType;
   const colorMap = useVideoTexture("./assets/boot.mp4", { loop: false });
+
   return (
     <>
       <Stage environment={"forest"} preset={"soft"} position={[0, 2, 0]}>
@@ -107,7 +48,7 @@ function Gba({
               castShadow
               receiveShadow
               geometry={nodes.back.geometry}
-              material={createPlasticMaterial(
+              material={createHardPlasticMaterial(
                 pickMaterial(assignments.BACK_SHELL.material)
               )}
               position={[0.042, 0.087, -0.11]}
@@ -116,7 +57,7 @@ function Gba({
               castShadow
               receiveShadow
               geometry={nodes.Front.geometry}
-              material={createPlasticMaterial(
+              material={createHardPlasticMaterial(
                 pickMaterial(assignments.FRONT_SHELL.material)
               )}
               position={[0.143, 0.023, -0.156]}
@@ -223,7 +164,7 @@ function Gba({
               castShadow
               receiveShadow
               geometry={nodes.battery.geometry}
-              material={createPlasticMaterial(
+              material={createHardPlasticMaterial(
                 pickMaterial(assignments.BACK_SHELL.material)
               )}
               position={[-0.057, -0.084, -0.004]}
@@ -266,8 +207,8 @@ const NutsAndBolts = ({
   nodes,
   materials,
 }: {
-  nodes: GLTFResult["nodes"];
-  materials: GLTFResult["materials"];
+  nodes: GBAType["nodes"];
+  materials: GBAType["materials"];
 }) => {
   return (
     <>
