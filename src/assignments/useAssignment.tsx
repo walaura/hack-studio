@@ -2,33 +2,18 @@ import { createContext, useCallback, useContext } from "react";
 import { MaterialKey } from "../materials/useMaterials";
 import { AssignmentKey, GBA_INHERITS_FROM } from "./Assignments";
 import { EMPTY_MATERIAL_ID } from "../materials/Materials";
-import { useStore } from "../store/useStore";
+import { Store, useStore } from "../store/useStore";
 
-type InternalAssignment =
-  | {
-      type: "inherit";
-      from: AssignmentKey;
-    }
-  | {
-      type: "assign";
-      material: MaterialKey;
-    };
+type Assignment = Store["assignments"][AssignmentKey];
 
-export type Assignment = InternalAssignment & {
+type ResolvedAssignment = Assignment & {
   material: MaterialKey;
 };
 
-export type Assignments = {
-  [K in AssignmentKey]: Assignment;
-};
-type InternalAssignments = {
-  [K in AssignmentKey]: InternalAssignment;
-};
-
 function findAssignmentOrDefault(
-  assignments: InternalAssignments,
+  assignments: Store["assignments"],
   assignmentKey: AssignmentKey
-): InternalAssignment {
+): Assignment {
   const maybeAssignment = assignments[assignmentKey];
   if (maybeAssignment) {
     return maybeAssignment;
@@ -52,9 +37,9 @@ function findAssignmentOrDefault(
  * final material assignment for a surface.
  */
 function resolveAssignment(
-  assignments: InternalAssignments,
+  assignments: Store["assignments"],
   assignmentKey: AssignmentKey
-): Assignment {
+): ResolvedAssignment {
   const assignment = findAssignmentOrDefault(assignments, assignmentKey);
 
   if (assignment.type === "inherit") {
