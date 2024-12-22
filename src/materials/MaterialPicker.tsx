@@ -23,8 +23,10 @@ import useAssignment, {
 
 export function MaterialPicker({
   assignmentKey,
+  size = "normal",
 }: {
   assignmentKey: AssignmentKey;
+  size?: keyof typeof sizeStyles;
 }) {
   const elevation = Groups[assignmentKey] != null ? 2 : 1;
   const { materials } = useMaterials();
@@ -45,7 +47,10 @@ export function MaterialPicker({
             </span>
           ) : null}
         </Flexbox>
-        <div {...stylex.props(styles.grid)} key={materials.length}>
+        <div
+          {...stylex.props(styles.grid, sizeStyles[size])}
+          key={materials.length}
+        >
           <SquareButton
             type="circle"
             label={`New material`}
@@ -83,8 +88,20 @@ export function MaterialPicker({
 const styles = stylex.create({
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(3em, 2fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(var(--grid-size), 2fr))",
     gridGap: 2,
+  },
+});
+
+const sizeStyles = stylex.create({
+  small: {
+    "--grid-size": "2em",
+  },
+  normal: {
+    "--grid-size": "3.6em",
+  },
+  large: {
+    "--grid-size": "5em",
   },
 });
 
