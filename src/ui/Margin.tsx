@@ -16,6 +16,21 @@ const Margin = stylex.create({
   all20: {
     margin: 20,
   },
+  top4: {
+    marginTop: 4,
+  },
+  top8: {
+    marginTop: 8,
+  },
+  top12: {
+    marginTop: 12,
+  },
+  top16: {
+    marginTop: 16,
+  },
+  top20: {
+    marginTop: 20,
+  },
 });
 
 export default Margin;
