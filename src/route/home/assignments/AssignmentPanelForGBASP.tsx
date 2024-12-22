@@ -13,7 +13,7 @@ const SECTIONS = {
   sides: "Side",
 };
 
-export default function AssignmentPanelForGBA() {
+export default function AssignmentPanelForGBASP() {
   return (
     <AssignmentPanel tabs={SECTIONS}>
       {(tab) => {
@@ -21,19 +21,23 @@ export default function AssignmentPanelForGBA() {
           case "base":
             return (
               <>
-                <APPicker assignmentKey={Assignment.SHELL} />
-                <APPicker assignmentKey={Assignment.ALL_BUTTONS} />
-                <APPicker assignmentKey={Assignment.LOWER_MEMBRANES} />
-              </>
-            );
-          case "shell":
-            return (
-              <>
-                <APPicker assignmentKey={Assignment.SHELL} />
-                <APRow>
-                  <APPicker assignmentKey={Assignment.FRONT_SHELL} />
-                  <APPicker assignmentKey={Assignment.BACK_SHELL} />
-                </APRow>
+                <APGroup title={"Shell"}>
+                  <APPicker assignmentKey={Assignment.SHELL} />
+                  <APRow>
+                    <APPicker assignmentKey={Assignment.FRONT_SHELL} />
+                    <APPicker assignmentKey={Assignment.BACK_SHELL} />
+                  </APRow>
+                </APGroup>
+                <APGroup title={"Buttons"}>
+                  <APPicker assignmentKey={Assignment.ALL_BUTTONS} />
+                  <APRow>
+                    <APPicker assignmentKey={Assignment.FACE_BUTTONS} />
+                    <APPicker assignmentKey={Assignment.SIDE_BUTTONS} />
+                  </APRow>
+                </APGroup>
+                <APGroup title={"Membranes"}>
+                  <APPicker assignmentKey={Assignment.LOWER_MEMBRANES} />
+                </APGroup>
               </>
             );
           case "face":
@@ -41,6 +45,7 @@ export default function AssignmentPanelForGBA() {
               <>
                 <APGroup title={"Buttons"}>
                   <APPicker assignmentKey={Assignment.FACE_BUTTONS} />
+                  <APPicker assignmentKey={Assignment.BUTTON_HOME} />
                   <APPicker assignmentKey={Assignment.DPAD} />
                   <APRow>
                     <APPicker assignmentKey={Assignment.BUTTON_A} />
@@ -66,8 +71,6 @@ export default function AssignmentPanelForGBA() {
                     <APPicker assignmentKey={Assignment.SHOULDER_L} />
                     <APPicker assignmentKey={Assignment.SHOULDER_R} />
                   </APRow>
-                </APGroup>
-                <APGroup title={"Rails"}>
                   <APRow>
                     <APPicker assignmentKey={Assignment.RAIL_L} />
                     <APPicker assignmentKey={Assignment.RAIL_R} />

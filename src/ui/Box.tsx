@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 const styles = stylex.create({
   box: {
     backgroundColor: "var(--background)",
-    overflow: "auto",
   },
 });
 

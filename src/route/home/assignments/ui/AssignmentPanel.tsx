@@ -7,19 +7,13 @@ import Tabs from "../../../../ui/Tabs";
 import Margin from "../../../../ui/Margin";
 import Divider from "../../../../ui/Divider";
 import stylex from "@stylexjs/stylex";
-import useAssignment from "../../../../assignments/useAssignment";
 
 export function APRow({ children }: { children: ReactNode }) {
   return <div {...stylex.props(styles.row)}>{children}</div>;
 }
 
 export function APPicker({ assignmentKey }: { assignmentKey: AssignmentKey }) {
-  return (
-    <MaterialPicker
-      surface={assignmentKey}
-      assignedMaterial={useAssignment(assignmentKey)}
-    />
-  );
+  return <MaterialPicker assignmentKey={assignmentKey} />;
 }
 
 export function APGroup({
@@ -30,7 +24,12 @@ export function APGroup({
   children: ReactNode;
 }) {
   return (
-    <Flexbox justify="start" direction="column" gap={4} xstyle={Margin.top20}>
+    <Flexbox
+      justify="start"
+      direction="column"
+      gap={4}
+      xstyle={Margin.bottom20}
+    >
       <Text type="headline2">{title}</Text>
       {children}
     </Flexbox>

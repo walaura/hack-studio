@@ -5,7 +5,7 @@ import SwatchButton from "../ui/swatches/SwatchButton";
 import SquareButton from "../ui/swatches/SquareButton";
 import { BsArrowUp, BsPlus } from "react-icons/bs";
 import Margin from "../ui/Margin";
-import stylex, { StyleXStyles } from "@stylexjs/stylex";
+import stylex from "@stylexjs/stylex";
 import {
   AssignmentKey,
   Groups,
@@ -16,30 +16,27 @@ import MaterialEditor from "./MaterialEditor";
 import { useEffect, useState } from "react";
 import { useWriteToStore } from "../store/useStore";
 import useMaterials, { MaterialKey } from "./useMaterials";
-import {
+import useAssignment, {
   Assignment,
   useAssignmentInheritsFrom,
 } from "../assignments/useAssignment";
 
 export function MaterialPicker({
-  surface,
-  assignedMaterial,
-  xstyle,
+  assignmentKey,
 }: {
-  surface: AssignmentKey;
-  assignedMaterial: Assignment;
-  xstyle?: StyleXStyles;
+  assignmentKey: AssignmentKey;
 }) {
-  const elevation = Groups[surface] != null ? 2 : 1;
+  const elevation = Groups[assignmentKey] != null ? 2 : 1;
   const { materials } = useMaterials();
-  const { assignInheritance, addMaterial } = useWriteToStore();
-  const maybeInheritance = useAssignmentInheritsFrom(surface);
+  const { deleteAssignment, addMaterial } = useWriteToStore();
+  const maybeInheritance = useAssignmentInheritsFrom(assignmentKey);
+  const assignedMaterial = useAssignment(assignmentKey);
 
   return (
-    <Box xstyle={xstyle} elevation={elevation}>
+    <Box elevation={elevation}>
       <Flexbox direction="column" gap={4} xstyle={Margin.all12}>
         <Flexbox direction="row" justify="space-between">
-          <Text type="body2emphasis">{PRETTY_NAMES[surface]}</Text>
+          <Text type="body2emphasis">{PRETTY_NAMES[assignmentKey]}</Text>
           {assignedMaterial.type === "inherit" ? (
             <span>
               <Text color="secondary" type="body3">
@@ -65,14 +62,14 @@ export function MaterialPicker({
               assignedMaterial={assignedMaterial}
               key={material.id}
               materialKey={material.id}
-              surfaceID={surface}
+              assignmentKeyID={assignmentKey}
             />
           ))}
           {assignedMaterial.type !== "inherit" && (
             <SquareButton
               type="circle"
               label={`Match ${PRETTY_NAMES[maybeInheritance]}`}
-              onClick={() => assignInheritance(surface, maybeInheritance)}
+              onClick={() => deleteAssignment(assignmentKey)}
             >
               <BsArrowUp color="var(--text-primary)" size={"1.6em"} />
             </SquareButton>
@@ -86,7 +83,7 @@ export function MaterialPicker({
 const styles = stylex.create({
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(3.6em, 2fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(3em, 2fr))",
     gridGap: 2,
   },
 });
@@ -94,11 +91,11 @@ const styles = stylex.create({
 function Swatch({
   assignedMaterial,
   materialKey,
-  surfaceID,
+  assignmentKeyID,
 }: {
   assignedMaterial: Assignment;
   materialKey: MaterialKey;
-  surfaceID: AssignmentKey;
+  assignmentKeyID: AssignmentKey;
 }) {
   const isActive = assignedMaterial.material === materialKey;
   const { assignMaterial } = useWriteToStore();
@@ -124,7 +121,7 @@ function Swatch({
         materialKey={materialKey}
         isActive={isActive}
         onClick={() => {
-          assignMaterial(surfaceID, materialKey);
+          assignMaterial(assignmentKeyID, materialKey);
         }}
       />
     </Popover>

@@ -4,7 +4,7 @@ import Box from "../../ui/Box";
 import stylex from "@stylexjs/stylex";
 import { ReactNode } from "react";
 import Button from "../../ui/Button";
-import { useStoreHistory } from "../../store/useStore";
+import { useStoreHistory, useWriteToStore } from "../../store/useStore";
 import { saveAs } from "file-saver";
 import {
   BsArrowClockwise,
@@ -16,26 +16,51 @@ import {
 import Popover from "../../ui/Popover";
 import AssignmentPanelForGBA from "./assignments/AssignmentPanelForGBA";
 import Divider from "../../ui/Divider";
+import Tabs from "../../ui/Tabs";
+import useProject, { ProjectType } from "../../project/useProject";
+import AssignmentPanelForGBASP from "./assignments/AssignmentPanelForGBASP";
 
 export default function MaterialPanel({
   materialEditor,
 }: {
   materialEditor: ReactNode;
 }) {
+  const { type } = useProject();
+  const AssignmentPanel =
+    type === ProjectType.GBA ? AssignmentPanelForGBA : AssignmentPanelForGBASP;
+
   return (
-    <Box elevation={0} xstyle={styles.root}>
-      <Flexbox direction="column" justify="stretch" xstyle={styles.cap}>
-        <AssignmentPanelForGBA />
-
-        <Divider />
-
-        <Flexbox
-          xstyle={[Margin.all20]}
-          justify="space-between"
-          direction="row"
-        >
-          <Footer materialEditor={materialEditor} />
+    <Flexbox direction="column" xstyle={styles.root} gap={8}>
+      <TypePicker />
+      <Box elevation={0} xstyle={styles.root}>
+        <Flexbox direction="column" justify="stretch" xstyle={styles.cap}>
+          <AssignmentPanel />
+          <Divider />
+          <Flexbox
+            xstyle={[Margin.all20]}
+            justify="space-between"
+            direction="row"
+          >
+            <Footer materialEditor={materialEditor} />
+          </Flexbox>
         </Flexbox>
+      </Box>
+    </Flexbox>
+  );
+}
+
+function TypePicker() {
+  const { type } = useProject();
+  const { setProjectType } = useWriteToStore();
+
+  return (
+    <Box elevation={0}>
+      <Flexbox direction="row" gap={4} xstyle={Margin.all20}>
+        <Tabs
+          tabs={ProjectType}
+          activeTab={type}
+          setActiveTab={setProjectType}
+        />
       </Flexbox>
     </Box>
   );

@@ -81,7 +81,6 @@ const useWriteAssignmentsToStore = (
     updateStore((store) => ({
       ...store,
       assignments: {
-        ...store.assignments,
         ...callback(store.assignments),
       },
     }));
@@ -99,17 +98,36 @@ const useWriteAssignmentsToStore = (
     }));
   };
 
-  const assignInheritance = (surfaceID: AssignmentKey, from: AssignmentKey) => {
-    setAssignments((prev) => ({
-      ...prev,
-      [surfaceID]: {
-        type: "inherit",
-        from,
+  const deleteAssignment = (surfaceID: AssignmentKey) => {
+    setAssignments((prev) => {
+      const next = { ...prev };
+      delete next[surfaceID];
+      return next;
+    });
+  };
+
+  return { deleteAssignment, assignMaterial };
+};
+
+const useWriteProjectToStore = (
+  updateStore: React.Dispatch<React.SetStateAction<Store>>
+) => {
+  const setProject = (callback) =>
+    updateStore((store) => ({
+      ...store,
+      project: {
+        ...store.project,
+        ...callback(store.project),
       },
+    }));
+
+  const setProjectType = (type: ProjectType) => {
+    setProject(() => ({
+      type,
     }));
   };
 
-  return { assignInheritance, assignMaterial };
+  return { setProjectType };
 };
 
 const StoreHistoryContext = createContext<{
@@ -121,7 +139,8 @@ const StoreHistoryContext = createContext<{
 const StoreReadContext = createContext<Store>(undefined);
 const StoreWriteContext = createContext<
   ReturnType<typeof useWriteMaterialsToStore> &
-    ReturnType<typeof useWriteAssignmentsToStore>
+    ReturnType<typeof useWriteAssignmentsToStore> &
+    ReturnType<typeof useWriteProjectToStore>
 >(undefined);
 
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
@@ -149,13 +168,15 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
 
   const writeMaterials = useWriteMaterialsToStore(updateStore);
   const writeAssignments = useWriteAssignmentsToStore(updateStore);
+  const writeProject = useWriteProjectToStore(updateStore);
 
   const updaters = useMemo(
     () => ({
       ...writeMaterials,
       ...writeAssignments,
+      ...writeProject,
     }),
-    [writeMaterials, writeAssignments]
+    [writeMaterials, writeAssignments, writeProject]
   );
 
   const history = useMemo(
