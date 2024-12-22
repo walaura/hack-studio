@@ -2,12 +2,13 @@ import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { MaterialKey } from "../materials/useMaterials";
 import { DEFAULT_MATERIALS } from "../materials/Materials";
 import { AssignmentKey, DEFAULT_ASSIGNMENTS } from "../assignments/Assignments";
+import { ProjectType } from "../project/useProject";
 
 const MAX_UNDO_LEVEL = 20;
 
 export type Store = {
   project: {
-    type: "gba" | "gba-sp";
+    type: ProjectType;
   };
   assignments: {
     [K in AssignmentKey]:
@@ -128,7 +129,7 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
     materials: { ...DEFAULT_MATERIALS },
     assignments: { ...DEFAULT_ASSIGNMENTS },
     project: {
-      type: "gba",
+      type: ProjectType.GBA,
     },
   });
   const historyRef = useRef([]);
