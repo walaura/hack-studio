@@ -3,25 +3,21 @@ import Text from "../ui/Text";
 import Flexbox from "../ui/Flexbox";
 import SwatchButton from "../ui/swatches/SwatchButton";
 import SquareButton from "../ui/swatches/SquareButton";
-import { BsArrowUp, BsPlus } from "react-icons/bs";
+import { BsArrowsCollapse, BsArrowUp, BsPlus } from "react-icons/bs";
 import Margin from "../ui/Margin";
 import stylex from "@stylexjs/stylex";
-import {
-  AssignmentKey,
-  Groups,
-  PRETTY_NAMES,
-} from "../assignments/Assignments";
+import { AssignmentKey, Groups, PRETTY_NAMES } from "./Assignments";
 import Popover from "../ui/Popover";
-import MaterialEditor from "./MaterialEditor";
+import MaterialEditor from "../materials/MaterialEditor";
 import { useEffect, useState } from "react";
 import { useWriteToStore } from "../store/useStore";
-import useMaterials, { MaterialKey } from "./useMaterials";
+import useMaterials, { MaterialKey } from "../materials/useMaterials";
 import useAssignment, {
   Assignment,
   useAssignmentInheritsFrom,
-} from "../assignments/useAssignment";
+} from "./useAssignment";
 
-export function MaterialPicker({
+export function AssignmentPicker({
   assignmentKey,
   size = "normal",
 }: {
@@ -60,7 +56,7 @@ export function MaterialPicker({
               })
             }
           >
-            <BsPlus color="var(--text-primary)" size={"2em"} />
+            <BsPlus color="var(--text-primary)" size={"60%"} />
           </SquareButton>
           {materials.map((material) => (
             <Swatch
@@ -72,11 +68,11 @@ export function MaterialPicker({
           ))}
           {assignedMaterial.type !== "inherit" && (
             <SquareButton
-              type="circle"
+              type="square"
               label={`Match ${PRETTY_NAMES[maybeInheritance]}`}
               onClick={() => deleteAssignment(assignmentKey)}
             >
-              <BsArrowUp color="var(--text-primary)" size={"1.6em"} />
+              <BsArrowsCollapse color="var(--text-primary)" size={"50%"} />
             </SquareButton>
           )}
         </div>
@@ -95,13 +91,13 @@ const styles = stylex.create({
 
 const sizeStyles = stylex.create({
   small: {
-    "--grid-size": "2em",
+    "--grid-size": "1em",
   },
   normal: {
-    "--grid-size": "3.6em",
+    "--grid-size": "2em",
   },
   large: {
-    "--grid-size": "5em",
+    "--grid-size": "4em",
   },
 });
 

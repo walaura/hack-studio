@@ -1,14 +1,12 @@
 import stylex from "@stylexjs/stylex";
-import { ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 import Text from "./Text";
 
 const styles = stylex.create({
   base: {
-    padding: ".6em 1.2em",
     border: "none",
     backgroundColor: "transparent",
     cursor: "pointer",
-    borderRadius: "9999em",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -20,18 +18,28 @@ const styles = stylex.create({
 });
 const typeStyles = stylex.create({
   primary: {
-    backgroundColor: "var(--surface-1)",
+    backgroundColor: "var(--surface-2)",
   },
   secondary: {
-    boxShadow: "inset 0 0 0 2px var(--surface-1)",
+    boxShadow: "inset 0 0 0 1px var(--surface-2)",
   },
   tab: {
     ":hover": {
-      boxShadow: "inset 0 0 0 2px var(--surface-1)",
+      boxShadow: "inset 0 0 0 1px var(--surface-2)",
     },
   },
   activeTab: {
-    backgroundColor: "var(--surface-1)",
+    backgroundColor: "var(--surface-2)",
+  },
+});
+const sizeStyles = stylex.create({
+  small: {
+    padding: "4px 8px",
+    borderRadius: 4,
+  },
+  normal: {
+    padding: "8px 12px",
+    borderRadius: "9999em",
   },
 });
 
@@ -42,16 +50,26 @@ const getTextColor = (type: keyof typeof typeStyles) => {
   return "primary";
 };
 
+const getTextType = (
+  type: keyof typeof typeStyles
+): ComponentProps<typeof Text>["type"] => {
+  if (type === "primary" || type === "secondary") {
+    return "body2emphasis";
+  }
+};
+
 export default function Button({
   children,
   onClick,
   type = "primary",
   isEnabled = true,
   title,
+  size = "normal",
 }: {
   children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: keyof typeof typeStyles;
+  size?: keyof typeof sizeStyles;
   isEnabled?: boolean;
   title?: string;
 }) {
@@ -66,10 +84,13 @@ export default function Button({
       {...stylex.props(
         styles.base,
         typeStyles[type],
+        sizeStyles[size],
         !isEnabled && styles.disabled
       )}
     >
-      <Text color={getTextColor(type)}>{children}</Text>
+      <Text type={getTextType(type)} color={getTextColor(type)}>
+        {children}
+      </Text>
     </Element>
   );
 }

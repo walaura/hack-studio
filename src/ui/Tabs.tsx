@@ -14,6 +14,7 @@ export default function Tabs<Tabs extends { [key: string]: string }>({
     <Flexbox direction="row" gap={4}>
       {Object.keys(tabs).map((tab) => (
         <Button
+          size="small"
           type={tab === activeTab ? "activeTab" : "tab"}
           key={tab}
           onClick={() => setActiveTab(tab as keyof Tabs)}

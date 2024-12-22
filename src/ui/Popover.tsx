@@ -1,12 +1,11 @@
 import stylex from "@stylexjs/stylex";
 import React, { useEffect } from "react";
 import { BsX } from "react-icons/bs";
+import Box from "./Box";
+import Flexbox from "./Flexbox";
+import Margin from "./Margin";
 
 const styles = stylex.create({
-  active: {
-    backgroundColor: "var(--surface-4)",
-    boxShadow: "none",
-  },
   trigger: {
     display: "contents",
   },
@@ -16,10 +15,8 @@ const styles = stylex.create({
   },
   popover: {
     position: "absolute",
-    backgroundColor: "var(--surface-4)",
+    backgroundColor: "transparent",
     border: "none",
-    borderRadius: ".4em",
-    padding: 20,
   },
   closeButton: {
     top: 8,
@@ -49,7 +46,7 @@ export default function Popover({
     popoverRef.current.addEventListener("beforetoggle", (e) => {
       const position = targetRef.current.children[0].getBoundingClientRect();
       (e.target as HTMLElement).style.transform = `
-        translate(${position.left}px, ${position.bottom + 4}px)`;
+        translate(${position.left}px, ${position.bottom}px)`;
     });
   }, []);
 
@@ -71,15 +68,19 @@ export default function Popover({
         popover="auto"
         {...stylex.props(styles.popover)}
       >
-        <button
-          {...stylex.props(styles.closeButton)}
-          /*  @ts-expect-error popovertarget is a valid attribute */
-          popovertarget={id}
-          popovertargetaction="close"
-        >
-          <BsX fill="var(--text-primary)" size={20} />
-        </button>
-        {popover}
+        <Box elevation={0}>
+          <Flexbox direction="column" xstyle={Margin.all20}>
+            <button
+              {...stylex.props(styles.closeButton)}
+              /*  @ts-expect-error popovertarget is a valid attribute */
+              popovertarget={id}
+              popovertargetaction="close"
+            >
+              <BsX fill="var(--text-primary)" size={20} />
+            </button>
+            {popover}
+          </Flexbox>
+        </Box>
       </div>
     </div>
   );

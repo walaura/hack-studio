@@ -5,16 +5,13 @@ import { BsDice5 } from "react-icons/bs";
 
 const styles = stylex.create({
   swatch: {
-    width: "76%",
-    height: "76%",
+    width: "100%",
+    height: "100%",
     position: "relative",
     overflow: "hidden",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-  active: {
-    backgroundColor: "rgba(0, 0, 0, .3)",
   },
 });
 
@@ -28,7 +25,6 @@ const swatchStyles = stylex.create({
     bottom: 0,
     width: "100%",
     height: "100%",
-    borderRadius: "100%",
   }),
   opacity: (opacity: number) => ({
     opacity,

@@ -10,7 +10,7 @@ const styles = stylex.create({
     overflow: "hidden",
     width: 80,
     "-webkit-appearance": "none",
-    backgroundColor: "var(--surface-3)",
+    backgroundColor: "var(--surface-highlight)",
     borderRadius: 4,
 
     "::-webkit-slider-runnable-track": {
