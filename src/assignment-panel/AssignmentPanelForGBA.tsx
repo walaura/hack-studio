@@ -68,10 +68,10 @@ export default function AssignmentPanelForGBA() {
                   <APRow>
                     <APPicker assignmentKey={Assignment.SHOULDER_L} />
                     <APPicker assignmentKey={Assignment.SHOULDER_R} />
-                    <APRow>
-                      <APPicker assignmentKey={Assignment.RAIL_L} />
-                      <APPicker assignmentKey={Assignment.RAIL_R} />
-                    </APRow>
+                  </APRow>
+                  <APRow>
+                    <APPicker assignmentKey={Assignment.RAIL_L} />
+                    <APPicker assignmentKey={Assignment.RAIL_R} />
                   </APRow>
                 </APGroup>
               </>
