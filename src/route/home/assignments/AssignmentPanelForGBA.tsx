@@ -1,59 +1,80 @@
 import { Assignment } from "../../../assignments/Assignments";
-import {
-  AssignmentPanel,
-  APGroup,
-  APPicker,
-  APRow,
-} from "./ui/AssignmentPanel";
+import { MaterialPicker } from "../../../materials/MaterialPicker";
+import Button from "../../../ui/Button";
+import { AssignmentPanel, APGroup, APRow } from "./ui/AssignmentPanel";
 
 const SECTIONS = {
   base: "Base",
   shell: "Shell",
   face: "Face",
-  sides: "Side",
+  sides: "Sides",
 };
 
 export default function AssignmentPanelForGBA() {
   return (
     <AssignmentPanel tabs={SECTIONS}>
-      {(tab) => {
+      {(tab, setTab) => {
         switch (tab) {
           case "base":
             return (
               <>
-                <APPicker assignmentKey={Assignment.SHELL} />
-                <APPicker assignmentKey={Assignment.ALL_BUTTONS} />
-                <APPicker assignmentKey={Assignment.LOWER_MEMBRANES} />
+                <APGroup>
+                  <MaterialPicker
+                    assignmentKey={Assignment.SHELL}
+                    size="large"
+                  />
+                  <Button type="secondary" onClick={() => setTab("shell")}>
+                    Tweak shell
+                  </Button>
+                </APGroup>
+                <APGroup>
+                  <APRow>
+                    <MaterialPicker assignmentKey={Assignment.ALL_BUTTONS} />
+                    <MaterialPicker assignmentKey={Assignment.SIDE_BUTTONS} />
+                  </APRow>
+                  <Button type="secondary" onClick={() => setTab("face")}>
+                    Tweak face
+                  </Button>
+                  <MaterialPicker assignmentKey={Assignment.LOWER_MEMBRANES} />
+                </APGroup>
               </>
             );
           case "shell":
             return (
               <>
-                <APPicker assignmentKey={Assignment.SHELL} />
                 <APRow>
-                  <APPicker assignmentKey={Assignment.FRONT_SHELL} />
-                  <APPicker assignmentKey={Assignment.BACK_SHELL} />
+                  <MaterialPicker assignmentKey={Assignment.FRONT_SHELL} />
+                  <MaterialPicker assignmentKey={Assignment.BACK_SHELL} />
                 </APRow>
+                <MaterialPicker assignmentKey={Assignment.SHELL} size="small" />
               </>
             );
           case "face":
             return (
               <>
                 <APGroup title={"Buttons"}>
-                  <APPicker assignmentKey={Assignment.FACE_BUTTONS} />
-                  <APPicker assignmentKey={Assignment.DPAD} />
                   <APRow>
-                    <APPicker assignmentKey={Assignment.BUTTON_A} />
-                    <APPicker assignmentKey={Assignment.BUTTON_B} />
+                    <MaterialPicker assignmentKey={Assignment.BUTTON_A} />
+                    <MaterialPicker assignmentKey={Assignment.BUTTON_B} />
                   </APRow>
+                  <MaterialPicker assignmentKey={Assignment.DPAD} />
+                  <MaterialPicker
+                    assignmentKey={Assignment.FACE_BUTTONS}
+                    size="small"
+                  />
                 </APGroup>
                 <APGroup title={"Membranes"}>
-                  <APPicker assignmentKey={Assignment.LOWER_MEMBRANES} />
                   <APRow>
-                    <APPicker assignmentKey={Assignment.MEMBRANE_AB} />
-                    <APPicker assignmentKey={Assignment.MEMBRANE_DPAD} />
+                    <MaterialPicker assignmentKey={Assignment.MEMBRANE_AB} />
+                    <MaterialPicker assignmentKey={Assignment.MEMBRANE_DPAD} />
                   </APRow>
-                  <APPicker assignmentKey={Assignment.MEMBRANE_START_SELECT} />
+                  <MaterialPicker
+                    assignmentKey={Assignment.MEMBRANE_START_SELECT}
+                  />
+                  <MaterialPicker
+                    assignmentKey={Assignment.LOWER_MEMBRANES}
+                    size="small"
+                  />
                 </APGroup>
               </>
             );
@@ -61,18 +82,21 @@ export default function AssignmentPanelForGBA() {
             return (
               <>
                 <APGroup title={"Sides"}>
-                  <APPicker assignmentKey={Assignment.SIDE_BUTTONS} />
                   <APRow>
-                    <APPicker assignmentKey={Assignment.SHOULDER_L} />
-                    <APPicker assignmentKey={Assignment.SHOULDER_R} />
+                    <MaterialPicker assignmentKey={Assignment.SHOULDER_L} />
+                    <MaterialPicker assignmentKey={Assignment.SHOULDER_R} />
                   </APRow>
                 </APGroup>
                 <APGroup title={"Rails"}>
                   <APRow>
-                    <APPicker assignmentKey={Assignment.RAIL_L} />
-                    <APPicker assignmentKey={Assignment.RAIL_R} />
+                    <MaterialPicker assignmentKey={Assignment.RAIL_L} />
+                    <MaterialPicker assignmentKey={Assignment.RAIL_R} />
                   </APRow>
                 </APGroup>
+                <MaterialPicker
+                  assignmentKey={Assignment.SIDE_BUTTONS}
+                  size="small"
+                />
               </>
             );
         }

@@ -5,9 +5,8 @@ import { BsDice5 } from "react-icons/bs";
 
 const styles = stylex.create({
   swatch: {
-    width: "80%",
-    height: "80%",
-    borderRadius: "100%",
+    width: "76%",
+    height: "76%",
     position: "relative",
     overflow: "hidden",
     display: "flex",

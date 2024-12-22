@@ -1,26 +1,22 @@
 import { ReactNode, useMemo, useState } from "react";
 import { Assignment, AssignmentKey } from "../../../../assignments/Assignments";
-import { MaterialPicker } from "../../../../materials/MaterialPicker";
 import Flexbox from "../../../../ui/Flexbox";
 import Text from "../../../../ui/Text";
 import Tabs from "../../../../ui/Tabs";
 import Margin from "../../../../ui/Margin";
 import Divider from "../../../../ui/Divider";
 import stylex from "@stylexjs/stylex";
+import { MaterialPicker } from "../../../../materials/MaterialPicker";
 
 export function APRow({ children }: { children: ReactNode }) {
   return <div {...stylex.props(styles.row)}>{children}</div>;
-}
-
-export function APPicker({ assignmentKey }: { assignmentKey: AssignmentKey }) {
-  return <MaterialPicker assignmentKey={assignmentKey} />;
 }
 
 export function APGroup({
   title,
   children,
 }: {
-  title: string;
+  title?: string;
   children: ReactNode;
 }) {
   return (
@@ -30,7 +26,7 @@ export function APGroup({
       gap={4}
       xstyle={Margin.bottom20}
     >
-      <Text type="headline2">{title}</Text>
+      {title && <Text type="headline2">{title}</Text>}
       {children}
     </Flexbox>
   );
@@ -41,7 +37,7 @@ export function AssignmentPanel<Tabs extends { [key: string]: string }>({
   children,
 }: {
   tabs: Tabs;
-  children: (tab: keyof Tabs) => ReactNode;
+  children: (tab: keyof Tabs, setTab?: (tab: keyof Tabs) => void) => ReactNode;
 }) {
   type TabsWithEditor = Tabs & { __all: string };
   const tabsWithEditor = { ...tabs, __all: "All" } as TabsWithEditor;
@@ -52,7 +48,7 @@ export function AssignmentPanel<Tabs extends { [key: string]: string }>({
   const allAssignments = useMemo(
     () =>
       Object.keys(Assignment).map((assignment) => (
-        <APPicker
+        <MaterialPicker
           assignmentKey={assignment as AssignmentKey}
           key={assignment}
         />
@@ -77,7 +73,9 @@ export function AssignmentPanel<Tabs extends { [key: string]: string }>({
         key={String(activeTab)}
       >
         <Flexbox direction="column" gap={4}>
-          {activeTab === "__all" ? allAssignments : children(activeTab)}
+          {activeTab === "__all"
+            ? allAssignments
+            : children(activeTab, setActiveTab)}
         </Flexbox>
       </Flexbox>
     </>
