@@ -155,8 +155,7 @@ export const GBA = ({ pickMaterial, ...props }: ModelProps) => {
         receiveShadow
         geometry={nodes.memebrane_dpAD.geometry}
         material={membranesMaterial(
-          pickMaterial(useAssignment(Assignment.MEMBRANE_START_SELECT).material)
-            .color
+          pickMaterial(useAssignment(Assignment.MEMBRANE_DPAD).material).color
         )}
         position={[0.108, 0.106, 0.463]}
         rotation={[0, 0, -Math.PI / 2]}
