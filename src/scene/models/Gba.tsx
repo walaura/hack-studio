@@ -6,17 +6,23 @@ import {
   createBezelMaterial,
   createButtonsMaterial,
   createHardPlasticMaterial,
+  lightMaterial,
   membranesMaterial,
 } from "../materials";
 import useAssignment from "../../assignments/useAssignment";
 import { Assignment } from "../../assignments/Assignments";
 
-export const GBA = ({ pickMaterial }: ModelProps) => {
+export const GBA = ({ pickMaterial, ...props }: ModelProps) => {
   const { nodes, materials } = useGLTF("./assets/gba.glb") as GBAType;
   const colorMap = useVideoTexture("./assets/boot.mp4", { loop: false });
 
   return (
-    <group dispose={null} scale={[2, 2, 2]} rotation={[0, -Math.PI / 2, 0]}>
+    <group
+      dispose={null}
+      scale={[2, 2, 2]}
+      rotation={[0, -Math.PI / 2, 0]}
+      {...props}
+    >
       <mesh
         castShadow
         receiveShadow
@@ -196,15 +202,7 @@ const NutsAndBolts = ({
         castShadow
         receiveShadow
         geometry={nodes.light.geometry}
-        material={
-          new THREE.MeshPhysicalMaterial({
-            roughness: 0.4,
-            transmission: 10,
-            thickness: 1,
-            color: "green",
-            emissive: "green",
-          })
-        }
+        material={lightMaterial}
         position={[0.042, 0.087, -0.11]}
       />
       <group position={[0.054, 0.067, -0.008]} scale={[0.453, 0.453, 0.661]}>

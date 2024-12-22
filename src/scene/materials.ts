@@ -7,10 +7,18 @@ export const plasticNormal = new TextureLoader().load(
 
 export const createBezelMaterial = (type: "dark" | "light") =>
   new MeshPhysicalMaterial({
-    roughness: 0.1,
+    roughness: 0.3,
     thickness: 1,
     color: type === "dark" ? "black" : "white",
   });
+
+export const lightMaterial = new MeshPhysicalMaterial({
+  roughness: 0.4,
+  transmission: 10,
+  thickness: 1,
+  color: "green",
+  emissive: "green",
+});
 
 export const createButtonsMaterial = (color: string) =>
   new MeshPhysicalMaterial({

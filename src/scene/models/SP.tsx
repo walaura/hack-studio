@@ -2,7 +2,13 @@
 import * as THREE from "three";
 import { useGLTF, useVideoTexture } from "@react-three/drei";
 import { ModelProps, SPTypes } from "../types";
-import { createButtonsMaterial, membranesMaterial } from "../materials";
+import {
+  createBezelMaterial,
+  createButtonsMaterial,
+  createHardPlasticMaterial,
+  lightMaterial,
+  membranesMaterial,
+} from "../materials";
 import useAssignment from "../../assignments/useAssignment";
 import { Assignment } from "../../assignments/Assignments";
 import { useSpring, animated } from "@react-spring/three";
@@ -15,15 +21,12 @@ export function SP({ pickMaterial }: ModelProps) {
   const xAnimation = useSpring({
     x: [!loaded ? Math.PI / 1.56 : 0, 0, 0],
   });
-  colorMap.flipY = true;
-  colorMap.wrapS = THREE.RepeatWrapping;
-  colorMap.wrapT = THREE.RepeatWrapping;
   useEffect(() => {
     setLoaded(true);
   }, []);
 
   return (
-    <group dispose={null}>
+    <group position={[0, -2, 0]} scale={0.7}>
       <mesh
         castShadow
         receiveShadow
@@ -46,14 +49,18 @@ export function SP({ pickMaterial }: ModelProps) {
         castShadow
         receiveShadow
         geometry={nodes.battery.geometry}
-        material={nodes.battery.material}
+        material={createHardPlasticMaterial(
+          pickMaterial(useAssignment(Assignment.BACK_SHELL).material)
+        )}
         position={[-0.041, -1.212, 1.058]}
       />
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.bottom.geometry}
-        material={nodes.bottom.material}
+        material={createHardPlasticMaterial(
+          pickMaterial(useAssignment(Assignment.BACK_SHELL).material)
+        )}
         position={[0.054, -1.031, 1.365]}
       />
       <mesh
@@ -69,7 +76,13 @@ export function SP({ pickMaterial }: ModelProps) {
         castShadow
         receiveShadow
         geometry={nodes.io.geometry}
-        material={nodes.io.material}
+        material={
+          new THREE.MeshStandardMaterial({
+            color: "grey",
+            metalness: 0.8,
+            roughness: 0.2,
+          })
+        }
         position={[0.057, -1.084, 0.783]}
       />
       <mesh
@@ -85,14 +98,16 @@ export function SP({ pickMaterial }: ModelProps) {
         castShadow
         receiveShadow
         geometry={nodes.lights.geometry}
-        material={nodes.lights.material}
+        material={lightMaterial}
         position={[1.73, -0.832, 0.683]}
       />
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.off.geometry}
-        material={nodes.off.material}
+        material={membranesMaterial(
+          pickMaterial(useAssignment(Assignment.BUTTON_HOME).material).color
+        )}
         position={[-0.053, -0.81, 0.619]}
       />
       <mesh
@@ -128,8 +143,11 @@ export function SP({ pickMaterial }: ModelProps) {
         castShadow
         receiveShadow
         geometry={nodes.top.geometry}
-        material={nodes.top.material}
+        material={createHardPlasticMaterial(
+          pickMaterial(useAssignment(Assignment.FRONT_SHELL).material)
+        )}
         position={[1.804, -0.615, -0.043]}
+        // @ts-expect-error it works
         rotation={xAnimation.x}
       >
         <group position={[-1.747, -0.469, 0.826]}>
@@ -137,7 +155,7 @@ export function SP({ pickMaterial }: ModelProps) {
             castShadow
             receiveShadow
             geometry={nodes.Cube006.geometry}
-            material={materials.Screen_Black}
+            material={createBezelMaterial("dark")}
           />
           <mesh
             castShadow

@@ -11,7 +11,15 @@ function Model(props: ModelProps) {
   const Component = type === "GBA" ? GBA : SP;
   return (
     <>
-      <Stage environment={"forest"} preset={"soft"} position={[0, 2, 0]}>
+      <Stage
+        environment={"forest"}
+        preset={"soft"}
+        key={type}
+        adjustCamera={type !== "GBA_SP"}
+        center={{
+          disable: type !== "GBA_SP",
+        }}
+      >
         <Component {...props} />
       </Stage>
     </>
@@ -20,7 +28,12 @@ function Model(props: ModelProps) {
 
 export default function Scene(props: ModelProps) {
   return (
-    <Canvas gl={{ preserveDrawingBuffer: true }}>
+    <Canvas
+      gl={{ preserveDrawingBuffer: true }}
+      camera={{
+        fov: 35,
+      }}
+    >
       <OrbitControls />
       <Float
         speed={1}
