@@ -12,6 +12,7 @@ import { GBC } from "./models/GBC";
 import { useGizmos } from "./useGizmos";
 import { Gizmos } from "./Gizmo";
 import { Euler } from "three";
+import { useSpring, animated } from "@react-spring/three";
 
 function Model(props: ModelProps) {
   const { type } = useProject();
@@ -28,6 +29,7 @@ function Model(props: ModelProps) {
         return GBC;
     }
   }, [type]);
+  const springs = useSpring({ rotation: cameraRotation().rotation });
   return (
     <>
       <Stage
@@ -39,9 +41,9 @@ function Model(props: ModelProps) {
           disable: type !== "GBA_SP",
         }}
       >
-        <group rotation={cameraRotation().rotation as unknown as Euler}>
+        <animated.group rotation={springs.rotation as unknown as Euler}>
           <Component {...props} />
-        </group>
+        </animated.group>
       </Stage>
     </>
   );
