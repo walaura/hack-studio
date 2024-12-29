@@ -5,6 +5,7 @@ import useMaterials from "../../materials/useMaterials";
 import MaterialPanel from "./HomeSidebar";
 import Scene from "../../scene/Scene";
 import MaterialEditor from "../../materials/MaterialEditor";
+import { GizmoProvider } from "../../scene/useGizmos";
 
 const styles = stylex.create({
   canvas: {
@@ -26,7 +27,9 @@ export default function Home() {
 
   return (
     <Flexbox direction="row" align="end" xstyle={styles.canvas}>
-      <Scene pickMaterial={pickMaterial} />
+      <GizmoProvider>
+        <Scene pickMaterial={pickMaterial} />
+      </GizmoProvider>
       <Flexbox xstyle={styles.sidebar} direction="column">
         <MaterialPanel
           materialEditor={

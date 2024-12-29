@@ -1,16 +1,21 @@
+/* eslint-disable react/no-unknown-property */
 import { Canvas } from "@react-three/fiber";
 import { Float, OrbitControls, Stage } from "@react-three/drei";
-
 import { GBA } from "./models/Gba";
 import { SP } from "./models/SP";
 import { ModelProps } from "./types";
 import useProject from "../project/useProject";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { GB } from "./models/GB";
 import { GBC } from "./models/GBC";
 
+import { useGizmos } from "./useGizmos";
+import { Gizmos } from "./Gizmo";
+import { Euler } from "three";
+
 function Model(props: ModelProps) {
   const { type } = useProject();
+  const { cameraRotation } = useGizmos();
   const Component = useMemo(() => {
     switch (type) {
       case "GBA":
@@ -28,35 +33,46 @@ function Model(props: ModelProps) {
       <Stage
         environment={"forest"}
         preset={"soft"}
-        key={type}
+        key={`${type}`}
         adjustCamera={type !== "GBA_SP"}
         center={{
           disable: type !== "GBA_SP",
         }}
       >
-        <Component {...props} />
+        <group rotation={cameraRotation().rotation as unknown as Euler}>
+          <Component {...props} />
+        </group>
       </Stage>
     </>
   );
 }
 
 export default function Scene(props: ModelProps) {
+  const { float } = useGizmos();
+  const Component = float ? Float : Fragment;
   return (
-    <Canvas
-      gl={{ preserveDrawingBuffer: true }}
-      camera={{
-        fov: 35,
-      }}
-    >
-      <OrbitControls />
-      <Float
-        speed={1}
-        rotationIntensity={1}
-        floatIntensity={1}
-        floatingRange={[0, 0.2]}
+    <>
+      <Gizmos />
+      <Canvas
+        gl={{ preserveDrawingBuffer: true }}
+        camera={{
+          fov: 35,
+        }}
       >
-        <Model {...props} />
-      </Float>
-    </Canvas>
+        <OrbitControls />
+        <Component
+          {...(float
+            ? {
+                speed: 1,
+                rotationIntensity: 1,
+                floatIntensity: 1,
+                floatingRange: [0, 0.2],
+              }
+            : {})}
+        >
+          <Model {...props} />
+        </Component>
+      </Canvas>
+    </>
   );
 }

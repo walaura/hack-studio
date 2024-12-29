@@ -198,13 +198,6 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
           const nextInStack = Math.max(curr - 1, 0);
           const nextStore =
             historyRef.current[historyRef.current.length - 1 - nextInStack];
-          console.log(
-            historyRef.current,
-            historyRef.current.length - 1 - nextInStack,
-            curr,
-            nextInStack,
-            nextStore
-          );
           if (nextStore) {
             setStore(nextStore);
           }
